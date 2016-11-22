@@ -6,7 +6,7 @@ $(document).ready(function(){
 	roomId = opener.parent.setRoomId();
 	alert(roomId);
 	
-	webSocket = new WebSocket("ws://localhost:8088/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
     var messageTextArea = document.getElementById("messageTextArea");
     //웹 소켓이 연결되었을 때 호출되는 이벤트
@@ -54,7 +54,7 @@ $(document).ready(function(){
 	});
 	
 	$("#workshop-info-menu").click(function(){
-		
+		location.href = "workshopinfo.jsp?roomId=" + $("#room-id").val() + "";
 	});
 });
 

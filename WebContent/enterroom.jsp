@@ -4,9 +4,9 @@
 	boolean isSession = false;
 	String user_email = null;
 	user_email = (String)session.getAttribute("user_email");
+	
 	if(user_email != null)
 		isSession = true;
-	
 	System.out.println("세션 ID : " + user_email);
 %>
 <!DOCTYPE html>

@@ -54,7 +54,7 @@ $(document).ready(function() {
 
 $(document).on("click", ".enter-btn", function() {
 	roomId = $(this).attr('id');
-	window.open('chat.jsp', '_blank', "toolbar=no,status=no,scrollbars=yes,resizable=no,width=1200,height=820"); 
+	window.open('chat.jsp?roomId=' + $(this).attr('id') + '', '_blank', "toolbar=no,status=no,scrollbars=yes,resizable=no,width=1200,height=820"); 
 	//window.open("chatting.jsp", "chatting", "toolbar=no,status=no,scrollbars=yes,resizable=yes,width=500,height=300");
 });
 

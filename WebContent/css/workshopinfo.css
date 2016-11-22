@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+#workshop-info-menu{
+	background-color:#606060;
+}
+
+#workshop-info-content{
+	vertical-align:top;
+	padding:70px;
+	font-family:NanumSquare;
+}
+
+#content-table{
+	width:100%;
+}
+
+#workshop-name-td{
+	width:66%;
+	font-size:35px;
+	font-weight:700;
+}
+
+#workshop-dday-td{
+	font-size:37px;
+	font-weight:700;
+	text-align:center;
+	width:33%;
+}
+
+#workshop-etc-td{
+	font-size:17px;
+	color:#34495e;
+	font-weight:600;
+}
+
+#workshop-etc-td span{
+	color:#2ec2a4;
+}
+
+#split-td{
+	height:40px;
+}

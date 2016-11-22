@@ -4,6 +4,8 @@
 	boolean isSession = false;
 	String user_email = null;
 	user_email = (String)session.getAttribute("user_email");
+	String roomId = request.getParameter("roomId");
+	System.out.println("Chat.jsp Room ID : " + roomId);
 	if(user_email != null)
 		isSession = true;
 	
@@ -13,15 +15,16 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
-<link href="./css/chat.css" type="text/css" rel="stylesheet"/>
+<link href="./css/chatmaster.css?ver=2" type="text/css" rel="stylesheet"/>
+<link href="./css/chat.css?ver=3" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/chatting.js"></script>
+<script src="./js/chatting.js?ver=1"></script>
 <title>ChatLayout</title>
 </head>
 
 <body>
 <input id="user-email" type="hidden" value="<%=user_email%>">
+<input id="room-id" type="hidden" value="<%=roomId%>">
 <table id="chatLayout">
 	<tr>
     	<td rowspan="2" class="left-side">
@@ -95,7 +98,7 @@
         </td>
     </tr>
     <tr>
-        <td class="dialog-enter-td"><input type="text" id="dialog-enter" placeholder="대화내용을 입력해주세요"></td>
+        <td class="dialog-enter-td"><textarea id="dialog-enter" placeholder="대화내용을 입력해주세요"></textarea></td>
         <td class="send-btn-td"><input type="button" id="send-btn" value="보내기"></td>
     </tr>
 </table>

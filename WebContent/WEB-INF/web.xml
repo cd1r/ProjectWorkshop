@@ -65,5 +65,20 @@
     <servlet-name>logout</servlet-name>
     <url-pattern>/logout.do</url-pattern>
   </servlet-mapping>
-
+  <servlet>
+    <servlet-name>workshop_info</servlet-name>
+    <servlet-class>CHATTING.WorkshopInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>workshop_info</servlet-name>
+    <url-pattern>/workshop_info.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>workshop_member</servlet-name>
+    <servlet-class>CHATTING.WorkshopMemberServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>workshop_member</servlet-name>
+    <url-pattern>/workshop_member.do</url-pattern>
+  </servlet-mapping>
 </web-app>

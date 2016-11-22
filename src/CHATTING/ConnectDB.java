@@ -71,7 +71,8 @@ public class ConnectDB {
 
 	       if (conn == null)
 	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
-	         
+	       
+	       System.out.println("deleteClient() email : " + email);
 	       pstmt = (PreparedStatement) conn.prepareStatement("Delete From tb_session Where email=? And room_id=?");
 	       pstmt.setString(1, email);
 	       pstmt.setInt(2, roomId);
@@ -145,5 +146,97 @@ public class ConnectDB {
 		         e.printStackTrace();
 		         return false;
 			}
+	}
+
+	public String loadWorkshopMemeberInfo(String roomId) {
+
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		ResultSet rs = null;
+		String managerEmail = null;
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+	         
+	       pstmt = (PreparedStatement) conn.prepareStatement("Select manager_email From tb_roominfo Where id=?");
+	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       rs = pstmt.executeQuery();
+	       rs.next();
+	       managerEmail = rs.getString("manager_email");
+	       
+	       
+	       pstmt = (PreparedStatement) conn.prepareStatement(
+	    		   "Select email, name, gender, phone, univ, grade, photo_url"+
+	    		   " From tb_memberinfo mem Join tb_accinfo acc On mem.mem_email=acc.email"+
+	    		   " Where mem.room_id=?");
+	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       
+	       rs = pstmt.executeQuery();
+	       
+	       while(rs.next()){
+	    	   xml.make_element("info");
+	    	   
+	    	   if(rs.getString("email").equals(managerEmail))
+	    		   xml.make_child("position", "팀장");
+	    	   else
+	    		   xml.make_child("position", "팀원");
+	    	   
+	    	   xml.make_child("photo_url", rs.getString("photo_url"));
+	    	   
+	    	   if(rs.getString("gender").equals("M"))
+	    		   xml.make_child("name_gender", rs.getString("name")+" (남)");
+	    	   else
+	    		   xml.make_child("name_gender", rs.getString("name")+" (여)");
+	    	   xml.make_child("univ_grade", rs.getString("univ") + " " + rs.getString("grade") + "학년");
+	    	   xml.make_child("email", rs.getString("email"));
+	    	   xml.make_child("phone", rs.getString("phone"));
+	       }
+	       
+	       return source = xml.make_xml();
+	       
+		} catch (Exception e) {
+	         e.printStackTrace();
+	         return null;
+		}
+	}
+
+	public String loadWorkshopInfo(String roomId) {
+		
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		ResultSet rs = null;
+		
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+	            
+	       pstmt = (PreparedStatement) conn.prepareStatement(
+	    		   "Select name, create_date, mem_cnt, term_to-term_from As dday"+
+	    		   " From tb_roominfo Where id=?");
+	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       
+	       rs = pstmt.executeQuery();
+	       
+	       while(rs.next()){
+	    	   xml.make_element("info");
+	    	   	    	   
+	    	   xml.make_child("workshop_name", rs.getString("name"));
+	    	   xml.make_child("create_date", rs.getString("create_date"));
+	    	   xml.make_child("mem_cnt", rs.getString("mem_cnt"));
+	    	   xml.make_child("dday", rs.getString("dday"));
+	       }
+	       
+	       return source = xml.make_xml();
+	       
+		} catch (Exception e) {
+	         e.printStackTrace();
+	         return null;
+		}
 	}
 }
