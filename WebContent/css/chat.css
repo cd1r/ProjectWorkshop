@@ -1,0 +1,189 @@
+@charset "utf-8";
+/* CSS Document */
+
+#chat-room-menu{
+	background-color:#606060;
+}
+
+.dialog-content{
+	background-color:#eaeaea;
+	height : 600px;
+	vertical-align : top;
+}
+
+.dialog-ul{
+	list-style: none;
+	border : 1px black solid;
+}
+
+.dialog-li{
+	float:left;	
+	clear:both;
+}
+
+.dialog-img-td{
+	vertical-align:top;
+}
+
+.img-dialog{
+	width:60px;
+	height:60px;
+	float:left;
+	border-radius:7px;
+}
+
+.speaker-name-td{
+	color:black;
+	font-family:NanumSquare;
+	font-size:15px;
+}
+
+.talk-td{
+	background-color:white;
+	color:black;
+	font-family:NanumSquare;
+	font-size:14px;
+	width:160px;
+	padding:15px;
+	border-radius:7px;
+	box-shadow:2px 4px 5px grey;
+}
+
+.dialog-li-own{
+	float:right;
+	clear:both;
+}
+
+.dialog-table-own{
+	margin-top:20px;
+	margin-right:20px;
+}
+
+.talk-td-own{
+	background-color:#3cb6de;
+	color:white;
+	font-family:NanumSquare;
+	font-size:14px;
+	width:160px;
+	padding:15px;
+	border-radius:7px;
+	box-shadow:2px 4px 5px grey;
+}
+.dialog-enter-td{
+	height : 100px;
+	background-color:white;
+}
+
+#dialog-enter{
+	padding-left:10px;
+	width:100%;
+	height:100%;
+	font-size:20px;
+}
+
+.send-btn-td{
+	width : 100px;
+	vertical-align:central;
+	text-align:center;
+	background-color:white;
+}
+
+#send-btn{
+	width:100%;
+	height:100%;
+	background-color:#5d5d5d;
+	color : white;
+	font-family:NanumSquare;
+	font-size:23px;
+	border: 0;
+	box-shadow:none;
+	cursor : pointer;
+}
+
+.right-side{
+	width : 260px;
+	background-color:#eaeaea;
+}
+
+#right-menu-table{
+	font-family:NanumSquare;
+	border-spacing:0px 3px;
+	height:100%;
+}
+
+.memeber-name-td{
+	font-size:15px;
+}
+
+.memeber-email-td{
+	font-size:10px;
+}
+
+#last-empty-tr{
+	height:350px;
+}
+
+#tab-content-td{
+	width:100%;
+	background-color:#272a33;
+	color:white;
+	vertical-align:top;
+}
+
+.tab-td{
+	cursor:pointer;
+	color:white;
+	background-color:#59738e;
+	font-size:15px;
+	padding:7px;
+	border-bottom-left-radius: 7px;
+}
+
+#tab1-td{
+	background-color:#5996cf;
+}
+
+#tab1-div {
+	display:block;
+	margin-top:30px;
+}
+
+#right-member-ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+
+.right-profile-table{
+	margin-left:10px;
+}
+
+.profile-img-td div{
+	width:60px;
+	height:60px;
+	overflow:hidden;
+	border-radius:50%;
+}
+
+.profile-img-td div img{
+	width:100%;
+	height:auto;
+}
+
+#tab2-div {
+	display:none;
+}
+
+#tab3-div {
+	display:none;
+}
+
+#tab4-div {
+	display:none;
+}
+
+
+
+
+
+

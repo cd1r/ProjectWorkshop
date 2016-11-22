@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+
+.login-form{
+	width : 100%;
+	position:absolute;
+	width:100%;
+	top:30%;
+	text-align:center;
+}
+
+#id{
+	width:280px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#pw{
+	width:280px;
+	height : 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+.login-btn-div{
+	margin-bottom:30px;
+}
+
+#loginBtn{
+	display:inline-block;
+	width:305px;
+	height : 50px;	
+	background-color:#4d94ff;
+	color : white;
+	font-family:NanumSquare;
+	font-size:20px;
+	border: 0;
+	box-shadow:none;
+	cursor : pointer;
+}
+
+.sns-acc-div{
+	margin-bottom: 5px;	
+}
+
+.login-etc-form{
+	font-family:NanumSquare;
+	color : #959595;
+}
+
+#findAcc{
+	display:inline-block;
+	margin-right : 2%;
+	cursor : pointer;
+}
+
+#registAcc{
+	display:inline-block;
+	cursor : pointer;
+}

@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>EnterRoom</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="./css/master.css" type="text/css" rel="stylesheet"/>
+<link href="./css/enterroom.css" type="text/css" rel="stylesheet"/>
+<script src="./js/jquery-1.9.1.min.js"></script>
+<script src="./js/enterroom.js"></script>
+<script src="./js/master.js"></script> 
+</head>
+
+<body>
+	<div class="boxA">
+		<div class="top-back">
+    	</div>
+		<div class="title-div">
+	    	<p class="top-big-p">프로젝트<span id="big-p-span">공작소</span></p>
+	        <p class="top-small-p">Project Workshop</p>
+	    </div>
+	    <div class="login">
+		  	<a href="login.html">로그인</a>
+		</div>
+	    <div class="regist">
+	    	<a href="register.html">회원가입</a>
+		</div>
+    </div>
+<!--    <div id="enter-room-title">내 공작소 목록</div>-->
+    <table align="center">
+    	<tr><td id="enter-room-title" colspan="3">내 공작소 목록</td></tr>
+    	<tr>
+        	<td>
+            	<div class="room_id">7</div><!--코딩 편의를 위해 출력 / 추후에 삭제 예정-->
+                <div class="workshop-name">고급 웹 프로젝트</div>
+                <div class="leader-name">팀장 : 황세윤</div>
+                <div class="people-cnt">6명 소속</div>              
+            </td>
+            
+            <td>
+            	<div class="room_id">8</div><!--코딩 편의를 위해 출력 / 추후에 삭제 예정-->
+                <div class="workshop-name">아모레퍼시픽 기업 분석</div>
+                <div class="leader-name">팀장 : 황세윤</div>
+                <div class="people-cnt">6명 소속</div>
+            </td>
+            
+            <td>
+            	<div class="room_id">15</div><!--코딩 편의를 위해 출력 / 추후에 삭제 예정-->
+                <div class="workshop-name">한이음 그 끝은 어디인가</div>
+                <div class="leader-name">팀장 : 서효승</div>
+                <div class="people-cnt">6명 소속</div>
+            </td>
+        </tr>
+        <tr>
+        	<td><div class="enter-btn-div"><input type="button" id="7" class="enter-btn" value="입장하기"></div> <!--버튼 아이디에 방 아이디 부여--></td>
+            <td><div class="enter-btn-div"><input type="button" id="8" class="enter-btn" value="입장하기"></div> <!--버튼 아이디에 방 아이디 부여-->
+            <td><div class="enter-btn-div"><input type="button" id="15" class="enter-btn" value="입장하기"></div> <!--버튼 아이디에 방 아이디 부여-->
+        </tr>
+        <tr>
+        	<td>cell spacing</td>
+            <td>cell spacing</td>
+            <td>cell spacing</td>
+        </tr>
+        <tr>
+        	<td>
+            	<div class="room_id">1</div><!--코딩 편의를 위해 출력 / 추후에 삭제 예정-->
+                <div class="workshop-name">소비자행동</div>
+                <div class="leader-name">팀장 : 황세윤</div>
+                <div class="people-cnt">6명 소속</div>              
+            </td>
+        </tr>
+        <tr>
+        	<td><div class="enter-btn-div"><input type="button" id="1" class="enter-btn" value="입장하기"></div> <!--버튼 아이디에 방 아이디 부여--></td>
+        </tr>
+        <tr>
+        	<td>cell spacing</td>
+        </tr>
+    </table>
+</body>
+</html>

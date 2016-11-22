@@ -1,0 +1,206 @@
+@charset "utf-8";
+/* CSS Document */
+
+table{
+	
+}
+
+#regist-form{
+	margin-top : 50px;
+}
+
+tr{
+	height : 60px;
+	vertical-align:top;
+}
+
+#reg_name{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#reg_email_id{
+	width:140px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#reg_email_company{
+	width:160px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+select{
+	font-family:NanumSquare;
+	height : 43px;
+	width:80px;
+	font-size:15px;
+}
+
+#email-check-div{
+	margin-bottom:10px;
+}
+
+#check_email{
+	font-family:NanumSquare;
+	font-size:13px;	
+	background-color:#18bc9c;
+	color : white;
+	border: 0;
+	box-shadow:none;
+	padding:5px;
+	cursor:pointer;
+}
+
+#email-check-span{
+	margin-left:10px;
+	margin-bottom:10px;
+	font-family:NanumSquare;
+	font-size:15px;
+}
+
+#reg_passwd{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#passwd_info{
+	margin-bottom:10px;
+	font-family:NanumSquare;
+}
+
+#reg_passwd_confirm{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#reg_phone{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#reg_organization{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#reg_grade{
+	width:150px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+.td-etc
+{
+	font-family:NanumSquare;
+	font-size:20px;
+}
+
+#reg_grade_selector{
+	margin-left:30px;
+}
+
+#reg_gender_m{
+	margin-left : 30px;
+}
+
+#reg_gender_f{
+	margin-left : 30px;
+}
+
+#reg_cancel{
+	display:inline-block;
+	float : left;
+	width:170px;
+	height : 50px;	
+	background-color:#5d5d5d;
+	color : white;
+	font-family:NanumSquare;
+	font-size:20px;
+	border: 0;
+	box-shadow:none;
+	cursor:pointer;
+}
+
+#reg_confirm{
+	display:inline-block;
+	float : right;
+	margin-right : 80px;
+	width:170px;
+	height : 50px;	
+	background-color:#4d94ff;
+	color : white;
+	font-family:NanumSquare;
+	font-size:20px;
+	border: 0;
+	box-shadow:none;
+	cursor:pointer;
+}
+
+.profile-div{
+	padding : 50px;
+}
+
+.profile-photo{
+	margin-bottom: 20px;
+	text-align:center;
+	font-family:NanumSquare;
+	font-size:20px;
+}
+
+.profile-photo img{
+	width:128px;
+	height:128px;
+}
+
+#load-photo-btn{
+	display:inline-block;
+	width:100px;
+	height : 30px;	
+	background-color:#4d94ff;
+	color : white;
+	font-family:NanumSquare;
+	font-size:15px;
+	border: 0;
+	box-shadow:none;
+	cursor:pointer;
+}
+

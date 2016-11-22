@@ -1,0 +1,178 @@
+@charset "utf-8";
+
+body{
+	font-family : NanumSquare;
+}
+
+#create-room-form {
+	margin-top : 30px;
+}
+
+#table-left{
+	vertical-align:central;
+	text-align:center;
+	height:500px;
+	padding-right:100px;
+}
+
+.create-logo{
+	width:200px;
+	height:200px;
+}
+
+.left-big-name{
+	font-size:27px;
+}
+
+#first{
+	vertical-align:bottom;
+}
+
+#room-name{
+	width : 200px;
+	height : 30px;
+	font-size : 17px;
+	padding-left:10px;
+}
+
+#second{
+	height : 130px;
+}
+
+#third{
+	vertical-align:top;
+}
+
+#search-keyword{
+	margin-top : 10px;
+	width : 250px;
+	height : 34px;
+	font-size : 14px;
+	padding-left:10px;
+}
+#search-form{
+	vertical-align:top;
+}
+
+#search-btn{
+	width : 60px;
+	height : 40px;
+	background-color:#4d94ff;
+	color : white;
+	font-family:NanumSquare;
+	font-size:17px;
+	border: 0;
+	box-shadow:none;
+	cursor : pointer;
+}
+
+.content-name{
+	font-size:20px;
+	margin-bottom:7px;
+}
+
+.content-small-name{
+	padding-top:15px;
+	margin-left : 5px;
+	margin-bottom:4px;
+}
+select{
+	font-family : NanumSquare;
+	font-size:17px;
+	height : 40px;
+	padding: 5px;
+}
+
+#added-person{
+	text-align:center;
+	border-collapse:collapse;
+}
+
+#added-person th{
+	padding : 7px;
+	text-shadow:0px 0px 0px #000000;
+	background-color:#253755;
+	color:white;
+}
+
+.name-th{
+	width : 70px;
+}
+
+.email-th{
+	width : 160px;
+}
+
+.org-th{
+	width : 80px;	
+}
+
+.btn-th{
+	width : 50px;
+}
+#added-person-div{
+	width : 410px;
+	height : 140px;
+	overflow:auto;
+	border:1px solid grey;
+}
+
+#search-person-div{
+	display:none;
+	width : 410px;
+	height : 140px;
+	overflow:auto;
+	border:1px solid grey;
+}
+
+#added-person td{
+	padding : 5px;
+	
+}
+
+.last-btn-div{
+	margin-top : 20px;
+	text-align:center;
+}
+
+#search-result-label{
+	display : none;
+}
+
+#search-result-person{
+	text-align:center;
+	border-collapse:collapse;
+}
+
+#search-result-person th{	
+	padding : 7px;
+	text-shadow:0px 0px 0px #000000;
+	background-color:#18bc9c;
+	color:white;
+}
+
+#cr-cancel-btn{
+	width : 130px;
+	height : 50px;
+	margin-right : 10px;
+	background-color:#5d5d5d;
+	color : white;
+	font-family:NanumSquare;
+	font-size:23px;
+	border: 0;
+	box-shadow:none;
+	cursor : pointer;
+}
+
+#cr-confirm-btn{
+	width : 130px;
+	height : 50px;
+	magin-left : 10px;
+	background-color:#4d94ff;
+	color : white;
+	font-family:NanumSquare;
+	font-size:23px;
+	border: 0;
+	box-shadow:none;
+	cursor : pointer;
+}

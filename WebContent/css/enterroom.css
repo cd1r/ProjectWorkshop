@@ -1,0 +1,82 @@
+@charset "utf-8";
+/* CSS Document */
+
+#enter-room-title{
+	margin-left:20%;
+	margin-top:50px;
+	height:50px;
+	font-family:NanumSquare;
+	font-size:30px;
+}
+
+table{
+	margin-top:40px;
+	border-spacing:40px 0px;
+}
+
+td{
+	width:240px;
+	padding-left:20px;
+	padding-right:20px;
+}
+
+tr:nth-child(3n-1){
+	height:220px;
+	text-align:center;
+	font-family:NanumSquare;
+	border-spacing:0px 20px;
+}
+
+tr:nth-child(3n-1) td{
+	border-top: 2px #9a9a9a solid;
+	border-left: 2px #9a9a9a solid;
+	border-right: 2px #9a9a9a solid;
+	background-color:white;
+}
+
+tr:nth-child(3n){
+	height:40px;
+	text-align:center;
+}
+
+tr:nth-child(3n) td{
+	border-bottom: 2px #9a9a9a solid;
+	border-left: 2px #9a9a9a solid;
+	border-right: 2px #9a9a9a solid;
+	background-color:white;
+}
+
+tr:nth-child(3n+1) td{
+	padding:20px;	
+}
+
+.workshop-name{
+	margin-top:20px;
+	margin-bottom:20px;
+	font-size:25px;
+	word-break:keep-all;
+	word-wrap:break-word;
+}
+
+.leader-name{
+	margin-bottom:10px;
+}
+
+.people-cnt{
+	margin-bottom:15px;
+}
+.enter-btn-div{
+	margin-bottom:10px;
+	bottom:0px;
+}
+
+.enter-btn{
+	width:150px;
+	height : 35px;	
+	background-color:#4d94ff;
+	color : white;
+	font-family:NanumSquare;
+	font-size:15px;
+	border: 0;
+	box-shadow:none;
+}
