@@ -8,8 +8,8 @@
 <link href="./css/login.css" type="text/css" rel="stylesheet"/>
 <title>Login</title>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/login.js?ver=1"></script>
-<script src="./js/master.js?ver=2"></script>
+<script src="./js/login.js"></script>
+<script src="./js/master.js"></script>
 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="./js/kakao.js"></script>

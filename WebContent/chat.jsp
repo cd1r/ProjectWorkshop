@@ -15,10 +15,10 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="./css/chatmaster.css?ver=2" type="text/css" rel="stylesheet"/>
-<link href="./css/chat.css?ver=3" type="text/css" rel="stylesheet"/>
+<link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
+<link href="./css/chat.css" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/chatting.js?ver=1"></script>
+<script src="./js/chatting.js"></script>
 <title>ChatLayout</title>
 </head>
 
