@@ -3,7 +3,8 @@ var roomId;
 
 $(document).ready(function(){
 
-	roomId = opener.parent.setRoomId();
+	//roomId = opener.parent.setRoomId();
+	roomId = $("#room-id").val();
 	alert(roomId);
 	
 	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
@@ -56,6 +57,10 @@ $(document).ready(function(){
 	$("#workshop-info-menu").click(function(){
 		location.href = "workshopinfo.jsp?roomId=" + $("#room-id").val() + "";
 	});
+	
+	$("#schedule-menu").click(function(){
+		location.href = "schedule.jsp?roomId=" + $("#room-id").val() + "";
+	});
 });
 
 //Send 버튼을 누르면 실행되는 함수
@@ -84,13 +89,13 @@ window.onbeforeunload = function(e){
 
 //tab2 file upload/download관련
 $(document).on("click", "#upload-btn", function(){
-	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
+	fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
 	fileSocket.binaryType="arraybuffer";
 	
 	//웹 소켓이 연결되었을 때 호출되는 이벤트
-	fileSocket.onopen = function(message){ };
+	fileSocket.onopen = function(message){	};
     //웹 소켓이 닫혔을 때 호출되는 이벤트
-	fileSocket.onclose = function(message){ };
+	fileSocket.onclose = function(message){	};
     //웹 소켓이 에러가 났을 때 호출되는 이벤트
 	fileSocket.onerror = function(message){
         alert(message.data)

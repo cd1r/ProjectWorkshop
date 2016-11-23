@@ -81,4 +81,20 @@
     <servlet-name>workshop_member</servlet-name>
     <url-pattern>/workshop_member.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>insert_schedule</servlet-name>
+    <servlet-class>CHATTING.InsertScheduleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>insert_schedule</servlet-name>
+    <url-pattern>/insert_schedule.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>load_schedule</servlet-name>
+    <servlet-class>CHATTING.LoadScheduleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>load_schedule</servlet-name>
+    <url-pattern>/load_schedule.do</url-pattern>
+  </servlet-mapping>
 </web-app>
