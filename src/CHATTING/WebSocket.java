@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-@ServerEndpoint(value="/websocket/{email}/{roomId}", configurator=GetHttpSessionForWebSocket.class) //클라이언트에서 접속할 서버 주소
+@ServerEndpoint(value="/websocket/{email}/{roomId}") //클라이언트에서 접속할 서버 주소
 public class WebSocket {
 	//private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
 	private static Map<String, Session> clientsMap = Collections.synchronizedMap(new HashMap<String, Session>());

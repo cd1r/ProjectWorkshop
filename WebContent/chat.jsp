@@ -79,7 +79,12 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="tab2-div">tab2</div>
+                        <div id="tab2-div">tab2
+                        	<input type="file" id="file_upload"> 
+                        	<input type="button" id="upload-btn" value="파일 업로드"><br/>
+                  
+                        	<input type="button" id="download-btn" value="파일 다운로드">
+                        </div>
                         <div id="tab3-div">tab3</div>
                         <div id="tab4-div">tab4</div>
                     </td>

@@ -239,4 +239,10 @@ public class ConnectDB {
 	         return null;
 		}
 	}
+	
+	//파일 디비에 저장
+	public boolean fileUpload(int roomId, String email, String file) {
+		
+		return false;
+	}
 }
