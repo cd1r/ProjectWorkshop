@@ -6,7 +6,8 @@ $(document).ready(function(){
 	roomId = opener.parent.setRoomId();
 	alert(roomId);
 	
-	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
     var messageTextArea = document.getElementById("messageTextArea");
     //웹 소켓이 연결되었을 때 호출되는 이벤트
@@ -84,6 +85,9 @@ window.onbeforeunload = function(e){
 
 //tab2 file upload/download관련
 $(document).on("click", "#upload-btn", function(){
+	var ua = window.navigator.userAgent;
+	alert(ua);
+	
 	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
 	fileSocket.binaryType="arraybuffer";
 	
@@ -133,6 +137,7 @@ $(document).on("click", "#upload-btn", function(){
 		fileSocket.send(rawData);
 		
 	}
+	
 	reader.readAsArrayBuffer(file);
 });
 
