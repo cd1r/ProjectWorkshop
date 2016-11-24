@@ -149,7 +149,7 @@ var readFile = function(file){
 	alert(name+"  "+size+"  "+type);
 	
 	fileSocket.send(file.name); //파일이름
-/*	
+	
 	var reader = new FileReader();
 	var rawData = new ArrayBuffer();
 	
@@ -161,7 +161,7 @@ var readFile = function(file){
 		fileSocket.send(rawData);	
 	}
 	
-	reader.readAsArrayBuffer(file);*/
+	reader.readAsArrayBuffer(file);
 };
 
 
