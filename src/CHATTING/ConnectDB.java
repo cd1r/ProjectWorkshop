@@ -217,7 +217,7 @@ public class ConnectDB {
 	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
 	            
 	       pstmt = (PreparedStatement) conn.prepareStatement(
-	    		   "Select name, create_date, mem_cnt, term_to-term_from As dday"+
+	    		   "Select name, create_date, mem_cnt, term_to-CurDate() As dday"+
 	    		   " From tb_roominfo Where id=?");
 	       pstmt.setInt(1, Integer.valueOf(roomId));
 	       
@@ -244,5 +244,80 @@ public class ConnectDB {
 	public boolean fileUpload(int roomId, String email, String file) {
 		
 		return false;
+	}
+
+	public String insertSchedule(String roomId, String email, String job, String from, String to) {
+		try {
+		       Class.forName("com.mysql.jdbc.Driver");
+		       int rs = 0;
+		       ResultSet resultSet = null;
+		       conn = DriverManager.getConnection(url, user, pass);
+
+		       if (conn == null)
+		          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+		         
+		       pstmt = (PreparedStatement) conn.prepareStatement(
+		    		   "Insert Into tb_jobinfo (room_id, mem_email, content, term_from, term_to) Values(?, ?, ?, ?, ?)");
+		       pstmt.setString(1, roomId);
+		       pstmt.setString(2, email);
+		       pstmt.setString(3, job);
+		       pstmt.setString(4, from);
+		       pstmt.setString(5, to);
+		       
+		       rs = pstmt.executeUpdate();
+		       
+		       if(rs > 0){
+		    	   pstmt = (PreparedStatement) conn.prepareStatement("Select id From tb_jobinfo Order By id Desc Limit 1");
+		    	   resultSet = pstmt.executeQuery();
+		    	   resultSet.next();
+		    	   String lastId = resultSet.getString("id");
+		    	   
+		    	   return lastId;
+		       }
+		       else return null;
+		    	              
+			} catch (Exception e) {
+		         e.printStackTrace();
+		         return null;
+			}
+	}
+
+	public String loadScheduleInfo(String roomId) {
+		
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		ResultSet rs = null;
+		
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+	            
+	       pstmt = (PreparedStatement) conn.prepareStatement(
+	    		   "Select id, mem_email, content, term_from, term_to, term_to-CurDate() As dday"+
+	    		   " From tb_jobinfo Where room_id=?");
+	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       
+	       rs = pstmt.executeQuery();
+	       
+	       while(rs.next()){
+	    	   xml.make_element("info");
+	    	   	    	   
+	    	   xml.make_child("id", rs.getString("id"));
+	    	   xml.make_child("mem_email", rs.getString("mem_email"));
+	    	   xml.make_child("job", rs.getString("content"));
+	    	   xml.make_child("from", rs.getString("term_from"));
+	    	   xml.make_child("to", rs.getString("term_to"));
+	    	   xml.make_child("dday", rs.getString("dday"));
+	       }
+	       
+	       return source = xml.make_xml();
+	       
+		} catch (Exception e) {
+	         e.printStackTrace();
+	         return null;
+		}
 	}
 }

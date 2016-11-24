@@ -38,7 +38,8 @@ public class FileUploadSocket {
 	@OnMessage
 	public void onMessage(String message, Session session, @PathParam("email") String email, @PathParam("roomId") int roomId) throws IOException{
 		System.out.println("[파일] 클라이언트 메시지 정보 = session : " + session + " / email : " + email + " / roomId : " + roomId + " / message : " + message);
-		String path = "C:\\Users\\hyoseung\\Documents\\dialog"+roomId+"\\";
+		String path = "C:\\Users\\Seyoon\\Documents\\SockeFileDir\\dialog"+roomId+"\\";
+		System.out.println(path);
 		
 		try {
 			synchronized (clientsMap) {
