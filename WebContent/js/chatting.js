@@ -6,6 +6,19 @@ $(document).ready(function(){
 	roomId = opener.parent.setRoomId();
 	alert(roomId);
 	
+	var area = document.getElementById('dialog-enter');
+	
+	if(area.attachEvent){
+		area.attachEvent("dragover", onCancel, false);
+		area.attachEvent("dragenter", onCancel, false);
+		area.attachEvent("drop", onDropFile, false);
+	}
+	else{
+		area.addEventListener("dragover", onCancel, false);
+		area.addEventListener("dragenter", onCancel, false);
+		area.addEventListener("drop", onDropFile, false);
+	}
+	
 	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
@@ -81,7 +94,77 @@ $(document).on("click", "#send-btn", function(){
 //채팅 창 닫으면 웹소켓 종료
 window.onbeforeunload = function(e){
 	webSocket.close();
+	fileSocket.close();
 }
+
+var onDropFile = function(e){
+	e.preventDefault();
+	var file = e.dataTransfer.files[0];
+	readFile(file);
+};
+
+var onCancel = function(e){
+	if(e.preventDefault) {e.preventDefault();}
+	return fasl;
+};
+
+var readFile = function(file){
+	
+	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
+	fileSocket.binaryType="arraybuffer";
+	
+	//웹 소켓이 연결되었을 때 호출되는 이벤트
+	fileSocket.onopen = function(message){ };
+    //웹 소켓이 닫혔을 때 호출되는 이벤트
+	fileSocket.onclose = function(message){ };
+    //웹 소켓이 에러가 났을 때 호출되는 이벤트
+	fileSocket.onerror = function(message){
+        alert(message.data)
+    };
+    //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
+    fileSocket.onmessage = function(message){ 
+    	if(message.data == "완료"){
+    		alert("파일 전송완료");
+    		
+    		var fileinfo = file.name+' 업로드';
+    		$(".dialog-ul").append(
+    				'<li class="dialog-li-own">'+
+    					'<table class="dialog-table-own">'+
+    						'<tr>'+
+    							'<td class="talk-td-own">' + fileinfo +'</td>'+                           
+    						'</tr>'+
+    					'</table>'+
+    				'</li>');
+
+    		webSocket.send(fileinfo);
+    		
+    		fileSocket.send('upload-file-end');
+    		fileSocket.close();
+    	}
+    };
+    
+	var name = file.name;
+	var size = file.size;
+	var type = file.type;
+	alert(name+"  "+size+"  "+type);
+	
+	fileSocket.send(file.name); //파일이름
+/*	
+	var reader = new FileReader();
+	var rawData = new ArrayBuffer();
+	
+	reader.loadend = function(){
+		
+	}
+	reader.onload = function(e){
+		rawData = e.target.result;
+		fileSocket.send(rawData);	
+	}
+	
+	reader.readAsArrayBuffer(file);*/
+};
+
+
 
 //tab2 file upload/download관련
 $(document).on("click", "#upload-btn", function(){
