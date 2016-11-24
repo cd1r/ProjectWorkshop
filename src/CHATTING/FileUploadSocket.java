@@ -40,26 +40,31 @@ public class FileUploadSocket {
 		System.out.println("[파일] 클라이언트 메시지 정보 = session : " + session + " / email : " + email + " / roomId : " + roomId + " / fileName : "+ fileName +" / message : " + message);
 		//String path = "C:\\Users\\Seyoon\\Documents\\SockeFileDir\\dialog"+roomId+"\\";
 		String path = "C:\\Users\\hyoseung\\Documents\\dialog"+roomId+"\\";
-		System.out.println(path);
 		
 		try {
 			synchronized (clientsMap) {
-				if (!message.equals("upload-file-end")) {
-
-		            File file = new File(path + message);
-		            try {
-		                bos = new BufferedOutputStream(new FileOutputStream(file));
-		            } catch (FileNotFoundException e) {
-		                // TODO Auto-generated catch block
-		                e.printStackTrace();
-		            }
-				} 
-				else {
+				if(message.equals("upload-file-end")){
 					System.out.println("[파일] 업로드 성공 / bos 닫음 ");
 					try {
 		                bos.flush();
 		                bos.close();
 		            } catch (IOException e) {
+		                e.printStackTrace();
+		            }
+				}
+				else if(message.contains("upload-file-db")){
+					System.out.println("db에 넣기전  : "+message);
+					String fileType = fileName.substring(fileName.indexOf(".")+1).toLowerCase();
+					boolean result = connDB.fileUpload(roomId, email, fileName, fileType);
+					if(result)
+						clientsMap.get(session.toString()).getBasicRemote().sendText("완료");
+				}
+				else{ //파일이름
+					File file = new File(path + message);
+		            try {
+		                bos = new BufferedOutputStream(new FileOutputStream(file));
+		            } catch (FileNotFoundException e) {
+		                // TODO Auto-generated catch block
 		                e.printStackTrace();
 		            }
 				}
@@ -72,7 +77,8 @@ public class FileUploadSocket {
 	
 	@OnMessage
     public void processUpload(ByteBuffer message, boolean last, Session session, @PathParam("email") String email, @PathParam("roomId") int roomId, @PathParam("fileName") String fileName) throws IOException{
-        while(message.hasRemaining()){
+        System.out.println("[파일] 클라이언트 파일 업로드 중");
+		while(message.hasRemaining()){
             try {
                 bos.write(message.get());
             } catch (IOException e) {
@@ -82,10 +88,11 @@ public class FileUploadSocket {
             }
         }
         
-        String fileType = fileName.substring(fileName.indexOf(".")+1);
+        //String fileType = fileName.substring(fileName.indexOf(".")+1);
         //디비 저장하는거 구현해야함 /이름중복
-        connDB.fileUpload(roomId, session.toString(), fileName, fileType);
-        clientsMap.get(session.toString()).getBasicRemote().sendText("완료"); //클라이언트에게 파일 업로드 끝났다고 알려줌
+        //boolean result = connDB.fileUpload(roomId, email, fileName, fileType);
+        //if(result)
+        clientsMap.get(session.toString()).getBasicRemote().sendText("파일완료"); //클라이언트에게 파일 업로드 끝났다고 알려줌
         
     }
 

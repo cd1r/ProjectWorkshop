@@ -134,9 +134,11 @@ var readFile = function(file){
     };
     //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
     fileSocket.onmessage = function(message){ 
-    	if(message.data == "완료"){
+    	if(message.data == "파일완료"){ //파일업로드 완료
+    		fileSocket.send('upload-file-db/'+file.size); //파일정보 디비에 저장하라고 요청
+    	}
+    	else if(message.data == "완료"){ //디비에 저장까지 완료
     		alert("파일 전송완료");
-    		
     		var fileinfo = file.name+' 업로드';
     		$(".dialog-ul").append(
     				'<li class="dialog-li-own">'+
@@ -147,13 +149,13 @@ var readFile = function(file){
     					'</table>'+
     				'</li>');
 
-    		webSocket.send(fileinfo);	
+    		webSocket.send(fileinfo);
+    		fileSocket.send('upload-file-end');
+    		fileSocket.close();
     	}
-    	else{
+    	else{ //파일전송에러
     		alert(message.data);
     	}
-    	fileSocket.send('upload-file-end');
-		fileSocket.close();
     };
 
 	answer = confirm("파일을 업로드 하시겠습니까?");  // 이거 절대 빼면 안됨

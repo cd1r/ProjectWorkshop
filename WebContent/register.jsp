@@ -33,8 +33,8 @@
             	<div class="profile-div">
                     <div class="profile-photo">프로필사진</div>
                     <div class="profile-photo"><img src="./images/null_profile.png"></div>
-                    <div class="profile-photo"><input id="photo-path"></div>
-                    <div class="profile-photo"><input type="button" id="load-photo-btn" value="사진 불러오기"></div>
+                    <div class="profile-photo"><input type="text" id="photo-path"></div>
+                    <div class="profile-photo"><input type="file" id="load-photo-btn" value="사진 불러오기"></div>
                 </div>
             </td>
             <td class="td-input"><input id="reg_name" placeholder="이름"></td>
