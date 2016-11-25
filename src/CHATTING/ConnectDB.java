@@ -241,9 +241,30 @@ public class ConnectDB {
 	}
 	
 	//파일 디비에 저장
-	public boolean fileUpload(int roomId, String email, String file) {
+	public boolean fileUpload(int roomId, String email, String file, String type) {
+		int result = 0;
+		String path = "dialog"+roomId+"/"+file;
+		System.out.println("DB 파일 저장 : "+ email + " " );
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		       conn = DriverManager.getConnection(url, user, pass);
+
+		    if (conn == null)
+		    	throw new Exception("데이터베이스에 연결할 수 없습니다.");
+		         
+		    pstmt = (PreparedStatement) conn.prepareStatement("insert into tb_fileinfo (room_id, uploader_email, file_name, extention, file_url, upload_date) "
+		    		+ "values(" + roomId + ", '" +email + "', '" + file + "', '" + type + "', '"+ path + "', NOW())");
+				
+		    result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try{pstmt.close();}catch(SQLException e){}
+			try{conn.close();}catch(SQLException e){}
+		}
 		
-		return false;
+		if(result > 0) return true;
+		else return false;
 	}
 
 	public String insertSchedule(String roomId, String email, String job, String from, String to) {

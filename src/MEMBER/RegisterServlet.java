@@ -41,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
 		String grade = request.getParameter("grade");
 		String gender = request.getParameter("gender");
 		
-		System.out.println(name+" "+pw+" "+email+" "+phone+" "+organization+" "+grade+" "+gender);
+		System.out.println(name+" "+pw+" "+email+" "+phone+" "+organization+" "+grade+" "+gender+" ");
 		
 		result = String.valueOf(connDB.registerAccount(name, pw, email, organization, phone, grade, gender));
 		

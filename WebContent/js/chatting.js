@@ -98,9 +98,9 @@ $(document).on("click", "#send-btn", function(){
 //채팅 창 닫으면 웹소켓 종료
 window.onbeforeunload = function(e){
 	webSocket.close();
-	fileSocket.close();
 }
 
+//파일 드래그 앤 드롭 할때
 var onDropFile = function(e){
 	e.preventDefault();
 	var file = e.dataTransfer.files[0];
@@ -111,6 +111,13 @@ var onCancel = function(e){
 	if(e.preventDefault) {e.preventDefault();}
 	return false;
 };
+
+//tab2 file upload/download관련
+$(document).on("click", "#upload-btn", function(){
+    
+	var file = document.getElementById('file_upload').files[0];
+	readFile(file);
+});
 
 var readFile = function(file){
 	
@@ -126,11 +133,13 @@ var readFile = function(file){
 	fileSocket.onerror = function(message){
         alert(message.data)
     };
-    //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
+  //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
     fileSocket.onmessage = function(message){ 
-    	if(message.data == "완료"){
+    	if(message.data == "파일완료"){ //파일업로드 완료
+    		fileSocket.send('upload-file-db/'+file.size); //파일정보 디비에 저장하라고 요청
+    	}
+    	else if(message.data == "완료"){ //디비에 저장까지 완료
     		alert("파일 전송완료");
-    		
     		var fileinfo = file.name+' 업로드';
     		$(".dialog-ul").append(
     				'<li class="dialog-li-own">'+
@@ -142,92 +151,35 @@ var readFile = function(file){
     				'</li>');
 
     		webSocket.send(fileinfo);
-    		
     		fileSocket.send('upload-file-end');
     		fileSocket.close();
     	}
+    	else{ //파일전송에러
+    		alert(message.data);
+    	}
     };
     
-	var name = file.name;
-	var size = file.size;
-	var type = file.type;
-	alert(name+"  "+size+"  "+type);
-	
-	fileSocket.send(file.name); //파일이름
-	
-	var reader = new FileReader();
-	var rawData = new ArrayBuffer();
-	
-	reader.loadend = function(){
-		
+    answer = confirm("파일을 업로드 하시겠습니까?");  // 이거 절대 빼면 안됨
+	if (answer == true) {
+		fileSocket.send(file.name); // 파일이름
+
+		var reader = new FileReader();
+		var rawData = new ArrayBuffer();
+
+		reader.loadend = function() {
+
+		}
+		reader.onload = function(e) {
+			rawData = e.target.result;
+			fileSocket.send(rawData);
+		}
+
+		reader.readAsArrayBuffer(file);
 	}
-	reader.onload = function(e){
-		rawData = e.target.result;
-		fileSocket.send(rawData);	
+	else{
+		fileSocket.close();
 	}
-	
-	reader.readAsArrayBuffer(file);
 };
-
-
-
-//tab2 file upload/download관련
-$(document).on("click", "#upload-btn", function(){
-	var ua = window.navigator.userAgent;
-	alert(ua);
-	
-	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
-	fileSocket.binaryType="arraybuffer";
-	
-	//웹 소켓이 연결되었을 때 호출되는 이벤트
-	fileSocket.onopen = function(message){ };
-    //웹 소켓이 닫혔을 때 호출되는 이벤트
-	fileSocket.onclose = function(message){ };
-    //웹 소켓이 에러가 났을 때 호출되는 이벤트
-	fileSocket.onerror = function(message){
-        alert(message.data)
-    };
-    //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
-    fileSocket.onmessage = function(message){ 
-    	if(message.data == "완료"){
-    		alert("파일 전송완료");
-    		
-    		var fileinfo = file.name+' 업로드';
-    		$(".dialog-ul").append(
-    				'<li class="dialog-li-own">'+
-    					'<table class="dialog-table-own">'+
-    						'<tr>'+
-    							'<td class="talk-td-own">' + fileinfo +'</td>'+                           
-    						'</tr>'+
-    					'</table>'+
-    				'</li>');
-
-    		webSocket.send(fileinfo);
-    		
-    		fileSocket.send('upload-file-end');
-    		fileSocket.close();
-    	}
-    };
-    
-	var file = document.getElementById('file_upload').files[0];
-	alert(file.name+" "+file.size);
-	
-	fileSocket.send(file.name); //파일이름
-	
-	var reader = new FileReader();
-	var rawData = new ArrayBuffer();
-	
-	reader.loadend = function(){
-		
-	}
-	reader.onload = function(e){
-		rawData = e.target.result;
-		fileSocket.send(rawData);
-		
-	}
-	
-	reader.readAsArrayBuffer(file);
-});
 
 function loadRightMember(){
 	$.ajax({

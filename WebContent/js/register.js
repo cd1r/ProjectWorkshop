@@ -5,6 +5,7 @@
 var passwd_chk = false;
 var passwd_confirm_chk = false;
 var email_chk = false;
+var photo_url = "./images/null_profile.png";
 
 $(document).ready(function(){
 	$("#reg_passwd").keyup(function(e) {
@@ -229,6 +230,11 @@ function checkemail_call(){
 }
 
 //사진 올리기  
-$(document).on("click", "#load-photo-btn", function(){
-	alert("사진올리기");
+$(document).on("change", "#load-photo-btn", function(){
+	var p = $("#load-photo-btn").val();
+	filename = p.substring(p.lastIndexOf("\\")+1); //파일이름
+	photo_url=$("#load-photo-btn").val();
+	
+	//그림파일 확장자 검사
+	//./images/profile/email로 저장
 });
