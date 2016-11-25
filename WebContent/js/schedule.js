@@ -31,6 +31,17 @@ $(document).ready(function(){
 		addScheduleInDB($('#room-id').val(), $("#worker-select option:selected").attr('id'), $('#job').val(), $('#from').val(), $('#to').val());
 		//addScheduleInCal();
 	});
+	
+	$("#workshop-info-menu").click(function(){
+		location.href = "workshopinfo.jsp?roomId=" + $("#room-id").val() + "";
+	});
+	$("#chat-room-menu").click(function(){
+		location.href = "chat.jsp?roomId=" + $("#room-id").val() + "";
+	});
+	$("#file-menu").click(function(){
+		location.href = "allfile.jsp?roomId=" + $("#room-id").val() + "";
+	});
+	
 });
 
 function loadSchedule(roomId){
@@ -158,7 +169,7 @@ function setCalendar(year, month)
 	var weekday = Calendar.getDay();
 
 	Calendar.setDate(1);
-	alert("Set : " + Calendar.getFullYear() + " " + (Calendar.getMonth()+1) + " " + today);
+	//alert("Set : " + Calendar.getFullYear() + " " + (Calendar.getMonth()+1) + " " + today);
 	
 	var DAYS_OF_WEEK = 7;
 	var DAYS_OF_MONTH = 31;

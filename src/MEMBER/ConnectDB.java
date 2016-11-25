@@ -22,8 +22,9 @@ public class ConnectDB {
 	String pass = "shsy08";
 	
 	//로그인
-	public boolean loginConfirm(String id, String pw){
-		boolean result = false;
+	public String loginConfirm(String id, String pw){
+		
+		String result = null;
 		
 		try {
 	       Class.forName("com.mysql.jdbc.Driver");
@@ -40,10 +41,12 @@ public class ConnectDB {
 	         
 	       if(rs.first()){
 	    	   //로그인 가능
-	    	   if(rs.getString("pw").equals(pw)) result = true;
-	    	   else result = false; //비밀번호 틀림
+	    	   if(rs.getString("pw").equals(pw))
+	    		   result = rs.getString("name") + "\t" + rs.getString("photo_url");
+	    	   else 
+	    		   result = null; //비밀번호 틀림
 	       }
-	       else result = false;
+	       else result = null;
 	                  
 		} catch (Exception e) {
 	         e.printStackTrace();

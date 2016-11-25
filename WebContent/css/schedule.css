@@ -1,4 +1,7 @@
 @charset "utf-8";
+#schedule-menu{
+	background-color:#606060;
+}
 
 #schedule-content{
 	vertical-align:top;

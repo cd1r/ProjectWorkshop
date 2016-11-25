@@ -1,5 +1,15 @@
 $(document).ready(function() {
 	callWorkshopInfo();
+	
+	$("#chat-room-menu").click(function(){
+		location.href = "chat.jsp?roomId=" + $("#room-id").val() + "";
+	});
+	$("#schedule-menu").click(function(){
+		location.href = "schedule.jsp?roomId=" + $("#room-id").val() + "";
+	});
+	$("#file-menu").click(function(){
+		location.href = "allfile.jsp?roomId=" + $("#room-id").val() + "";
+	});
 });
 
 function callWorkshopInfo()
@@ -51,11 +61,11 @@ function callWorkshopMember()
 					$("#content-table").append('<tr id="mem_row' + row_cnt + '">');
 					td_cnt = 0;
 				}
-				/*$(".mem-profile").css({"width":"100%", "height":"160px", "overflow":"hidden"});
-				$(".mem-profile img").css({"width":"160px", "height":"auto", "border-radius":"7px"});
-				$(".member-info").css({"width":"33%", "text-align":"center",});
-				$(".member-info div").css({"margin-top":"5px", "margin-bottom":"5px"});*/
 			});
+			$(".mem-profile").css({"width":"100%", "height":"160px", "overflow":"hidden"});
+			$(".mem-profile img").css({"width":"160px", "height":"auto", "border-radius":"7px"});
+			$(".member-info").css({"width":"33%", "text-align":"center",});
+			$(".member-info div").css({"margin-top":"5px", "margin-bottom":"5px"});
 		}
 	});
 }

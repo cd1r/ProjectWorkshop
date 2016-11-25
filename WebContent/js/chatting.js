@@ -1,10 +1,14 @@
 var webSocket = null;
 var roomId;
+var member = [];
 
 $(document).ready(function(){
 
 	roomId = $("#room-id").val();
 	alert(roomId);
+	
+	loadRightMember();
+	
 	
 	var area = document.getElementById('dialog-enter');
 	
@@ -19,8 +23,8 @@ $(document).ready(function(){
 		area.addEventListener("drop", onDropFile, false);
 	}
 	
-	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	//webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
     var messageTextArea = document.getElementById("messageTextArea");
     //웹 소켓이 연결되었을 때 호출되는 이벤트
@@ -61,17 +65,14 @@ $(document).ready(function(){
 		$(this).css({"background-color" : "#5996cf"});		
 	});
 	
-	$(".right-member-li").mouseover(function(){
-		$(this).css({"background-color":"#f59329"});
-	}).mouseout(function(){
-		$(this).css({"background-color":"#272a33"});
-	});
-	
 	$("#workshop-info-menu").click(function(){
 		location.href = "workshopinfo.jsp?roomId=" + $("#room-id").val() + "";
 	});
 	$("#schedule-menu").click(function(){
 		location.href = "schedule.jsp?roomId=" + $("#room-id").val() + "";
+	});
+	$("#file-menu").click(function(){
+		location.href = "allfile.jsp?roomId=" + $("#room-id").val() + "";
 	});
 });
 
@@ -108,18 +109,19 @@ var onDropFile = function(e){
 
 var onCancel = function(e){
 	if(e.preventDefault) {e.preventDefault();}
-	return fasl;
+	return false;
 };
 
 var readFile = function(file){
 	
-	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
+	fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
+	//fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
 	fileSocket.binaryType="arraybuffer";
 	
 	//웹 소켓이 연결되었을 때 호출되는 이벤트
-	fileSocket.onopen = function(message){ };
+	fileSocket.onopen = function(message){ alert("File on Open : " + message); };
     //웹 소켓이 닫혔을 때 호출되는 이벤트
-	fileSocket.onclose = function(message){ };
+	fileSocket.onclose = function(message){ alert("File on Close : " + message); };
     //웹 소켓이 에러가 났을 때 호출되는 이벤트
 	fileSocket.onerror = function(message){
         alert(message.data)
@@ -226,3 +228,89 @@ $(document).on("click", "#upload-btn", function(){
 	
 	reader.readAsArrayBuffer(file);
 });
+
+function loadRightMember(){
+	$.ajax({
+		type: "post",
+		url: "workshop_member.do",
+		data: {roomId : $("#room-id").val()},
+		datatype: "text",
+		success: function(data){
+			$(data).find("info").each(function(){
+				$("#right-member-ul").append(
+						'<li class="right-member-li">'+
+							'<table class="right-profile-table">' +
+								'<tr>' +
+									'<td class="profile-img-td" rowspan="2"><div><img src="' + $(this).find("photo_url").text() + '"></div></td>'+
+									'<td class="member-name-td">' + $(this).find("name_gender").text().split(' ')[0] + '</td>'+
+								'</tr>' +
+								'<tr>' +
+									'<td class="member-email-td">' + $(this).find("email").text() + '</td>'+
+								'</tr>' +
+						'</li>');
+				
+				member.push($(this).find("email").text() + "\t" + $(this).find("name_gender").text().split(' ')[0]);
+			});
+			$(".right-member-li").css({"padding-top":"7px", "padding-bottom":"7px"});
+			$(".profile-img-td div").css({"width":"60px", "height":"60px", "overflow":"hidden", "border-radius":"50%"});
+			$(".profile-img-td div img").css({"width":"100%", "height":"auto"});
+			
+			$(".right-member-li").mouseover(function(){
+				$(this).css({"background-color":"#f59329"});
+			}).mouseout(function(){
+				$(this).css({"background-color":"#272a33"});
+			});
+			
+			loadDialog();
+		}
+	});
+}
+
+function loadDialog(){
+	$.ajax({
+		type: "post",
+		url: "load_dialog.do",
+		data: {roomId : $("#room-id").val()},
+		datatype: "text",
+		success: function(data){
+			var lastId = 0;
+			$(data).find("dialog").each(function(){
+				if($(this).find("speaker").text() == $("#user-email").val()){
+					$(".dialog-ul").append(
+							'<li id="' + $(this).find("id").text() + '" class="dialog-li-own">'+
+								'<table class="dialog-table-own">'+
+									'<tr>'+
+										'<td class="talk-td-own">' + $(this).find("context").text() + '</td>'+                           
+									'</tr>'+
+								'</table>'+
+							'</li>');
+				}
+				
+				else{
+					var speaker_name = null;
+					for(var i=0; i<member.length; i++){
+						if(member[i].split('\t')[0] == $(this).find("speaker").text())
+							speaker_name = member[i].split('\t')[1];
+					}
+					$(".dialog-ul").append(
+			    			'<li id="' + $(this).find("id").text() + '" class="dialog-li">'+
+			    				'<table class="dialog-table">'+
+			            			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + $(this).find("photo_url").text() + '"></td>'+
+			            				'<td class="speaker-name-td">' + speaker_name + '</td>'+
+			            			'</tr>'+
+			            			'<tr>'+
+			            				'<td class="talk-td">' + $(this).find("context").text() + '</td>'+                           
+			            			'</tr>'+
+			            		'</table>'+
+			            	'</li>');
+				}
+				lastId = $(this).find("id").text();
+			});
+			//$(".dialog-content div").scrollTop($(".dialog-content").height());
+			$(".dialog-content div").animate({scrollTop:$("#"+lastId).offset().top}, 500);
+			/*$(".right-member-li").css({"padding-top":"7px", "padding-bottom":"7px"});
+			$(".profile-img-td div").css({"width":"60px", "height":"60px", "overflow":"hidden", "border-radius":"50%"});
+			$(".profile-img-td div img").css({"width":"100%", "height":"auto"});*/
+		}
+	});
+}

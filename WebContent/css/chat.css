@@ -11,6 +11,12 @@
 	vertical-align : top;
 }
 
+.dialog-content div{
+	overflow-y:scroll;
+	height:600px;
+	width:100%;
+}
+
 .dialog-ul{
 	list-style: none;
 	border : 1px black solid;

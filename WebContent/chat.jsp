@@ -2,8 +2,11 @@
     pageEncoding="utf-8"%>
 <%
 	boolean isSession = false;
-	String user_email = null;
-	user_email = (String)session.getAttribute("user_email");
+
+	String user_email = (String)session.getAttribute("user_email");
+	String user_name = (String)session.getAttribute("user_name");
+	String photo_url = (String)session.getAttribute("photo_url");
+	
 	String roomId = request.getParameter("roomId");
 	System.out.println("Chat.jsp Room ID : " + roomId);
 	if(user_email != null)
@@ -16,14 +19,16 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
-<link href="./css/chat.css" type="text/css" rel="stylesheet"/>
+<link href="./css/chat.css?ver=3" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/chatting.js?ver=2"></script>
+<script src="./js/chatting.js?ver=9"></script>
 <title>ChatLayout</title>
 </head>
 
 <body>
 <input id="user-email" type="hidden" value="<%=user_email%>">
+<input id="user-name" type="hidden" value="<%=user_name%>">
+<input id="photo_url" type="hidden" value="<%=photo_url%>">
 <input id="room-id" type="hidden" value="<%=roomId%>">
 <table id="chatLayout">
 	<tr>
@@ -31,9 +36,9 @@
 
             <div class="profile-div">
                 <div class="profile-img-div">
-                    <img class="profile-img" src="./images/park.png">
+                    <img class="profile-img" src="<%=photo_url%>">
                 </div>
-                <div class="profile-name">박효신</div>
+                <div class="profile-name"><%=user_name%></div>
             </div>
             <div class="left-menu">
                 <div class="all-menu" id="all-menu-label">전체 메뉴</div>
@@ -45,8 +50,10 @@
 
         </td>
         <td colspan="2" class="dialog-content">
-        	<ul class="dialog-ul"> 	
-            </ul>
+        	<div>
+	        	<ul class="dialog-ul"> 	
+	            </ul>
+            </div>
         </td>
         <td rowspan="2" class="right-side">
         	<table id="right-menu-table">
@@ -55,28 +62,6 @@
                     <td id="tab-content-td" rowspan="5">
                     	<div id="tab1-div">
                         	<ul id="right-member-ul">
-                            	<li class="right-member-li">
-                                	<table class="right-profile-table">
-                                    	<tr>
-                                        	<td class="profile-img-td" rowspan="2"><div><img class="right-mini-profile" src="./images/park.png"></div></td>
-                                            <td class="member-name-td">박효신</td>
-                                        </tr>
-                                    	<tr>
-                                            <td class="member-email-td">park@naver.com</td>
-                                        </tr>                                        
-                                    </table>
-                                </li>
-                                <li class="right-member-li">
-                                	<table class="right-profile-table">
-                                    	<tr>
-                                        	<td class="profile-img-td" rowspan="2"><div><img class="right-mini-profile" src="./images/hwang.jpg"></div></td>
-                                            <td class="member-name-td">황세윤</td>
-                                        </tr>
-                                    	<tr>
-                                            <td class="member-email-td">cd1r@naver.com</td>
-                                        </tr>                                        
-                                    </table>
-                                </li>
                             </ul>
                         </div>
                         <div id="tab2-div">tab2

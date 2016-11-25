@@ -1,4 +1,5 @@
-package MEMBER;
+package CHATTING;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -7,50 +8,45 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class TestServlet
+ * Servlet implementation class LoadDialogServlet
  */
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/load_dialog")
+public class LoadDialogServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-	
-	public LoginServlet() {
-		super();
+    public LoadDialogServlet() {
+        super();
         // TODO Auto-generated constructor stub
-	}
-	
+    }
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
+
 		ConnectDB connDB = ConnectDB.getConnectDB();
 		
-		String result;
-		String userId = request.getParameter("userId");
-		String userPw = request.getParameter("userPw");
-		System.out.println("아이디 : " + userId + " 비밀번호: " + userPw);
+		String roomId = request.getParameter("roomId");
+		
+		String result = connDB.loadDialog(roomId);
+		System.out.println(result);
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = response.getWriter();
 		
-		result = connDB.loginConfirm(userId, userPw); // 로그인 성공시 이름과 사진 경로를 리턴해줌 - 세윤
-		
-		if(result != null){
-			System.out.println(result);
-			HttpSession Session = request.getSession();
-			Session.setAttribute("user_email", userId);
-			Session.setAttribute("user_name", result.split("\t")[0]);
-			Session.setAttribute("photo_url", result.split("\t")[1]);
-			
-			pw.write("true");
+		if(result != null)
+		{
+			pw.write(result);
+			pw.close();
+		}
+		else
+		{
+			System.out.println("대화 목록 읽기 실패");
 			pw.close();
 		}
 		

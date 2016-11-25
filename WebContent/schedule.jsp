@@ -2,9 +2,10 @@
     pageEncoding="utf-8"%>  
 <%
 	boolean isSession = false;
-	String user_email = null;
-	user_email = (String)session.getAttribute("user_email");
+	String user_email = (String)session.getAttribute("user_email");
 	String roomId = request.getParameter("roomId");
+	String user_name = (String)session.getAttribute("user_name");
+	String photo_url = (String)session.getAttribute("photo_url");
 	System.out.println("Workshopinfo Room ID : " + roomId);
 	
 	if(user_email != null)
@@ -17,11 +18,13 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
-<link href="./css/schedule.css" type="text/css" rel="stylesheet"/>
+<link href="./css/schedule.css?ver=1" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/schedule.js?ver=9"></script>
+<script src="./js/schedule.js"></script>
 </head>
 <body>
+<input id="user-name" type="hidden" value="<%=user_name%>">
+<input id="photo_url" type="hidden" value="<%=photo_url%>">
 <input id="room-id" type="hidden" value="<%=roomId%>">
 <input id="user-email" type="hidden" value="<%=user_email%>">
 <table id="chatLayout">
@@ -30,9 +33,9 @@
 
             <div class="profile-div">
                 <div class="profile-img-div">
-                    <img class="profile-img" src="park.png">
+                    <img class="profile-img" src="<%=photo_url%>">
                 </div>
-                <div class="profile-name">박효신</div>
+                <div class="profile-name"><%=user_name%></div>
             </div>
             <div class="left-menu">
                 <div class="all-menu" id="all-menu-label">전체 메뉴</div>

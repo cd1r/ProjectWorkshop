@@ -88,12 +88,16 @@ public class WebSocket {
 	@OnClose
 	public void onClose(Session session, @PathParam("email") String email, @PathParam("roomId") int roomId){
 		System.out.println("클라이언트 해제 정보 = session : " + session + " / email : " + email + " / roomId : " + roomId);
-		if(connDB.deleteClient(email, roomId)){
+		if(connDB.deleteClient(email, roomId))
 			System.out.println("클라이언트 제거 완료!");
-		}
-		else{
+		else
 			System.out.println("클라이언트 제거 실패!");
-		}
-		//clients.remove(session);
+		
+		if(connDB.insertLastReadDialogId(email, roomId))
+			System.out.println("Last Dialog ID 삽입 완료!");
+		else
+			System.out.println("Last Dialog ID 삽입 실패!");
+
+		clientsMap.remove(session.toString());
 	}
 }

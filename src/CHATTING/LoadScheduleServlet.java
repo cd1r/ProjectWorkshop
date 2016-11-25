@@ -29,7 +29,7 @@ public class LoadScheduleServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-ConnectDB connDB = ConnectDB.getConnectDB();
+		ConnectDB connDB = ConnectDB.getConnectDB();
 		
 		String roomId = request.getParameter("roomId");
 		

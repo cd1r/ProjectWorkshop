@@ -142,10 +142,10 @@ public class ConnectDB {
 		       if(rs > 0) return true;
 		       else return false;
 		    	              
-			} catch (Exception e) {
+		} catch (Exception e) {
 		         e.printStackTrace();
 		         return false;
-			}
+		}
 	}
 
 	public String loadWorkshopMemeberInfo(String roomId) {
@@ -311,6 +311,74 @@ public class ConnectDB {
 	    	   xml.make_child("from", rs.getString("term_from"));
 	    	   xml.make_child("to", rs.getString("term_to"));
 	    	   xml.make_child("dday", rs.getString("dday"));
+	       }
+	       
+	       return source = xml.make_xml();
+	       
+		} catch (Exception e) {
+	         e.printStackTrace();
+	         return null;
+		}
+	}
+
+	public boolean insertLastReadDialogId(String email, int roomId) {
+		
+		try {
+		       Class.forName("com.mysql.jdbc.Driver");
+		       ResultSet resultSet = null;
+		       int rs = 0;
+		       int lastId = 0;
+		       conn = DriverManager.getConnection(url, user, pass);
+
+		       if (conn == null)
+		          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+		       
+		       pstmt = (PreparedStatement) conn.prepareStatement(
+		    		   "Select id From tb_dialog" + roomId + " Order By id Desc Limit 1");
+		       resultSet = pstmt.executeQuery();
+		       
+		       resultSet.first();
+		       lastId = resultSet.getInt("id");
+		       
+		       pstmt = (PreparedStatement) conn.prepareStatement(
+		    		   "Update tb_memberinfo Set last_read_dialog=" + lastId +
+		    		   " Where mem_email='" + email + "' And room_id='" + roomId + "'");
+		       rs = pstmt.executeUpdate();
+		       
+		       if(rs > 0) return true;
+		       else return false;
+		    	              
+		} catch (Exception e) {
+		         e.printStackTrace();
+		         return false;
+		}
+	}
+
+	public String loadDialog(String roomId) {
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		ResultSet rs = null;
+		
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+	            
+	       pstmt = (PreparedStatement) conn.prepareStatement(
+	    		   "Select di.id, di.speaker, di.context, di.datetime, acc.photo_url"+ 
+	    		   " From tb_dialog" + roomId + " di Join tb_accinfo acc On di.speaker=acc.email");
+	       rs = pstmt.executeQuery();
+	       
+	       while(rs.next()){
+	    	   xml.make_element("dialog");
+	    	   	    	   
+	    	   xml.make_child("id", rs.getString("di.id"));
+	    	   xml.make_child("speaker", rs.getString("di.speaker"));
+	    	   xml.make_child("context", rs.getString("di.context"));
+	    	   xml.make_child("datetime", rs.getString("di.datetime"));
+	    	   xml.make_child("photo_url", rs.getString("acc.photo_url"));
 	       }
 	       
 	       return source = xml.make_xml();
