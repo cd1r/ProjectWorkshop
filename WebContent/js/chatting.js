@@ -24,7 +24,7 @@ $(document).ready(function(){
 	}
 	
 	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:80/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
     var messageTextArea = document.getElementById("messageTextArea");
     //웹 소켓이 연결되었을 때 호출되는 이벤트
@@ -121,14 +121,14 @@ $(document).on("click", "#upload-btn", function(){
 
 var readFile = function(file){
 	
-	fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
+	fileSocket = new WebSocket("ws://localhost:80/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + file.name);
 	//fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
 	fileSocket.binaryType="arraybuffer";
 	
 	//웹 소켓이 연결되었을 때 호출되는 이벤트
-	fileSocket.onopen = function(message){ alert("File on Open : " + message); };
+	fileSocket.onopen = function(message){  };
     //웹 소켓이 닫혔을 때 호출되는 이벤트
-	fileSocket.onclose = function(message){ alert("File on Close : " + message); };
+	fileSocket.onclose = function(message){  };
     //웹 소켓이 에러가 났을 때 호출되는 이벤트
 	fileSocket.onerror = function(message){
         alert(message.data)

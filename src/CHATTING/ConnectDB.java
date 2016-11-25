@@ -195,7 +195,7 @@ public class ConnectDB {
 	    	   xml.make_child("phone", rs.getString("phone"));
 	       }
 	       
-	       return source = xml.make_xml();
+	       return source = xml.make_xml() + "\t" + managerEmail;
 	       
 		} catch (Exception e) {
 	         e.printStackTrace();

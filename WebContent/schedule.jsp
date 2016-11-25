@@ -6,7 +6,9 @@
 	String roomId = request.getParameter("roomId");
 	String user_name = (String)session.getAttribute("user_name");
 	String photo_url = (String)session.getAttribute("photo_url");
-	System.out.println("Workshopinfo Room ID : " + roomId);
+	String manager_email = (String)session.getAttribute("room" + roomId + "_manager_email");
+	
+	System.out.println("Schedule Room ID : " + roomId + " / ManagerEmail : " + manager_email);
 	
 	if(user_email != null)
 		isSession = true;
@@ -27,6 +29,7 @@
 <input id="photo_url" type="hidden" value="<%=photo_url%>">
 <input id="room-id" type="hidden" value="<%=roomId%>">
 <input id="user-email" type="hidden" value="<%=user_email%>">
+<input id="manager-email" type="hidden" value="<%=manager_email%>">
 <table id="chatLayout">
 	<tr>
     	<td class="left-side">

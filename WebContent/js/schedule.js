@@ -4,6 +4,7 @@ $(document).ready(function(){
 	callMember($('#room-id').val());
 	setCalendar($("#year-span").text(), $("#month-span").text());
 	loadSchedule($('#room-id').val());
+	setAddScheduleFormVisible();
 	
 	$("#prev-month-btn").click(function(){
 		if($("#month-span").text() == "1"){
@@ -43,6 +44,12 @@ $(document).ready(function(){
 	});
 	
 });
+
+function setAddScheduleFormVisible(){
+	if($("#user-email").val() == $("#manager-email").val()){
+		$("#add-schedule-form").css({"display":"inline-block"});
+	}
+}
 
 function loadSchedule(roomId){
 	$.ajax({
