@@ -7,19 +7,18 @@
 
 .dialog-content{
 	background-color:#eaeaea;
-	height : 600px;
+	height : 650px;
 	vertical-align : top;
 }
 
-.dialog-content div{
+#dialog-div{
 	overflow-y:scroll;
-	height:600px;
+	height:650px;
 	width:100%;
 }
 
 .dialog-ul{
 	list-style: none;
-	border : 1px black solid;
 }
 
 .dialog-li{
@@ -190,13 +189,14 @@
 #worklist-label{
 	color : #ff7263;
 	font-size : 30px;
+	margin-top : 30px;
 }
 
 #work-cnt-label{
 	color : #10c5a2;
 	font-size : 25px;
-	margin-top : 10px;
-	margin-bottom : 10px;
+	margin-top : 15px;
+	margin-bottom : 25px;
 }
 
 #work-order-criteria select{
@@ -207,15 +207,25 @@
 }
 
 #order-confirm-btn{
-	width : 50px;
+	width : 45px;
 	height : 30px;
-	magin-left : 10px;
 	background-color:#1abc9c;
 	color : white;
 	font-family:NanumSquare;
 	border: 0;
 	box-shadow:none;
 	cursor : pointer;
+}
+
+#worklist-ul-div{
+	margin-left : 10px;
+	margin-top : 30px;
+}
+
+#worklist-ul{
+	list-style: none;
+	margin:0;
+	padding:0;
 }
 /*#tab4-div {
 	display:none;

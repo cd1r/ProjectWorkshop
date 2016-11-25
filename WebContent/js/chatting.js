@@ -1,4 +1,7 @@
+//숫자 값으로만 id주는것은 대화목록에 사용했음.
 var webSocket = null;
+var lastDialogIdx = 0;
+var lastReadIdx = 0;
 var roomId;
 var member = [];
 
@@ -23,11 +26,11 @@ $(document).ready(function(){
 		area.addEventListener("drop", onDropFile, false);
 	}
 	
-	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://localhost:80/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	//webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
+	
     var messageTextArea = document.getElementById("messageTextArea");
     //웹 소켓이 연결되었을 때 호출되는 이벤트
     webSocket.onopen = function(message){
@@ -46,7 +49,7 @@ $(document).ready(function(){
     webSocket.onmessage = function(message){
         //messageTextArea.value += "상대 => "+message.data+"\n";
     	$(".dialog-ul").append(
-    			'<li class="dialog-li">'+
+    			'<li id="' + (++lastDialogIdx) + '" class="dialog-li">'+
     				'<table class="dialog-table">'+
             			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="./images/park.png"></td>'+
             				'<td class="speaker-name-td">박효신</td>'+
@@ -56,6 +59,8 @@ $(document).ready(function(){
             			'</tr>'+
             		'</table>'+
             	'</li>');
+    	
+    	$("#dialog-div").scrollTop($("#dialog-div")[0].scrollHeight);
     };
     
     //UI관련  - 세윤
@@ -82,13 +87,15 @@ $(document).ready(function(){
 $(document).on("click", "#send-btn", function(){
 	var message = document.getElementById("dialog-enter");
 	$(".dialog-ul").append(
-				'<li class="dialog-li-own">'+
+				'<li id="' + (++lastDialogIdx) + '" class="dialog-li-own">'+
 					'<table class="dialog-table-own">'+
 						'<tr>'+
 							'<td class="talk-td-own">' + message.value +'</td>'+                           
 						'</tr>'+
 					'</table>'+
 				'</li>');
+	
+	$("#dialog-div").scrollTop($("#dialog-div")[0].scrollHeight);
 	
     //messageTextArea.value += "나 => "+message.value+"\n";
     //웹소켓으로 textMessage객체의 값을 보낸다.
@@ -124,8 +131,8 @@ $(document).on("click", "#upload-btn", function(){
 var readFile = function(file){
 
 	var fileInfo = file.name + "*" + file.size;
-	//fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
-	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
+	fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
+	//fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
 	fileSocket.binaryType="arraybuffer";
 	
 	//웹 소켓이 연결되었을 때 호출되는 이벤트
@@ -146,7 +153,7 @@ var readFile = function(file){
     		alert("파일 전송완료");
     		var fileinfo = file.name+' 업로드';
     		$(".dialog-ul").append(
-    				'<li class="dialog-li-own">'+
+    				'<li id="' + (++lastDialogIdx) + '" class="dialog-li-own">'+
     					'<table class="dialog-table-own">'+
     						'<tr>'+
     							'<td class="talk-td-own">' + fileinfo +'</td>'+                           
@@ -161,6 +168,8 @@ var readFile = function(file){
     	else{ //파일전송에러
     		alert(message.data);
     	}
+    	
+    	$("#dialog-div").scrollTop($("#dialog-div")[0].scrollHeight);
     };
     
     answer = confirm("파일을 업로드 하시겠습니까?");  // 이거 절대 빼면 안됨
@@ -205,7 +214,9 @@ function loadRightMember(){
 									'<td class="member-email-td">' + $(this).find("email").text() + '</td>'+
 								'</tr>' +
 						'</li>');
-				
+				if($(this).find("email").text() == $("#user-email").val()){
+					lastReadIdx = $(this).find("last_read_dialog").text();
+				}
 				member.push($(this).find("email").text() + "\t" + $(this).find("name_gender").text().split(' ')[0]);
 			});
 			$(".right-member-li").css({"padding-top":"7px", "padding-bottom":"7px"});
@@ -230,7 +241,7 @@ function loadDialog(){
 		data: {roomId : $("#room-id").val()},
 		datatype: "text",
 		success: function(data){
-			var lastId = 0;
+			lastDialogIdx = 0;
 			$(data).find("dialog").each(function(){
 				if($(this).find("speaker").text() == $("#user-email").val()){
 					$(".dialog-ul").append(
@@ -261,13 +272,61 @@ function loadDialog(){
 			            		'</table>'+
 			            	'</li>');
 				}
-				lastId = $(this).find("id").text();
+						
+				lastDialogIdx = $(this).find("id").text();
 			});
-			//$(".dialog-content div").scrollTop($(".dialog-content").height());
-			$(".dialog-content div").animate({scrollTop:$("#"+lastId).offset().top}, 500);
-			/*$(".right-member-li").css({"padding-top":"7px", "padding-bottom":"7px"});
-			$(".profile-img-td div").css({"width":"60px", "height":"60px", "overflow":"hidden", "border-radius":"50%"});
-			$(".profile-img-td div img").css({"width":"100%", "height":"auto"});*/
+			
+			$(".dialog-ul li").css({"margin-bottom":"20px"});
+			
+			if(lastDialogIdx != lastReadIdx){
+				$(".dialog-ul li").eq(lastReadIdx).after(
+		    			'<li class="last-read-li">'+
+		    				'<div id="last-read-div">여기까지 읽으셨습니다.</div>'+
+		            	'</li>');
+			
+				$(".last-read-li").css({"width":"97%", "height":"20px", "overflow-y":"auto",
+										 "text-align":"center",	"background-color":"#272a33", "color":"white", "font-family":"NanumSquare",
+										 "padding-top":"5px", "padding-bottom":"5px"});
+				
+				$(".dialog-ul li").css({"margin-bottom":"20px"});
+				$(".dialog-content div").animate({scrollTop:$("#"+lastReadIdx).offset().top}, 500);
+			}
+			else
+				$(".dialog-content div").animate({scrollTop:$("#"+lastDialogIdx).offset().top}, 300);
+			
 		}
 	});
-};
+}
+
+$(document).on("click", "#tab3-td", function(){
+	$.ajax({
+		type: "post",
+		url: "load_schedule.do",
+		data: {roomId : $("#room-id").val()},
+		datatype: "text",
+		success: function(data){
+			var job_cnt = 0;
+			$(data).find("info").each(function(){
+				if($(this).find("mem_email").text() == $("#user-email").val() &&
+						Number($(this).find("dday").text()) >= 0){
+					$("#worklist-ul").append(
+						'<li>' +
+							'<table>' +
+								'<tr id="sch' + $(this).find("id").text() + '">' +
+									'<td class="job">'+ $(this).find("job").text() +'</td>'+
+									'<td class="dday">D-' + $(this).find("dday").text() +'</td>'+
+								'</tr>'+
+							'</table>'+
+						'</li>');
+					job_cnt++;
+				}
+			});
+			
+			$("#worklist-ul li").css({"margin-bottom":"20px"});
+			$("#worklist-ul .job").css({"color":"white", "width":"160px"});
+			$("#worklist-ul .dday").css({"padding-left" : "10px", "color":"#d7b113", "width":"40px"});
+			
+			$("#work-cnt-label").text("총 일정 : " + job_cnt + "개");
+		}
+	});
+});

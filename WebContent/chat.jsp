@@ -21,9 +21,9 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
-<link href="./css/chat.css?ver=4" type="text/css" rel="stylesheet"/>
+<link href="./css/chat.css?ver=9" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/chatting.js?ver=20161125"></script>
+<script src="./js/chatting.js?ver=15"></script>
 <title>ChatLayout</title>
 </head>
 
@@ -53,7 +53,7 @@
 
         </td>
         <td colspan="2" class="dialog-content">
-        	<div>
+        	<div id="dialog-div">
 	        	<ul class="dialog-ul"> 	
 	            </ul>
             </div>
@@ -82,8 +82,8 @@
                         	<div id="work-cnt-label">총 일정 : 0개</div>
                         	<div id="work-order-criteria">
                         		<select id="criteria-category">
-                        			<option>마감일</option>
-                        			<option>이름</option>
+                        			<option value="due-date">마감일</option>
+                        			<option value="job-name">작업이름</option>
                         		</select>
                         		<select id="criteria-order">
                         			<option>오름차순</option>
