@@ -23,8 +23,8 @@ $(document).ready(function(){
 		area.addEventListener("drop", onDropFile, false);
 	}
 	
-	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	//webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
     var messageTextArea = document.getElementById("messageTextArea");
     //웹 소켓이 연결되었을 때 호출되는 이벤트
@@ -98,7 +98,7 @@ $(document).on("click", "#send-btn", function(){
 //채팅 창 닫으면 웹소켓 종료
 window.onbeforeunload = function(e){
 	webSocket.close();
-}
+};
 
 //파일 드래그 앤 드롭 할때
 var onDropFile = function(e){
@@ -120,23 +120,23 @@ $(document).on("click", "#upload-btn", function(){
 });
 
 var readFile = function(file){
-	
-	fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
-	//fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId);
+	var fileInfo = file.name + "*" + file.size;
+	//fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
+	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
 	fileSocket.binaryType="arraybuffer";
 	
 	//웹 소켓이 연결되었을 때 호출되는 이벤트
-	fileSocket.onopen = function(message){ alert("File on Open : " + message); };
+	fileSocket.onopen = function(message){ };
     //웹 소켓이 닫혔을 때 호출되는 이벤트
-	fileSocket.onclose = function(message){ alert("File on Close : " + message); };
+	fileSocket.onclose = function(message){ };
     //웹 소켓이 에러가 났을 때 호출되는 이벤트
 	fileSocket.onerror = function(message){
         alert(message.data)
     };
   //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
     fileSocket.onmessage = function(message){ 
-    	if(message.data == "파일완료"){ //파일업로드 완료
-    		fileSocket.send('upload-file-db/'+file.size); //파일정보 디비에 저장하라고 요청
+    	if(message.data == "파일완료"){ //&& filesocket.bufferedAmount==0){ //파일업로드 완료
+    		fileSocket.send('upload-file-db'); //파일정보 디비에 저장하라고 요청
     	}
     	else if(message.data == "완료"){ //디비에 저장까지 완료
     		alert("파일 전송완료");
@@ -161,8 +161,8 @@ var readFile = function(file){
     
     answer = confirm("파일을 업로드 하시겠습니까?");  // 이거 절대 빼면 안됨
 	if (answer == true) {
-		fileSocket.send(file.name); // 파일이름
-
+		fileSocket.send('upload-file-start');
+		
 		var reader = new FileReader();
 		var rawData = new ArrayBuffer();
 
@@ -175,6 +175,7 @@ var readFile = function(file){
 		}
 
 		reader.readAsArrayBuffer(file);
+		//reader.readAsBinaryString(file);
 	}
 	else{
 		fileSocket.close();
@@ -216,7 +217,7 @@ function loadRightMember(){
 			loadDialog();
 		}
 	});
-}
+};
 
 function loadDialog(){
 	$.ajax({
@@ -265,4 +266,4 @@ function loadDialog(){
 			$(".profile-img-td div img").css({"width":"100%", "height":"auto"});*/
 		}
 	});
-}
+};

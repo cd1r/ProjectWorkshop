@@ -241,9 +241,9 @@ public class ConnectDB {
 	}
 	
 	//파일 디비에 저장
-	public boolean fileUpload(int roomId, String email, String file, String type) {
+	public boolean fileUpload(int roomId, String email, String name, String type, int size) {
 		int result = 0;
-		String path = "dialog"+roomId+"/"+file;
+		String path = "dialog"+roomId+"/"+name;
 		System.out.println("DB 파일 저장 : "+ email + " " );
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -252,8 +252,8 @@ public class ConnectDB {
 		    if (conn == null)
 		    	throw new Exception("데이터베이스에 연결할 수 없습니다.");
 		         
-		    pstmt = (PreparedStatement) conn.prepareStatement("insert into tb_fileinfo (room_id, uploader_email, file_name, extention, file_url, upload_date) "
-		    		+ "values(" + roomId + ", '" +email + "', '" + file + "', '" + type + "', '"+ path + "', NOW())");
+		    pstmt = (PreparedStatement) conn.prepareStatement("insert into tb_fileinfo (room_id, uploader_email, file_name, extention, file_url, size, upload_date) "
+		    		+ "values(" + roomId + ", '" +email + "', '" + name + "', '" + type + "', '"+ path + "', "+ size + ", NOW())");
 				
 		    result = pstmt.executeUpdate();
 		} catch (Exception e) {
