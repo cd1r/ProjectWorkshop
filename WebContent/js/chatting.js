@@ -145,7 +145,10 @@ var readFile = function(file){
     				'<li class="dialog-li-own">'+
     					'<table class="dialog-table-own">'+
     						'<tr>'+
-    							'<td class="talk-td-own">' + fileinfo +'</td>'+                           
+    							'<td class="talk-td-own">' + 
+    								fileinfo + '<br/>'+
+    								'<a href="file:///C:\Users\hyoseung\Documents\dialog12\d.txt" download>다운로드</a>' +
+    							'</td>'+                           
     						'</tr>'+
     					'</table>'+
     				'</li>');
@@ -233,7 +236,10 @@ function loadDialog(){
 							'<li id="' + $(this).find("id").text() + '" class="dialog-li-own">'+
 								'<table class="dialog-table-own">'+
 									'<tr>'+
-										'<td class="talk-td-own">' + $(this).find("context").text() + '</td>'+                           
+										'<td class="talk-td-own">' + $(this).find("context").text() + 
+										'<br/>'+
+	    								'<input type="button" class="download" id="1" value="다운로드">'+
+										'</td>'+                           
 									'</tr>'+
 								'</table>'+
 							'</li>');
@@ -267,3 +273,19 @@ function loadDialog(){
 		}
 	});
 };
+
+$(document).on("click", ".download", function(){
+	var id = $(this).attr('id');
+	alert(id);
+	
+	$.ajax({
+		type: "post",
+		url: "file_download.do",
+		data: {file_id:id},
+		datatype: "text"/*,
+		success: function(data){
+			if(data == "true") alert("다운로드 성공");
+			else alert("다운로드 실패");
+		}*/
+	});	
+});

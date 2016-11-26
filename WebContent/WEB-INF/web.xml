@@ -97,12 +97,20 @@
     <servlet-name>load_schedule</servlet-name>
     <url-pattern>/load_schedule.do</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>load_dialog</servlet-name>
     <servlet-class>CHATTING.LoadDialogServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>load_dialog</servlet-name>
     <url-pattern>/load_dialog.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>file_download</servlet-name>
+    <servlet-class>CHATTING.FileDownloadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>file_download</servlet-name>
+    <url-pattern>/file_download.do</url-pattern>
   </servlet-mapping>
 </web-app>

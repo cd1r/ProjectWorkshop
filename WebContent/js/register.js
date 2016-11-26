@@ -229,12 +229,19 @@ function checkemail_call(){
 
 }
 
-//사진 올리기  
-$(document).on("change", "#load-photo-btn", function(){
-	var p = $("#load-photo-btn").val();
-	filename = p.substring(p.lastIndexOf("\\")+1); //파일이름
-	photo_url=$("#load-photo-btn").val();
+//사진 올리기  load-photo-btn photo-path
+$(document).on("change", "#photo-path", function(){
+	var file = document.getElementById('photo-path').files[0];
+	var p = file.name;
+	var type = p.substring(p.indexOf(".")+1).toLowerCase();
 	
-	//그림파일 확장자 검사
-	//./images/profile/email로 저장
+	alert(p +" "+type);
+	if(type!='jpg' && type!='png'){
+		$("#photo-path").val("");
+		alert("이미지 파일은 (jpg, png) 형식만 등록 가능합니다.");
+		photo_url = "./images/null_profile.png";
+		return ;
+	}
+	//photo_url  ./images/profile/email로 저장
+	alert("업로드 가능 : "+$("#photo-path").val()); //사진이 저장되어있는 경로
 });

@@ -27,7 +27,7 @@ public class ConnectDB {
 	
 	Connection conn = null;
 	PreparedStatement pstmt = null;
-	
+	ResultSet rs = null;
 	
 	String url = "jdbc:mysql://121.126.233.20:3306/shsydb?useSSL=false";
 	String user = "shsy";
@@ -161,8 +161,7 @@ public class ConnectDB {
 	       if (conn == null)
 	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
 	         
-	       pstmt = (PreparedStatement) conn.prepareStatement("Select manager_email From tb_roominfo Where id=?");
-	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       pstmt = (PreparedStatement) conn.prepareStatement("Select manager_email From tb_roominfo Where id="+roomId);
 	       rs = pstmt.executeQuery();
 	       rs.next();
 	       managerEmail = rs.getString("manager_email");
@@ -408,5 +407,35 @@ public class ConnectDB {
 	         e.printStackTrace();
 	         return null;
 		}
+	}
+	
+	public String downFileInfo (String id){
+		String result = null;
+		
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+	         
+	       pstmt = (PreparedStatement) conn.prepareStatement("Select * From tb_fileinfo Where id="+id);
+	       
+	       rs = pstmt.executeQuery();
+	         
+	       if(rs.first()){
+	    	   result = rs.getString("file_url");
+	       }
+	       else result = null;
+	                  
+		} catch (Exception e) {
+	         e.printStackTrace();
+	    }finally{
+			try{rs.close();}catch(SQLException e){}
+			try{pstmt.close();}catch(SQLException e){}
+			try{conn.close();}catch(SQLException e){}
+		}
+		
+		return result;
 	}
 }
