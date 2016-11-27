@@ -168,7 +168,7 @@ public class ConnectDB {
 	       
 	       
 	       pstmt = (PreparedStatement) conn.prepareStatement(
-	    		   "Select email, name, gender, phone, univ, grade, photo_url"+
+	    		   "Select email, name, gender, phone, univ, grade, photo_url, last_read_dialog"+
 	    		   " From tb_memberinfo mem Join tb_accinfo acc On mem.mem_email=acc.email"+
 	    		   " Where mem.room_id=?");
 	       pstmt.setInt(1, Integer.valueOf(roomId));
@@ -192,9 +192,10 @@ public class ConnectDB {
 	    	   xml.make_child("univ_grade", rs.getString("univ") + " " + rs.getString("grade") + "ÇÐ³â");
 	    	   xml.make_child("email", rs.getString("email"));
 	    	   xml.make_child("phone", rs.getString("phone"));
+	    	   xml.make_child("last_read_dialog", rs.getString("last_read_dialog"));
 	       }
-	       
-	       return source = xml.make_xml();
+	       System.out.println("Test : " + xml.make_xml() + "\t" + managerEmail);
+	       return source = xml.make_xml() + "\t" + managerEmail;
 	       
 		} catch (Exception e) {
 	         e.printStackTrace();

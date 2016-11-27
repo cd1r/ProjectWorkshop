@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class WorkshopInfoServlet
@@ -36,12 +37,15 @@ public class WorkshopMemberServlet extends HttpServlet {
 		String result = connDB.loadWorkshopMemeberInfo(roomId);
 		System.out.println(result);
 		
+		HttpSession Session = request.getSession();
+		Session.setAttribute("room" + roomId+"_manager_email", result.split("\t")[1]);
+		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = response.getWriter();
 		
 		if(result != null)
 		{
-			pw.write(result);
+			pw.write(result.split("\t")[0]);
 			pw.close();
 		}
 		else

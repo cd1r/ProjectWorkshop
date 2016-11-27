@@ -8,7 +8,9 @@
 	String photo_url = (String)session.getAttribute("photo_url");
 	
 	String roomId = request.getParameter("roomId");
-	System.out.println("Chat.jsp Room ID : " + roomId);
+	String manager_email = (String)session.getAttribute("room" + roomId + "_manager_email");
+	
+	System.out.println("Chat.jsp Room ID : " + roomId + " / ManagerEmail : " + manager_email);
 	if(user_email != null)
 		isSession = true;
 	
@@ -19,9 +21,9 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
-<link href="./css/chat.css?ver=3" type="text/css" rel="stylesheet"/>
+<link href="./css/chat.css?ver=9" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/chatting.js?ver=20161126"></script>
+<script src="./js/chatting.js?"></script>
 <title>ChatLayout</title>
 </head>
 
@@ -30,6 +32,7 @@
 <input id="user-name" type="hidden" value="<%=user_name%>">
 <input id="photo_url" type="hidden" value="<%=photo_url%>">
 <input id="room-id" type="hidden" value="<%=roomId%>">
+<input id="manager-email" type="hidden" value="<%=manager_email%>">
 <table id="chatLayout">
 	<tr>
     	<td rowspan="2" class="left-side">
@@ -50,7 +53,7 @@
 
         </td>
         <td colspan="2" class="dialog-content">
-        	<div>
+        	<div id="dialog-div">
 	        	<ul class="dialog-ul"> 	
 	            </ul>
             </div>
@@ -64,25 +67,45 @@
                         	<ul id="right-member-ul">
                             </ul>
                         </div>
-                        <div id="tab2-div">tab2
+                        <!--  <div id="tab2-div">tab2
                         	<form enctype="multipart/form-data">
                         	<input type="file" id="file_upload"> 
                         	<input type="button" id="upload-btn" value="파일 업로드"><br/>
                         	<input type="button" id="download-btn" value="파일 다운로드">
                         	</form>
+                        </div>-->
+                        <div id="tab2-div">
+                        	
                         </div>
-                        <div id="tab3-div">tab3</div>
-                        <div id="tab4-div">tab4</div>
+                        <div id="tab3-div">
+							<div id="worklist-label">내 할일 목록</div>
+                        	<div id="work-cnt-label">총 일정 : 0개</div>
+                        	<div id="work-order-criteria">
+                        		<select id="criteria-category">
+                        			<option value="due-date">마감일</option>
+                        			<option value="job-name">작업이름</option>
+                        		</select>
+                        		<select id="criteria-order">
+                        			<option>오름차순</option>
+                        			<option>내림차순</option>
+                        		</select>
+                        		<input type="button" id="order-confirm-btn" value="적용">
+                        	</div>
+                        	<div id="worklist-ul-div">
+                        		<ul id="worklist-ul">
+                        		</ul>
+                        	</div>
+						</div>
                     </td>
                 </tr>
-            	<tr>
+            	<!-- <tr>
 	                <td id="tab2-td" class="tab-td">파<br>일<br>보<br>내<br>기</td>
+                </tr> -->
+            	<tr>
+   	                <td id="tab2-td" class="tab-td">파<br>일<br>저<br>장</td>
                 </tr>
             	<tr>
-   	                <td id="tab3-td" class="tab-td">파<br>일<br>저<br>장</td>
-                </tr>
-            	<tr>
-                	<td id="tab4-td" class="tab-td">내<br>할<br>일</td>
+                	<td id="tab3-td" class="tab-td">내<br>할<br>일</td>
                 </tr>
                 <tr id="last-empty-tr"></tr>
             </table>

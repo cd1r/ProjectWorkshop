@@ -116,4 +116,3 @@ public class FileUploadSocket {
 		System.out.println("[파일] 클라이언트 해제  = session : " + session + " / email : " + email + " / roomId : " + roomId+ " / fileInfo : "+ fileInfo);
 	}
 }
-
