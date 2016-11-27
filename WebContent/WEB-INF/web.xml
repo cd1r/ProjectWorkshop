@@ -113,4 +113,12 @@
     <servlet-name>file_download</servlet-name>
     <url-pattern>/file_download.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>profile_upload</servlet-name>
+    <servlet-class>MEMBER.ProfileUploadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>profile_upload</servlet-name>
+    <url-pattern>/profile_upload.do</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -61,7 +61,7 @@ public class ConnectDB {
 	
 	//회원가입
 	public boolean registerAccount(String name, String pw, String email, String organization,
-									String phone, String grade, String gender){
+									String phone, String grade, String gender, String photo_url){
 		int result = 0;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String date = sdf.format(new java.util.Date());
@@ -81,7 +81,7 @@ public class ConnectDB {
 		    pstmt.setString(5, phone);
 		    pstmt.setString(6, organization);
 		    pstmt.setString(7, grade);
-		    pstmt.setString(8, null);
+		    pstmt.setString(8, photo_url);
 		    pstmt.setString(9, date);
 				
 		    result = pstmt.executeUpdate();

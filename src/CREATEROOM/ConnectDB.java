@@ -1,5 +1,6 @@
 package CREATEROOM;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -236,6 +237,10 @@ public class ConnectDB {
 		         
 		       pstmt = (PreparedStatement) conn.prepareStatement(query);
 		       pstmt.executeUpdate();
+		       
+		       //파일이 저장될 디렉토리 생성
+		       File dir = new File("C:/Users/hyoseung/Documents/","dialog"+room_id);
+		       if(!dir.exists()) dir.mkdir();
 		                  
 		       return true;
 			} catch (Exception e) {
