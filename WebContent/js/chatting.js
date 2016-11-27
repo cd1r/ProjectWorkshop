@@ -131,6 +131,7 @@ $(document).on("click", "#upload-btn", function(){
 var readFile = function(file){
 
 	var fileInfo = file.name + "*" + file.size;
+	var rename = null;
 	//fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
 	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
 	fileSocket.binaryType="arraybuffer";
@@ -147,7 +148,7 @@ var readFile = function(file){
   //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
     fileSocket.onmessage = function(message){ 
     	if(message.data == "파일완료"){ //&& filesocket.bufferedAmount==0){ //파일업로드 완료
-    		fileSocket.send('upload-file-db'); //파일정보 디비에 저장하라고 요청
+    		fileSocket.send('upload-file-db/'+rename); //파일정보 디비에 저장하라고 요청
     	}
     	else if(message.data == "완료"){ //디비에 저장까지 완료
     		alert("파일 전송완료");
@@ -168,6 +169,9 @@ var readFile = function(file){
     		fileSocket.send('upload-file-end');
     		fileSocket.close();
     	}
+    	else if(message.data.indexOf("/")>-1){
+    		rename = message.data.substring(message.data.indexOf("/")+1);
+    	}
     	else{ //파일전송에러
     		alert(message.data);
     	}
@@ -178,7 +182,7 @@ var readFile = function(file){
     answer = confirm("파일을 업로드 하시겠습니까?");  // 이거 절대 빼면 안됨
 	if (answer == true) {
 		fileSocket.send('upload-file-start');
-		
+	
 		var reader = new FileReader();
 		var rawData = new ArrayBuffer();
 

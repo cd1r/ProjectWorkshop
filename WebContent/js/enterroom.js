@@ -60,7 +60,7 @@ $(document).on("click", ".enter-btn", function() {
 
 //임의로 만든 방 삭제 버튼
 $(document).on("click", "#delete_room", function() {
-	var id = "12";
+	var id = "15";
 	$.ajax({
 		type: "post",
 		url: "delete_room.do",
