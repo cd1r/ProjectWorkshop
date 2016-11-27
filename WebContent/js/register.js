@@ -278,7 +278,7 @@ $(document).on("change", "#photo-path", function(){
 	photo_url = $("#photo-path").val();
 });
 
-$(document).on("click", "#load-photo-btn", function(){
+/*$(document).on("click", "#load-photo-btn", function(){
 	var formData = new FormData();
 	formData.append("uploadfile",$("input[id=photo-path]")[0].files[0]);
 
@@ -298,4 +298,4 @@ $(document).on("click", "#load-photo-btn", function(){
 			}
 		}
 	});	
-});
+});*/

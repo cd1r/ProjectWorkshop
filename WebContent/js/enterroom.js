@@ -57,3 +57,22 @@ $(document).on("click", ".enter-btn", function() {
 	window.open('chat.jsp?roomId=' + $(this).attr('id') + '', '_blank', "toolbar=no,status=no,scrollbars=yes,resizable=no,width=1200,height=820"); 
 	//window.open("chatting.jsp", "chatting", "toolbar=no,status=no,scrollbars=yes,resizable=yes,width=500,height=300");
 });
+
+//임의로 만든 방 삭제 버튼
+$(document).on("click", "#delete_room", function() {
+	var id = "12";
+	$.ajax({
+		type: "post",
+		url: "delete_room.do",
+		data: {roomId : id},
+		datatype: "text",
+		success: function(data){
+			if(data=="true") {
+				alert("삭제 성공");
+			}
+			else {
+				alert("삭제 실패");
+			}
+		}
+	});
+});

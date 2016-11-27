@@ -121,12 +121,12 @@ var onCancel = function(e){
 	return false;
 };
 
-//tab2 file upload/download관련
+/*//tab2 file upload/download관련
 $(document).on("click", "#upload-btn", function(){
     
 	var file = document.getElementById('file_upload').files[0];
 	readFile(file);
-});
+});*/
 
 var readFile = function(file){
 
