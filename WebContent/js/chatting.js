@@ -148,7 +148,8 @@ var readFile = function(file){
   //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
     fileSocket.onmessage = function(message){ 
     	if(message.data == "파일완료"){ //&& filesocket.bufferedAmount==0){ //파일업로드 완료
-    		fileSocket.send('upload-file-db/'+rename); //파일정보 디비에 저장하라고 요청
+    		fileSocket.send('upload-file-db/'+rename); 
+    		//파일정보 디비에 저장하라고 요청....rename은 파일 이름 중복시 바뀐 이름
     	}
     	else if(message.data == "완료"){ //디비에 저장까지 완료
     		alert("파일 전송완료");

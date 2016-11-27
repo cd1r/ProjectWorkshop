@@ -60,7 +60,8 @@ public class FileUploadSocket {
 		            }
 				}
 				else if(message.contains("upload-file-db")){ // 2
-					String name = message.substring(message.lastIndexOf("/")+1);
+					String name = message.substring(message.lastIndexOf("/")+1); 
+					//이름이 중복될 경우 숫자를 붙여서 파일 이름이 재정의 되는데 그때 파일 이름을 message로 보내서 문자열자르기를 통해 name에 저장
 					System.out.println("db에 넣기전  : "+message+" "+name + "  "+fileType+"  "+fileSize);
 					boolean result = connDB.fileUpload(roomId, email, name, fileType, Integer.parseInt(fileSize));
 					if(result)
@@ -71,6 +72,7 @@ public class FileUploadSocket {
 					int i=1;
 					String name = fileName.substring(0, fileName.indexOf("."));
 					String rename = fileName;
+					//파일 이름 중복을 해결하기 위한 코드
 					while(true){
 						if(file.exists()){
 							System.out.println("파일존재");
@@ -79,8 +81,7 @@ public class FileUploadSocket {
 							i++;
 							continue;
 						}
-						else break;
-						
+						else break;		
 					}
 					//바뀐파일이름 보내기
 					clientsMap.get(session.toString()).getBasicRemote().sendText("/"+rename);
