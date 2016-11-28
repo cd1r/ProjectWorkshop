@@ -44,9 +44,11 @@ public class FileUploadSocket {
 		//String path = "C:\\Users\\Seyoon\\Documents\\SockeFileDir\\dialog"+roomId+"\\";
 		String path = "C:\\Users\\hyoseung\\Documents\\dialog"+roomId+"\\";
 		
-		String fileName = fileInfo.substring(0, fileInfo.indexOf("*")).toLowerCase();
-		String fileType = fileName.substring(fileName.indexOf(".")+1).toLowerCase();
-		String fileSize = fileInfo.substring(fileInfo.indexOf("*")+1);
+		
+		//fileInfo -> test.PNG*600
+		String fileName = fileInfo.substring(0, fileInfo.indexOf("*")).toLowerCase(); //test.png
+		String fileType = fileName.substring(fileName.indexOf(".")+1).toLowerCase();  //png
+		String fileSize = fileInfo.substring(fileInfo.indexOf("*")+1); //600
 		
 		try {
 			synchronized (clientsMap) {

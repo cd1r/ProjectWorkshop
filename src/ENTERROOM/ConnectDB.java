@@ -119,7 +119,7 @@ private static ConnectDB connectDB = new ConnectDB();
 	}
 	
 	//팀장 지우기
-	public boolean deleteRoom(String roomId, String email){
+	public boolean deleteRoom(String roomId, String email, String path){
 		try{
 			Class.forName("com.mysql.jdbc.Driver"); 
 			conn = DriverManager.getConnection(url, user, pass);
@@ -142,7 +142,7 @@ private static ConnectDB connectDB = new ConnectDB();
 			
 			//디렉토리 지우기
 			try{
-				File dir = new File("C:/Users/hyoseung/Documents/","dialog"+roomId);
+				File dir = new File(path+"\\","dialog"+roomId);
 				File[] files = dir.listFiles();
 				
 				for(int i=0; i<files.length; i++)

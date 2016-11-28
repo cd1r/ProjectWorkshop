@@ -289,7 +289,7 @@ function loadDialog(){
 			
 			$(".dialog-ul li").css({"margin-bottom":"20px"});
 			
-			if(lastDialogIdx != lastReadIdx){
+			if(lastDialogIdx != lastReadIdx ){
 				$(".dialog-ul li").eq(lastReadIdx).after(
 		    			'<li class="last-read-li">'+
 		    				'<div id="last-read-div">여기까지 읽으셨습니다.</div>'+

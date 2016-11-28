@@ -3,6 +3,7 @@ package ENTERROOM;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,7 +46,10 @@ public class DeleteRoomServlet extends HttpServlet {
 		PrintWriter pwrite = response.getWriter();
 		
 		if(position.equals("팀장")){
-			if(connDB.deleteRoom(room_id, email)){
+			ServletContext context = request.getSession().getServletContext();
+			String path = context.getRealPath("files");
+			
+			if(connDB.deleteRoom(room_id, email, path)){
 				System.out.println("방지우기 성공");
 				pwrite.write("true");
 				pwrite.close();
