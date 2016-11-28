@@ -8,7 +8,7 @@
 <link href="./css/register.css" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
 <script src="./js/master.js"></script>
-<script src="./js/register.js"></script>
+<script src="./js/register.js?ver=20161117"></script>
 <title>회원가입</title>
 </head>
 <body>
@@ -33,8 +33,10 @@
             	<div class="profile-div">
                     <div class="profile-photo">프로필사진</div>
                     <div class="profile-photo"><img src="./images/null_profile.png"></div>
-                    <div class="profile-photo"><input type="text" id="photo-path"></div>
-                    <div class="profile-photo"><input type="file" id="load-photo-btn" value="사진 불러오기"></div>
+                <form id="file_form" enctype="multipart/form-data" method="post">
+                    <div class="profile-photo"><input type="file" id="photo-path"></div>
+                    <div class="profile-photo"><input type="button" id="load-photo-btn" value="사진 불러오기"></div>
+                </form>
                 </div>
             </td>
             <td class="td-input"><input id="reg_name" placeholder="이름"></td>

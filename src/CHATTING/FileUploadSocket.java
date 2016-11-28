@@ -44,9 +44,11 @@ public class FileUploadSocket {
 		String path = "C:\\Users\\Seyoon\\Documents\\SockeFileDir\\dialog"+roomId+"\\";
 		//String path = "C:\\Users\\hyoseung\\Documents\\dialog"+roomId+"\\";
 		
-		String fileName = fileInfo.substring(0, fileInfo.indexOf("*"));
-		String fileType = fileName.substring(fileName.indexOf(".")+1).toLowerCase();
-		String fileSize = fileInfo.substring(fileInfo.indexOf("*")+1);
+		
+		//fileInfo -> test.PNG*600
+		String fileName = fileInfo.substring(0, fileInfo.indexOf("*")).toLowerCase(); //test.png
+		String fileType = fileName.substring(fileName.indexOf(".")+1).toLowerCase();  //png
+		String fileSize = fileInfo.substring(fileInfo.indexOf("*")+1); //600
 		
 		try {
 			synchronized (clientsMap) {
@@ -59,20 +61,40 @@ public class FileUploadSocket {
 		                e.printStackTrace();
 		            }
 				}
-				else if(message.equals("upload-file-db")){ // 2
-					System.out.println("db에 넣기전  : "+message+" "+fileName + "  "+fileType+"  "+fileSize);
-					boolean result = connDB.fileUpload(roomId, email, fileName, fileType, Integer.parseInt(fileSize));
+				else if(message.contains("upload-file-db")){ // 2
+					String name = message.substring(message.lastIndexOf("/")+1); 
+					//이름이 중복될 경우 숫자를 붙여서 파일 이름이 재정의 되는데 그때 파일 이름을 message로 보내서 문자열자르기를 통해 name에 저장
+					System.out.println("db에 넣기전  : "+message+" "+name + "  "+fileType+"  "+fileSize);
+					boolean result = connDB.fileUpload(roomId, email, name, fileType, Integer.parseInt(fileSize));
 					if(result)
 						clientsMap.get(session.toString()).getBasicRemote().sendText("완료");
 				}
 				else{ //upload-file-start  1
 					File file = new File(path + fileName);
+					int i=1;
+					String name = fileName.substring(0, fileName.indexOf("."));
+					String rename = fileName;
+					//파일 이름 중복을 해결하기 위한 코드
+					while(true){
+						if(file.exists()){
+							System.out.println("파일존재");
+							rename = name+"_"+i+"."+fileType;
+							file = new File(path + rename);
+							i++;
+							continue;
+						}
+						else break;		
+					}
+					//바뀐파일이름 보내기
+					clientsMap.get(session.toString()).getBasicRemote().sendText("/"+rename);
+					
 		            try {
 		                bos = new BufferedOutputStream(new FileOutputStream(file));
 		            } catch (FileNotFoundException e) {
 		                // TODO Auto-generated catch block
 		                e.printStackTrace();
 		            }
+		           
 				}
 			}
 		}catch (Exception e) {
@@ -83,7 +105,7 @@ public class FileUploadSocket {
 	
 	@OnMessage
     public void processUpload(ByteBuffer message, boolean last, Session session, @PathParam("email") String email, @PathParam("roomId") int roomId, @PathParam("fileInfo") String fileInfo) throws IOException{
-        if(check == true){
+		if(check == true){
         	totalSize = Long.parseLong(fileInfo.substring(fileInfo.indexOf("*")+1));
         	size = 0;
         	check = false; 	

@@ -3,6 +3,7 @@ package CREATEROOM;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,7 +42,10 @@ public class CreateRoomServlet extends HttpServlet {
 		System.out.println("°øÀÛ¼Ò : " + name +" " + from_date +" "+to_date);
 		System.out.println(member);
 		
-		result = String.valueOf(connDB.makeRoom(name, from_date, to_date, member));
+		ServletContext context = request.getSession().getServletContext();
+		String path = context.getRealPath("files");
+		
+		result = String.valueOf(connDB.makeRoom(name, from_date, to_date, member, path));
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter pwrite = response.getWriter();

@@ -20,7 +20,7 @@
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
 <link href="./css/workshopinfo.css" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/workshopinfo.js?ver=1"></script>
+<script src="./js/workshopinfo.js"></script>
 </head>
 
 <body>

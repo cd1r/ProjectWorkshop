@@ -27,8 +27,8 @@ $(document).ready(function(){
 	}
 	
 	//webSocket = new WebSocket("ws://localhost:80/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	//webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
 	
     var messageTextArea = document.getElementById("messageTextArea");
@@ -121,18 +121,19 @@ var onCancel = function(e){
 	return false;
 };
 
-//tab2 file upload/download관련
+/*//tab2 file upload/download관련
 $(document).on("click", "#upload-btn", function(){
     
 	var file = document.getElementById('file_upload').files[0];
 	readFile(file);
-});
+});*/
 
 var readFile = function(file){
 
 	var fileInfo = file.name + "*" + file.size;
-	fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
-	//fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
+	var rename = null;
+	//fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
+	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
 	fileSocket.binaryType="arraybuffer";
 	
 	//웹 소켓이 연결되었을 때 호출되는 이벤트
@@ -147,7 +148,8 @@ var readFile = function(file){
   //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
     fileSocket.onmessage = function(message){ 
     	if(message.data == "파일완료"){ //&& filesocket.bufferedAmount==0){ //파일업로드 완료
-    		fileSocket.send('upload-file-db'); //파일정보 디비에 저장하라고 요청
+    		fileSocket.send('upload-file-db/'+rename); 
+    		//파일정보 디비에 저장하라고 요청....rename은 파일 이름 중복시 바뀐 이름
     	}
     	else if(message.data == "완료"){ //디비에 저장까지 완료
     		alert("파일 전송완료");
@@ -156,7 +158,10 @@ var readFile = function(file){
     				'<li id="' + (++lastDialogIdx) + '" class="dialog-li-own">'+
     					'<table class="dialog-table-own">'+
     						'<tr>'+
-    							'<td class="talk-td-own">' + fileinfo +'</td>'+                           
+    							'<td class="talk-td-own">' + 
+    								fileinfo + '<br/>'+
+    								'<a href="file:///C:\Users\hyoseung\Documents\dialog12\d.txt" download>다운로드</a>' +
+    							'</td>'+                           
     						'</tr>'+
     					'</table>'+
     				'</li>');
@@ -164,6 +169,9 @@ var readFile = function(file){
     		webSocket.send(fileinfo);
     		fileSocket.send('upload-file-end');
     		fileSocket.close();
+    	}
+    	else if(message.data.indexOf("/")>-1){
+    		rename = message.data.substring(message.data.indexOf("/")+1);
     	}
     	else{ //파일전송에러
     		alert(message.data);
@@ -175,7 +183,7 @@ var readFile = function(file){
     answer = confirm("파일을 업로드 하시겠습니까?");  // 이거 절대 빼면 안됨
 	if (answer == true) {
 		fileSocket.send('upload-file-start');
-		
+	
 		var reader = new FileReader();
 		var rawData = new ArrayBuffer();
 
@@ -248,7 +256,10 @@ function loadDialog(){
 							'<li id="' + $(this).find("id").text() + '" class="dialog-li-own">'+
 								'<table class="dialog-table-own">'+
 									'<tr>'+
-										'<td class="talk-td-own">' + $(this).find("context").text() + '</td>'+                           
+										'<td class="talk-td-own">' + $(this).find("context").text() + 
+										'<br/>'+
+	    								'<input type="button" class="download" id="1" value="다운로드">'+
+										'</td>'+                           
 									'</tr>'+
 								'</table>'+
 							'</li>');
@@ -278,7 +289,7 @@ function loadDialog(){
 			
 			$(".dialog-ul li").css({"margin-bottom":"20px"});
 			
-			if(lastDialogIdx != lastReadIdx){
+			if(lastDialogIdx != lastReadIdx ){
 				$(".dialog-ul li").eq(lastReadIdx).after(
 		    			'<li class="last-read-li">'+
 		    				'<div id="last-read-div">여기까지 읽으셨습니다.</div>'+
@@ -296,7 +307,23 @@ function loadDialog(){
 			
 		}
 	});
-}
+};
+
+$(document).on("click", ".download", function(){
+	var id = $(this).attr('id');
+	alert(id);
+	
+	$.ajax({
+		type: "post",
+		url: "file_download.do",
+		data: {file_id:id},
+		datatype: "text"/*,
+		success: function(data){
+			if(data == "true") alert("다운로드 성공");
+			else alert("다운로드 실패");
+		}*/
+	});	
+});
 
 $(document).on("click", "#tab3-td", function(){
 	$.ajax({

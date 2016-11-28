@@ -175,20 +175,53 @@ $(document).on("click", "#reg_confirm", function(){
 });
 
 function register_call(){
+
+	//프로필 사진을 넣은 경우
+	if(photo_url != "./images/null_profile.png"){
+		var formData = new FormData();
+		formData.append("uploadfile",$("input[id=photo-path]")[0].files[0]);
+
+		$.ajax({
+			type: "post",
+			url: "profile_upload.do",
+			data: formData,
+			processData: false,
+			contentType: false,
+			datatype: "text",
+			success: function(data) {
+				if(data == "flase") {
+					alert("프로필 업로드 실패");
+					photo_url = "./images/null_profile.png";
+				}
+				else{ 
+					photo_url = data;
+					alert("프로필 업로드 성공\n"+photo_url);
+				}
+				register_call_db();
+			}
+		});	
+	}
+	else register_call_db();
+}
+
+function register_call_db(){
 	var emailstr = $('#reg_email_id').val() + '@' + $('#reg_email_company').val();
+	var type = photo_url.substring(photo_url.lastIndexOf(".")+1).toLowerCase();
 	$.ajax({
 		type: "post",
 		url: "register.do",
 		data: {name:$('#reg_name').val(), pw:$('#reg_passwd').val(), phone:$('#reg_phone').val(),
-				email:emailstr, organization:$('#reg_organization').val(), grade:$('#reg_grade_selector').val(),
-				gender:$(':input:radio[name=gender]:checked').val()},
+			email:emailstr, organization:$('#reg_organization').val(), grade:$('#reg_grade_selector').val(),
+			gender:$(':input:radio[name=gender]:checked').val(), profile_url:photo_url, extention:type},
 		datatype: "text",
 		success: function(data){
-			if(data == "true") alert("회원가입 성공");
+			if(data == "true") {
+				alert("회원가입 성공");
+			}
 			else alert("회원가입 실패");
 			location.href="login.jsp";
 		}
-	});	
+	});
 }
 
 //이메일 중복
@@ -229,12 +262,40 @@ function checkemail_call(){
 
 }
 
-//사진 올리기  
-$(document).on("change", "#load-photo-btn", function(){
-	var p = $("#load-photo-btn").val();
-	filename = p.substring(p.lastIndexOf("\\")+1); //파일이름
-	photo_url=$("#load-photo-btn").val();
+//사진 올리기  load-photo-btn photo-path
+$(document).on("change", "#photo-path", function(){
+	var file = document.getElementById('photo-path').files[0];
+	var p = file.name;
+	var type = p.substring(p.indexOf(".")+1).toLowerCase();
 	
-	//그림파일 확장자 검사
-	//./images/profile/email로 저장
+	if(type!='jpg' && type!='png' && type!='jpeg'){
+		$("#photo-path").val("");
+		alert("이미지 파일은 (jpg, jpeg, png) 형식만 등록 가능합니다.");
+		photo_url = "./images/null_profile.png";
+		return ;
+	}
+	//photo_url  ./images/profile/email로 저장
+	photo_url = $("#photo-path").val();
 });
+
+/*$(document).on("click", "#load-photo-btn", function(){
+	var formData = new FormData();
+	formData.append("uploadfile",$("input[id=photo-path]")[0].files[0]);
+
+	$.ajax({
+		type: "post",
+		url: "profile_upload.do",
+		data: formData,
+		processData: false,
+		contentType: false,
+		datatype: "text",
+		success: function(data) {
+			if(data == "true") {
+				alert("프로필 업로드 성공");
+			}
+			else{ 
+				alert("프로필 업로드 실패");
+			}
+		}
+	});	
+});*/

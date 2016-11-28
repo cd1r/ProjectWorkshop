@@ -1,5 +1,6 @@
 package CREATEROOM;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
 import javax.xml.transform.dom.DOMSource;
 
 import org.w3c.dom.Document;
@@ -119,7 +121,7 @@ public class ConnectDB {
 	public String getSource(){ return source; }
 		
 	// 공작소 만들기
-	public boolean makeRoom(String name, String from_date, String to_date, String member) {
+	public boolean makeRoom(String name, String from_date, String to_date, String member, String path) {
 		// member email (팀장은 첫번째)
 		XML xml = new XML();
 		Document doc;
@@ -193,7 +195,7 @@ public class ConnectDB {
 				}
 				
 				//공작소 당 테이블 한개씩 생성
-				boolean r = makeRoomTable(room_id);
+				boolean r = makeRoomTable(room_id, path);
 				if(r==false) return false;  //만약 false라면 위에 생성한 튜플들 다 삭제해야하나?!
 				
 				return true;
@@ -215,7 +217,7 @@ public class ConnectDB {
 		return false;
 	}
 
-	public boolean makeRoomTable(int room_id){
+	public boolean makeRoomTable(int room_id, String path){
 		String tb_name = "tb_dialog"+String.valueOf(room_id);
 		String query = "CREATE TABLE "+tb_name+" ("
 				+ "id int(11) NOT NULL AUTO_INCREMENT,"
@@ -236,6 +238,10 @@ public class ConnectDB {
 		         
 		       pstmt = (PreparedStatement) conn.prepareStatement(query);
 		       pstmt.executeUpdate();
+		       
+		       //파일이 저장될 디렉토리 생성		
+		       File dir = new File(path+"\\","dialog"+room_id);
+		       if(!dir.exists()) dir.mkdir();
 		                  
 		       return true;
 			} catch (Exception e) {
