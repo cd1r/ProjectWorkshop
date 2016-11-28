@@ -266,6 +266,35 @@ public class ConnectDB {
 		if(result > 0) return true;
 		else return false;
 	}
+	
+	//파일이 저장될 경로 받아오기
+	public String getFileURL(int room_id){
+		String result = null;
+		
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+	         
+	       pstmt = (PreparedStatement) conn.prepareStatement("Select * From tb_roominfo Where id="+room_id);
+	       
+	       rs = pstmt.executeQuery();
+	         
+	       rs.first();
+	       result = rs.getString("file_url");
+	       
+		} catch (Exception e) {
+	         e.printStackTrace();
+	         return result;
+	    }finally{
+			try{rs.close();}catch(SQLException e){}
+			try{pstmt.close();}catch(SQLException e){}
+			try{conn.close();}catch(SQLException e){}
+		}
+		return result;
+	}
 
 	public String insertSchedule(String roomId, String email, String job, String from, String to) {
 		try {

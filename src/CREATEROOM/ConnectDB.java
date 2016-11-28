@@ -152,7 +152,7 @@ public class ConnectDB {
 
 			// tb_roominfo
 			pstmt = (PreparedStatement) conn.prepareStatement(
-					"insert into tb_roominfo(name, manager_email, term_from, term_to, dialog_url, create_date, mem_cnt) "
+					"insert into tb_roominfo(name, manager_email, term_from, term_to, file_url, create_date, mem_cnt) "
 							+ "values(?,?,?,?,?,?,?)");
 			pstmt.setString(1, name);
 			pstmt.setString(2, memArray.get(0)); // 팀장 이메일 doc의 첫번째 element
@@ -170,7 +170,7 @@ public class ConnectDB {
 				rs = null;
 
 				pstmt = (PreparedStatement) conn.prepareStatement(
-						"Select * From tb_roominfo Where name=? and manager_email=? and term_from=? and term_to=? and dialog_url=? and create_date=? and mem_cnt=?");
+						"Select * From tb_roominfo Where name=? and manager_email=? and term_from=? and term_to=? and file_url=? and create_date=? and mem_cnt=?");
 				pstmt.setString(1, name);
 				pstmt.setString(2, memArray.get(0));
 				pstmt.setString(3, from_date);
@@ -197,6 +197,13 @@ public class ConnectDB {
 				//공작소 당 테이블 한개씩 생성
 				boolean r = makeRoomTable(room_id, path);
 				if(r==false) return false;  //만약 false라면 위에 생성한 튜플들 다 삭제해야하나?!
+				
+				
+				String savePath = path.replace("\\", "/");//path + "\\dialog"+room_id;
+				savePath += "/dialog"+room_id;
+				pstmt = (PreparedStatement) conn.prepareStatement(
+						"update tb_roominfo set file_url='"+savePath+"' where id="+room_id);
+				pstmt.executeUpdate();
 				
 				return true;
 			}

@@ -18,7 +18,7 @@
 <link href="./css/master.css" type="text/css" rel="stylesheet"/>
 <link href="./css/enterroom.css" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/enterroom.js?ver=20161127"></script>
+<script src="./js/enterroom.js?ver=20161128"></script>
 <script src="./js/master.js"></script> 
 </head>
 
