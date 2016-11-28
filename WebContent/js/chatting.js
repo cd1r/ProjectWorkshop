@@ -27,8 +27,8 @@ $(document).ready(function(){
 	}
 	
 	//webSocket = new WebSocket("ws://localhost:80/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	//webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
 	
     var messageTextArea = document.getElementById("messageTextArea");
@@ -47,20 +47,33 @@ $(document).ready(function(){
     };
     //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
     webSocket.onmessage = function(message){
-        //messageTextArea.value += "상대 => "+message.data+"\n";
+        
+    	var temp_photo_url ="" , temp_name = "";
+    	
+    	//member[index].split('\t')[0] : email, [1] : 이름, [2] : 사진 경로
+    	//message.data.split('\t')[0] : 전달된 메시지 내용, message.data.split('\t')[1] : 메시지 보낸 사람의 이메일
+    	for(var i=0; i<member.length; i++){
+    		if(member[i].split('\t')[0] == message.data.split('\t')[1]) //전역 변수 배열에 저장된 사람의 이메일을 탐색하면서 메시지 보낸 사람의 이메일과 같은지 비교함
+    		{
+    			temp_name = member[i].split('\t')[1];
+    			temp_photo_url = member[i].split('\t')[2];
+    		}
+    	}
+    	    	
     	$(".dialog-ul").append(
     			'<li id="' + (++lastDialogIdx) + '" class="dialog-li">'+
     				'<table class="dialog-table">'+
-            			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="./images/park.png"></td>'+
-            				'<td class="speaker-name-td">박효신</td>'+
+            			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + temp_photo_url +'"></td>'+
+            				'<td class="speaker-name-td">' + temp_name + '</td>'+
             			'</tr>'+
             			'<tr>'+
-            				'<td class="talk-td">'+message.data+'</td>'+                           
+            				'<td class="talk-td">'+message.data.split('\t')[0]+'</td>'+                           
             			'</tr>'+
             		'</table>'+
             	'</li>');
     	
     	$("#dialog-div").scrollTop($("#dialog-div")[0].scrollHeight);
+    	
     };
     
     //UI관련  - 세윤
@@ -132,8 +145,8 @@ var readFile = function(file){
 
 	var fileInfo = file.name + "*" + file.size;
 	var rename = null;
-	//fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
-	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
+	fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
+	//fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
 	fileSocket.binaryType="arraybuffer";
 	
 	//웹 소켓이 연결되었을 때 호출되는 이벤트
@@ -225,7 +238,9 @@ function loadRightMember(){
 				if($(this).find("email").text() == $("#user-email").val()){
 					lastReadIdx = $(this).find("last_read_dialog").text();
 				}
-				member.push($(this).find("email").text() + "\t" + $(this).find("name_gender").text().split(' ')[0]);
+		
+				member.push($(this).find("email").text() + "\t" + $(this).find("name_gender").text().split(' ')[0] + "\t" + $(this).find("photo_url").text());
+		
 			});
 			$(".right-member-li").css({"padding-top":"7px", "padding-bottom":"7px"});
 			$(".profile-img-td div").css({"width":"60px", "height":"60px", "overflow":"hidden", "border-radius":"50%"});
