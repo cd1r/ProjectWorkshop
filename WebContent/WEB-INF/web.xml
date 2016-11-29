@@ -120,13 +120,5 @@
   <servlet-mapping>
     <servlet-name>profile_upload</servlet-name>
     <url-pattern>/profile_upload.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>delete_room</servlet-name>
-    <servlet-class>ENTERROOM.DeleteRoomServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>delete_room</servlet-name>
-    <url-pattern>/delete_room.do</url-pattern>
   </servlet-mapping>  
 </web-app>

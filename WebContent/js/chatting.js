@@ -27,8 +27,8 @@ $(document).ready(function(){
 	}
 	
 	//webSocket = new WebSocket("ws://localhost:80/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	//webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
 	
     var messageTextArea = document.getElementById("messageTextArea");
@@ -145,8 +145,8 @@ var readFile = function(file){
 
 	var fileInfo = file.name + "*" + file.size;
 	var rename = null;
-	fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
-	//fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
+	//fileSocket = new WebSocket("ws://localhost:8088/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
+	fileSocket = new WebSocket("ws://localhost:10001/AdvWeb/filesocket/"+ $("#user-email").val() + "/" + roomId + "/" + fileInfo);
 	fileSocket.binaryType="arraybuffer";
 	
 	//웹 소켓이 연결되었을 때 호출되는 이벤트
@@ -166,6 +166,7 @@ var readFile = function(file){
     	}
     	else if(message.data == "완료"){ //디비에 저장까지 완료
     		alert("파일 전송완료");
+    		var fileId = 1;  //파일 번호
     		var fileinfo = file.name+' 업로드';
     		$(".dialog-ul").append(
     				'<li id="' + (++lastDialogIdx) + '" class="dialog-li-own">'+
@@ -173,7 +174,7 @@ var readFile = function(file){
     						'<tr>'+
     							'<td class="talk-td-own">' + 
     								fileinfo + '<br/>'+
-    								'<a href="file:///C:\Users\hyoseung\Documents\dialog12\d.txt" download>다운로드</a>' +
+    								'<a href="fileDownload.jsp?roomId='+roomId+'&fileId='+rename+'">다운로드</a>' +
     							'</td>'+                           
     						'</tr>'+
     					'</table>'+
@@ -183,7 +184,7 @@ var readFile = function(file){
     		fileSocket.send('upload-file-end');
     		fileSocket.close();
     	}
-    	else if(message.data.indexOf("/")>-1){
+    	else if(message.data.indexOf("/")>-1){ //서버에 저장될 파일 이름(이름중복)
     		rename = message.data.substring(message.data.indexOf("/")+1);
     	}
     	else{ //파일전송에러
@@ -272,8 +273,6 @@ function loadDialog(){
 								'<table class="dialog-table-own">'+
 									'<tr>'+
 										'<td class="talk-td-own">' + $(this).find("context").text() + 
-										'<br/>'+
-	    								'<input type="button" class="download" id="1" value="다운로드">'+
 										'</td>'+                           
 									'</tr>'+
 								'</table>'+
@@ -323,22 +322,6 @@ function loadDialog(){
 		}
 	});
 };
-
-$(document).on("click", ".download", function(){
-	var id = $(this).attr('id');
-	alert(id);
-	
-	$.ajax({
-		type: "post",
-		url: "file_download.do",
-		data: {file_id:id},
-		datatype: "text"/*,
-		success: function(data){
-			if(data == "true") alert("다운로드 성공");
-			else alert("다운로드 실패");
-		}*/
-	});	
-});
 
 $(document).on("click", "#tab3-td", function(){
 	$.ajax({
