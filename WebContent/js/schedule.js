@@ -1,5 +1,5 @@
 // JavaScript Document
-
+var continue_idx;
 $(document).ready(function(){
 	callMember($('#room-id').val());
 	setCalendar($("#year-span").text(), $("#month-span").text());
@@ -29,19 +29,26 @@ $(document).ready(function(){
 	});
 	
 	$("#add-schedule-btn").click(function(){
-		addScheduleInDB($('#room-id').val(), $("#worker-select option:selected").attr('id'), $('#job').val(), $('#from').val(), $('#to').val());
+		addScheduleInDB($('#room-id').val(), $("#worker-select option:selected").attr('id'), $('#job').val(), 
+						$('#color option:selected').val(), $('#from').val(), $('#to').val());
 		//addScheduleInCal();
 	});
 	
 	$("#workshop-info-menu").click(function(){
 		location.href = "workshopinfo.jsp?roomId=" + $("#room-id").val() + "";
 	});
+	
 	$("#chat-room-menu").click(function(){
 		location.href = "chat.jsp?roomId=" + $("#room-id").val() + "";
 	});
+	
 	$("#file-menu").click(function(){
 		location.href = "allfile.jsp?roomId=" + $("#room-id").val() + "";
 	});
+	
+	$('#color').change(function(){
+		$('#color').css({"color":$('#color option:selected').val()});
+    });
 	
 });
 
@@ -58,9 +65,12 @@ function loadSchedule(roomId){
 		data: { roomId: roomId },
 		datatype: "text",
 		success: function(data){
+			
+			$("table ul").html("");
+			
 			$(data).find("info").each(function(){
 				addScheduleInCalByDB($(this).find("id").text(), $(this).find("mem_email").text(), $(this).find("job").text(), 
-						$(this).find("from").text(), $(this).find("to").text(), $(this).find("dday").text())
+						$(this).find("color").text(), $(this).find("from").text(), $(this).find("to").text(), $(this).find("dday").text())
 			});
 		}
 	});	
@@ -84,8 +94,9 @@ function callMember(roomId)
 	});	
 }
 
-function addScheduleInCalByDB(id, mem_email, job, from, to, dday)
+function addScheduleInCalByDB(id, mem_email, job, color, from, to, dday)
 {
+	var tmp_cnt = 0, first_chk=0;
 	var fromDate = new Date(
 		from.split('-')[0],
 		from.split('-')[1],
@@ -99,21 +110,72 @@ function addScheduleInCalByDB(id, mem_email, job, from, to, dday)
 		//alert(toDate);
 
 	for (var d = fromDate; d <= toDate; d.setDate(d.getDate() + 1)) {
-		//alert("#"+d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate());
-		$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append(
-				'<li class="' + id + '"><div>' 
-					+ job
+		
+		if(tmp_cnt == 0 && $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " .empty-li").length == 0){
+			continue_idx = $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").length;
+			tmp_cnt++;
+		}
+		
+		else if(tmp_cnt == 0 && $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " .empty-li").length > 0){
+			continue_idx = $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " .empty-li").index();
+			//alert(continue_idx);
+			tmp_cnt++;
+		}
+		
+		var tmp_li_cnt = $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").length;
+		if(continue_idx - tmp_li_cnt > 0){
+
+			for(var i=0; i<(Number(continue_idx) - Number(tmp_li_cnt)); i++)
+				$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append('<li class="empty-li"><div></div></li>');
+			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append(
+					'<li class="' + id + '"><div>&nbsp;' 
+						//+ job
+						+ '<input type="hidden" class="mem_email" value="' + mem_email + '">'
+						+ '<input type="hidden" class="from" value="' + from + '">'
+						+ '<input type="hidden" class="to" value="' + to + '">'
+						//+ '<input type="hidden" class="dday" value="' + dday + '">'
+					+'</div></li>');
+			
+		}
+		
+		else if(continue_idx - tmp_li_cnt < 0){
+			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").eq(continue_idx).html(
+				'<div>&nbsp;' 
+					//+ job
 					+ '<input type="hidden" class="mem_email" value="' + mem_email + '">'
 					+ '<input type="hidden" class="from" value="' + from + '">'
 					+ '<input type="hidden" class="to" value="' + to + '">'
 					//+ '<input type="hidden" class="dday" value="' + dday + '">'
-				+'</div></li>');
-		$("ul").css({"list-style":"none", "margin":"0", "padding":"0", "font-size":"12px"});
-		$("li div").css({"white-space": "nowrap", "width":"90px", "overflow":"hidden", "text-overflow":"clip"});
+				+'</div>');
+			
+			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").eq(continue_idx).attr("class", id);
+		}
+		
+		else{
+			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append(
+					'<li class="' + id + '"><div>&nbsp;' 
+						//+ job
+						+ '<input type="hidden" class="mem_email" value="' + mem_email + '">'
+						+ '<input type="hidden" class="from" value="' + from + '">'
+						+ '<input type="hidden" class="to" value="' + to + '">'
+						//+ '<input type="hidden" class="dday" value="' + dday + '">'
+					+'</div></li>');
+		}
+
+		if(first_chk == 0){
+			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ." + id + " div").text(job);
+			first_chk++;
+		}
 	}
+	
+	$("ul").css({"list-style":"none", "margin":"0", "padding":"0", "font-size":"14px"});
+	$("li").css({"margin-top":"2px", "margin-bottom":"2px"})
+	$("." + id + " div").css({"white-space": "nowrap", "width":"126px", "overflow":"hidden", "text-overflow":"clip",
+					"color":"white", "background-color":color, "text-align":"center", "height":"20px", "padding-top":"3px"});
+	$(".empty-li div").css({"height":"20px", "padding-top":"3px", "width":"126px"});
 }
 
-function addScheduleInCal(lastId)
+/*function addScheduleInCal(lastId)
 {
 	var fromDate = new Date(
 		$("#from").val().split('-')[0],
@@ -138,21 +200,24 @@ function addScheduleInCal(lastId)
 					//+ '<input type="hidden" class="dday" value="' + dday + '">'
 				+ '</div></li>');
 		$("ul").css({"list-style":"none", "margin":"0", "padding":"0", "font-size":"12px"});
-		$("li div").css({"white-space": "nowrap", "width":"90px", "overflow":"hidden", "text-overflow":"clip"});
+		$("li div").css({"white-space": "nowrap", "width":"90px", "overflow":"hidden", "text-overflow":"clip",
+						"background-color":$('#color option:selected').val(), "color":"white"});
 	}
-}
+}*/
 
-function addScheduleInDB(roomId, email, job, from, to)
+function addScheduleInDB(roomId, email, job, color, from, to)
 {
 	$.ajax({
 		type: "post",
 		url: "insert_schedule.do",
-		data: {roomId : roomId, email : email, job : job, from : from, to : to},
+		data: {roomId : roomId, email : email, job : job, 
+				color : color, from : from, to : to},
 		datatype: "text",
 		success: function(data){
-			alert(data);
+			//alert(data);
 			if(data.split(' ')[0] == "true"){
-				addScheduleInCal(data.split(' ')[1]);
+				//addScheduleInCal(data.split(' ')[1]);
+				loadSchedule(roomId);
 				alert("일정이 추가되었습니다.");
 			}
 			else{alert("일정 추가에 실패하였습니다.");}
@@ -240,12 +305,12 @@ function setCalendar(year, month)
 
 	$("#calendar").append(str);
 	
-	var cnt=0;
+	//var cnt=0;
 	$(".days-tr").each(function(){
-			cnt++;
-			if(cnt%2 == 0)
-				$(this).css({"background-color" : "#cfd5ea", "border-bottom" : "1px #4472c4 solid"});
-			else
+			//cnt++;
+			//if(cnt%2 == 0)
+				//$(this).css({"background-color" : "#cfd5ea", "border-bottom" : "1px #4472c4 solid"});
+			//else
 				$(this).css({"background-color" : "white", "border-bottom" : "1px #4472c4 solid"});
 	});
 }
