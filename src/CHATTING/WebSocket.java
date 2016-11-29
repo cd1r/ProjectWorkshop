@@ -52,7 +52,9 @@ public class WebSocket {
 				XPath xpath= XPathFactory.newInstance().newXPath();
 				
 				NodeList sessions = (NodeList)xpath.evaluate("//sessions/session", document, XPathConstants.NODESET);
-				for(int idx=0; idx<sessions.getLength(); idx++){
+				
+				// 메시지 받을 사람의 세션 얻기
+				for(int idx=0; idx<sessions.getLength(); idx++){ 
 					//System.out.println(sessions.item(idx).getTextContent());
 					clientStr.add(sessions.item(idx).getTextContent());
 				}
@@ -60,8 +62,8 @@ public class WebSocket {
 				for(int i=0; i<clientStr.size(); i++){
 					if(!clientStr.get(i).equals(session.toString()))
 					{
-						System.out.println(clientStr.get(i) + " " + session.toString());
-						clientsMap.get(clientStr.get(i)).getBasicRemote().sendText(message);
+						clientsMap.get(clientStr.get(i)).getBasicRemote().sendText(
+								message + "\t" + email);
 					}
 				}
 			}
