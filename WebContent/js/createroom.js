@@ -35,10 +35,6 @@ function checkInput(){
 		$("#room-name").focus();
 		return false;
 	}
-	else if(mem==0){
-		alert("같이할 팀원을 추가주세요");
-		return false;
-	}
 	else if($("#from-year-selector").val()==0 || $("#from-month-selector").val()==0 || $("#from-day-selector").val()==0){
 		alert("프로젝트 시작 날짜를 선택해주세요");
 		return false;
@@ -47,10 +43,10 @@ function checkInput(){
 		alert("프로젝트 종료 날짜를 선택해주세요");
 		return false;
 	}
-/*	else if(mem==0){
-		alert("같이할 팀원을 추가주세요");
+	else if(mem==0){
+		alert("팀원을 추가주세요");
 		return false;
-	}*/
+	}
 
 	
 	var date = new Date();
