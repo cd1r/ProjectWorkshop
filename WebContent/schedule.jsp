@@ -20,9 +20,9 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
-<link href="./css/schedule.css?ver=1" type="text/css" rel="stylesheet"/>
+<link href="./css/schedule.css?ver=8" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/schedule.js"></script>
+<script src="./js/schedule.js?ver=11"></script>
 </head>
 <body>
 <input id="user-name" type="hidden" value="<%=user_name%>">
@@ -58,8 +58,10 @@
                     </td>
                     <td></td>
                     <td colspan="3"><span id="year-span">2016</span>년 <span id="month-span">11</span>월</td>
-                    <td><input type="button" value="월별" id="show-cal-btn"></td>
-                    <td><input type="button" value="리스트" id="show-list-btn"></td>
+                    <!-- <td><input type="button" value="월별" id="show-cal-btn"></td>
+                    <td><input type="button" value="리스트" id="show-list-btn"></td> -->
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td class="day-char">일</td>
@@ -74,19 +76,30 @@
             
             <div id="add-schedule-form">
 	            <div>
-	            	<span>담당자</span>
+	            	<span class="left-label">담당자</span>
 	            	<select id="worker-select">
+	                </select>
+	                <span class="mid-label" id="color-span">색깔</span>
+	                <select id="color" style="color:#f14a2a">
+	                	<option value="#f14a2a" style="color:#f14a2a">귤</option>
+	                	<option value="#ffba30" style="color:#ffba30">바나나</option>
+	                	<option value="#027d3a" style="color:#027d3a">바질</option>
+	                	<option value="#23c073" style="color:#23c073">세이지</option>
+	                	<option value="#3547b7" style="color:#3547b7">블루베리</option>
+	                	<option value="#9324a4" style="color:#9324a4">포도</option>
+	                	<option value="#ec7770" style="color:#ec7770">홍학</option>
+	                	<option value="#606060" style="color:#606060">흑연</option>
 	                </select>
 	                <input type="button" value="일정추가" id="add-schedule-btn">
 	            </div>
 	            <div>    
-	            	<span>작업기간</span>
+	            	<span class="left-label">작업기간</span>
 	                <input type="date" id="from">
-	                <span>~</span>
+	                <span class="mid-label">~</span>
 	                <input type="date" id="to">
 	            </div>
 	            <div>
-	               <span>작업내용</span>
+	               <span class="left-label">작업내용</span>
 	               <input type="text" id="job">        
 	            </div>
     		</div>

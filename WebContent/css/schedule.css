@@ -37,7 +37,7 @@
 	box-shadow:none;
 	cursor : pointer;
 }
-#show-cal-btn{
+/*#show-cal-btn{
 	width:70px;
 	height:30px;
 	background-color:#76828d;
@@ -58,7 +58,7 @@
 	box-shadow:none;
 	cursor : pointer;
 	border-radius:7px;
-}
+}*/
 
 .day-char{
 	width:120px;
@@ -96,7 +96,49 @@
 	margin-bottom:10px;
 }
 
-#add-schedule-form select{
+#worker-select{
+	padding:5px;
+	width:90px;
+	margin-left:35px;
+	height:38px;
+	font-size:17px;
+	font-family:NanumSquare;
+	font-size:17px;
+}
+
+#color-span{
+	margin-left:30px
+}
+
+#color{
+	padding:5px;
+	width: 95px;
+	text-align:center;
+	margin-left:5px;
+	height:38px;
+	font-family:NanumSquare;
+	font-size:17px;
+}
+
+#from{
+	width: 170px;
+	text-align:center;
+	margin-left:20px;
+	margin-right:5px;
+}
+#to{
+	width: 170px;
+	text-align:center;
+	margin-left:5px;
+}
+
+#job{
+	margin-left:20px;
+	width:385px;
+	height:25px;
+}
+
+/*#add-schedule-form select{
 	padding:5px;
 	font-family:NanumSquare;
 	font-size:17px;
@@ -104,7 +146,7 @@
 	width:100px;
 	height:38px;
 	text-align:center;
-}
+}*/
 
 #add-schedule-form input{
 	font-family:NanumSquare;
@@ -125,20 +167,3 @@
 	border-radius:7px;
 }
 
-#from{
-	width: 170px;
-	text-align:center;
-	margin-left:20px;
-	margin-right:5px;
-}
-#to{
-	width: 170px;
-	text-align:center;
-	margin-left:5px;
-}
-
-#job{
-	margin-left:20px;
-	width:385px;
-	height:25px;
-}

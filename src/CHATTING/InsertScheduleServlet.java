@@ -33,6 +33,7 @@ public class InsertScheduleServlet extends HttpServlet {
 		String roomId = request.getParameter("roomId");
 		String email = request.getParameter("email");
 		String job = request.getParameter("job");
+		String color = request.getParameter("color");
 		String from = request.getParameter("from");
 		String to = request.getParameter("to");
 		String lastId = null;
@@ -40,7 +41,7 @@ public class InsertScheduleServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = response.getWriter();
 		
-		lastId = connDB.insertSchedule(roomId, email, job, from, to);
+		lastId = connDB.insertSchedule(roomId, email, job, color, from, to);
 		System.out.println("lastId : " + lastId);
 		if(lastId != null)
 		{

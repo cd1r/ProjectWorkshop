@@ -18,6 +18,7 @@ td{
 	width:240px;
 	padding-left:20px;
 	padding-right:20px;
+	vertical-align: top;
 }
 
 tr:nth-child(3n-1){
@@ -50,6 +51,18 @@ tr:nth-child(3n+1) td{
 	padding:20px;	
 }
 
+.del-btn input{
+	width:25px;
+	height:25px;	
+	background-color:#ffffff;
+	color : #9a9a9a;
+	font-family:NanumSquare;
+	font-size:20px;
+	border: 0;
+	box-shadow:none;
+	cursor : pointer;
+}
+
 .workshop-name{
 	margin-top:20px;
 	margin-bottom:20px;
@@ -79,4 +92,5 @@ tr:nth-child(3n+1) td{
 	font-size:15px;
 	border: 0;
 	box-shadow:none;
+	cursor : pointer;
 }

@@ -16,9 +16,9 @@
 <title>EnterRoom</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="./css/master.css" type="text/css" rel="stylesheet"/>
-<link href="./css/enterroom.css" type="text/css" rel="stylesheet"/>
+<link href="./css/enterroom.css?ver=5" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/enterroom.js?ver=20161128"></script>
+<script src="./js/enterroom.js?ver=8"></script>
 <script src="./js/master.js"></script> 
 </head>
 
@@ -46,7 +46,7 @@
         	<%}%>
 	    </div>
     </div>
-    <input type="button" id="delete_room" value="삭제">
+    
 	<table id="room-list-table" align="center">
     	<tr>
     		<td id="enter-room-title" colspan="3">내 공작소 목록</td>

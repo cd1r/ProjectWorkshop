@@ -21,6 +21,7 @@ $(document).ready(function() {
 			$(data).find("info").each(function(){
 				$("#row"+((row_cnt*3)-2)).append(
 						'<td>'+
+						'<div class="del-btn"><input type="button" value="X" id="del'+ $(this).find("id").text() +'"></div>'+
 						'<div class="workshop-name">' + $(this).find("room_name").text() + '</div>'+
 						'<div class="leader-name">팀장 : ' + $(this).find("manager_name").text() + '</div>'+
 						'<div class="mem-cnt">' + $(this).find("mem_cnt").text() + '명 소속</div>'+
@@ -48,6 +49,7 @@ $(document).ready(function() {
 			
 			$(".enter-btn").css({"width" : "150px", "height" : "35px", "background-color:" : "#4d94ff", "color" : "white",
 				"font-family" : "NanumSquare", "font-size" : "15px", "border" : "0", "box-shadow" : "none"});
+			$(".del-btn").css({"text-align":"right", "margin-top":"10px", "padding-bottom":"20px"});
 		}
 	});	
 });
@@ -58,21 +60,23 @@ $(document).on("click", ".enter-btn", function() {
 	//window.open("chatting.jsp", "chatting", "toolbar=no,status=no,scrollbars=yes,resizable=yes,width=500,height=300");
 });
 
-//임의로 만든 방 삭제 버튼
-$(document).on("click", "#delete_room", function() {
-	var id = "17";
-	$.ajax({
-		type: "post",
-		url: "delete_room.do",
-		data: {roomId : id},
-		datatype: "text",
-		success: function(data){
-			if(data=="true") {
-				alert("삭제 성공");
+//방 삭제
+$(document).on("click", ".del-btn input", function() {
+	
+	if(confirm("방을 탈퇴 하시겠습니까?") == true){
+		$.ajax({
+			type: "post",
+			url: "delete_room.do",
+			data: {roomId : $(this).attr('id').split('del')[1] },
+			datatype: "text",
+			success: function(data){
+				if(data=="true") {
+					location.href = "enterroom.jsp";
+				}
+				else {
+					alert("삭제 실패");
+				}
 			}
-			else {
-				alert("삭제 실패");
-			}
-		}
-	});
+		});
+	}	
 });

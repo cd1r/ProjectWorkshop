@@ -296,7 +296,7 @@ public class ConnectDB {
 		return result;
 	}
 
-	public String insertSchedule(String roomId, String email, String job, String from, String to) {
+	public String insertSchedule(String roomId, String email, String job, String color, String from, String to) {
 		try {
 		       Class.forName("com.mysql.jdbc.Driver");
 		       int rs = 0;
@@ -307,12 +307,13 @@ public class ConnectDB {
 		          throw new Exception("데이터베이스에 연결할 수 없습니다.");
 		         
 		       pstmt = (PreparedStatement) conn.prepareStatement(
-		    		   "Insert Into tb_jobinfo (room_id, mem_email, content, term_from, term_to) Values(?, ?, ?, ?, ?)");
+		    		   "Insert Into tb_jobinfo (room_id, mem_email, content, color, term_from, term_to) Values(?, ?, ?, ?, ?, ?)");
 		       pstmt.setString(1, roomId);
 		       pstmt.setString(2, email);
 		       pstmt.setString(3, job);
-		       pstmt.setString(4, from);
-		       pstmt.setString(5, to);
+		       pstmt.setString(4, color);
+		       pstmt.setString(5, from);
+		       pstmt.setString(6, to);
 		       
 		       rs = pstmt.executeUpdate();
 		       
@@ -346,8 +347,8 @@ public class ConnectDB {
 	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
 	            
 	       pstmt = (PreparedStatement) conn.prepareStatement(
-	    		   "Select id, mem_email, content, term_from, term_to, term_to-CurDate() As dday"+
-	    		   " From tb_jobinfo Where room_id=?");
+	    		   "Select id, mem_email, content, color, term_from, term_to, term_to-CurDate() As dday"+
+	    		   " From tb_jobinfo Where room_id=? Order By term_from Asc;");
 	       pstmt.setInt(1, Integer.valueOf(roomId));
 	       
 	       rs = pstmt.executeQuery();
@@ -358,6 +359,7 @@ public class ConnectDB {
 	    	   xml.make_child("id", rs.getString("id"));
 	    	   xml.make_child("mem_email", rs.getString("mem_email"));
 	    	   xml.make_child("job", rs.getString("content"));
+	    	   xml.make_child("color", rs.getString("color"));
 	    	   xml.make_child("from", rs.getString("term_from"));
 	    	   xml.make_child("to", rs.getString("term_to"));
 	    	   xml.make_child("dday", rs.getString("dday"));
