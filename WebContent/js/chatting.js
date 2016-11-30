@@ -126,7 +126,45 @@ window.onbeforeunload = function(e){
 var onDropFile = function(e){
 	e.preventDefault();
 	var file = e.dataTransfer.files[0];
-	readFile(file);
+	alert(file.name);
+	
+	var formData = new FormData();
+	formData.append("uploadfile", file);
+	
+	$.ajax({
+		type: "post",
+		url: "fileUpload.jsp?roomId="+roomId+"&email="+$("#user-email").val(),
+		data: formData,
+		processData: false,
+		contentType: false,
+		datatype: "text",
+		success: function(data) {
+			if(data == "flase") {
+				alert("파일 업로드 실패");
+			}
+			else{ 
+				alert("파일 업로드 성공 "+data);
+				var fileinfo = file.name +" 업로드";
+				$(".dialog-ul").append(
+	    				'<li id="' + (++lastDialogIdx) + '" class="dialog-li-own">'+
+	    					'<table class="dialog-table-own">'+
+	    						'<tr>'+
+	    							'<td class="talk-td-own">' + 
+	    								fileinfo + '<br/>'+
+	    								'<a href="fileDownload.jsp?roomId='+roomId+'&fileId='+data+'">다운로드</a>' +
+	    							'</td>'+                           
+	    						'</tr>'+
+	    					'</table>'+
+	    				'</li>');
+
+				fileinfo += (data + "\t" + fileinfo);
+				alert(fileinfo);
+	    		//webSocket.send(fileinfo);
+			}
+		}
+	});	
+	
+	//readFile(file);
 };
 
 var onCancel = function(e){
@@ -141,7 +179,7 @@ $(document).on("click", "#upload-btn", function(){
 	readFile(file);
 });*/
 
-var readFile = function(file){
+/*var readFile = function(file){
 
 	var fileInfo = file.name + "*" + file.size;
 	var rename = null;
@@ -215,7 +253,7 @@ var readFile = function(file){
 	else{
 		fileSocket.close();
 	}
-};
+};*/
 
 function loadRightMember(){
 	$.ajax({

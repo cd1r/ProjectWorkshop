@@ -40,7 +40,14 @@ public class WebSocket {
 		
 		try {
 			synchronized (clientsMap){
-				if(connDB.insertDialog(roomId, email, message))
+				if(message.contains("\t")){
+					String fileId = message.substring(0, message.indexOf("\t")); 
+					String save_msg = message.substring(message.indexOf("\t")+1);
+					if(connDB.insertDialogAndFile(roomId, email, save_msg, fileId))
+						System.out.println("메시지&파일 DB 저장 성공");
+					else System.out.println("메시지&파일 DB 저장 실패");
+				}
+				else if(connDB.insertDialog(roomId, email, message))
 					System.out.println("메시지 DB 저장 성공");
 				else
 					System.out.println("메시지 DB 저장 실패");

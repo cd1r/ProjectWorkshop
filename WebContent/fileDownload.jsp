@@ -1,24 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="EUC-KR"%>
+    pageEncoding="utf-8"%>
 <%@ page import="java.io.*"%>
 <%@ page import="java.text.*" %>
 <%@ page import="java.lang.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="CHATTING.ConnectDB" %>
 
 <%
 	request.setCharacterEncoding("utf-8");
 
-//ÇÊ¿äÇÑ°Í : ÆÄÀÏ ÀúÀåµÈ °æ·Î, ¼­¹ö¿¡ ÀúÀåµÈ ÆÄÀÏ ÀÌ¸§
+	ConnectDB connDB = ConnectDB.getConnectDB();
+
 	String roomId = request.getParameter("roomId");
 	String fileId = request.getParameter("fileId");
 	
 	String path = request.getSession().getServletContext().getRealPath("files\\dialog"+roomId); 
-	System.out.println("[ÆÄÀÏ ´Ù¿î·Îµå "+fileId+"] "+path);
+	System.out.println("[íŒŒì¼ ë‹¤ìš´ë¡œë“œ "+fileId+"] "+path);
 
-	String fileName = "Âü°í.txt";//file¹øÈ£¸¦ ÅëÇØ¼­ ¼­¹ö¿¡ ÀúÀåµÇ¾î ÀÖ´Â ÆÄÀÏ ¸í (db·Î ºÒ·¯¿À±â)
 	
-	String orgfileName = "test.txt";
+	String fileName = connDB.getServerSavedFileName(fileId);//"ì°¸ê³ .txt";//fileë²ˆí˜¸ë¥¼ í†µí•´ì„œ ì„œë²„ì— ì €ì¥ë˜ì–´ ìˆëŠ” íŒŒì¼ ëª… (dbë¡œ ë¶ˆëŸ¬ì˜¤ê¸°)
+	String type = fileName.substring(fileName.indexOf(".")+1).toLowerCase();
+	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	String date = sdf.format(new java.util.Date());
+	
+	String orgfileName = "ProjectWorkshop" + date + "."+type;
 	
 	
 	InputStream in = null;
@@ -30,7 +38,7 @@
     try{
         
     	 
-        // ÆÄÀÏÀ» ÀĞ¾î ½ºÆ®¸²¿¡ ´ã±â
+        // íŒŒì¼ì„ ì½ì–´ ìŠ¤íŠ¸ë¦¼ì— ë‹´ê¸°
         try{
             file = new File(path, fileName);
             in = new FileInputStream(file);
@@ -40,7 +48,7 @@
          
         client = request.getHeader("User-Agent");
  
-        // ÆÄÀÏ ´Ù¿î·Îµå Çì´õ ÁöÁ¤
+        // íŒŒì¼ ë‹¤ìš´ë¡œë“œ í—¤ë” ì§€ì •
         response.reset() ;
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Description", "JSP Generated Data");
@@ -54,7 +62,7 @@
                 response.setHeader ("Content-Disposition", "attachment; filename="+new String(orgfileName.getBytes("KSC5601"),"ISO8859_1"));
  
             }else{
-                // ÇÑ±Û ÆÄÀÏ¸í Ã³¸®
+                // í•œê¸€ íŒŒì¼ëª… ì²˜ë¦¬
                 orgfileName = new String(orgfileName.getBytes("utf-8"),"iso-8859-1");
  
                 response.setHeader("Content-Disposition", "attachment; filename=\"" + orgfileName + "\"");
@@ -75,7 +83,7 @@
  
         }else{
             response.setContentType("text/html;charset=UTF-8");
-            out.println("<script language='javascript'>alert('ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù');history.back();</script>");
+            out.println("<script language='javascript'>alert('íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤');history.back();</script>");
  
         }
          

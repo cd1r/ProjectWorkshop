@@ -68,8 +68,8 @@ public class FileUploadSocket {
 					String name = message.substring(message.lastIndexOf("/")+1); 
 					//이름이 중복될 경우 숫자를 붙여서 파일 이름이 재정의 되는데 그때 파일 이름을 message로 보내서 문자열자르기를 통해 name에 저장
 					System.out.println("db에 넣기전  : "+message+" "+name + "  "+fileType+"  "+fileSize);
-					boolean result = connDB.fileUpload(roomId, email, name, fileType, Integer.parseInt(fileSize));
-					if(result)
+					//boolean result = connDB.fileUpload(roomId, email, name, fileType, Integer.parseInt(fileSize));
+					//if(result)
 						clientsMap.get(session.toString()).getBasicRemote().sendText("완료");
 				}
 				else{ //upload-file-start  1
