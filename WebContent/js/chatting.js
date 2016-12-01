@@ -157,9 +157,11 @@ var onDropFile = function(e){
 	    					'</table>'+
 	    				'</li>');
 
-				fileinfo += (data + "\t" + fileinfo);
+				$("#dialog-div").scrollTop($("#dialog-div")[0].scrollHeight);
+				alert("aa");
+				fileinfo = data + "\t" + fileinfo;
 				alert(fileinfo);
-	    		//webSocket.send(fileinfo);
+	    		webSocket.send(fileinfo);
 			}
 		}
 	});	

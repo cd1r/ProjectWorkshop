@@ -17,7 +17,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>채팅창</title>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/chatting.js?ver=20161201"></script>
+<script src="./js/chatting.js"></script>
 </head>
 <body>
 	<input id="user-email" type="hidden" value="<%=user_email%>">

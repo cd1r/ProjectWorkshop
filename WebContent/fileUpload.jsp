@@ -21,7 +21,7 @@
 	File file;
 
 	String path = request.getSession().getServletContext().getRealPath("files\\dialog"+roomId); 
-	System.out.println("[파일 다운로드 "+roomId+"  "+email+"] "+path);
+	System.out.println("[파일 업로드 "+roomId+"  "+email+"] "+path);
 
 	int sizeLimit = 20*1024*1024;
 	
