@@ -231,6 +231,7 @@ public class ConnectDB {
 				+ "speaker varchar(30) character set utf8 collate utf8_general_ci,"
 				+ "context varchar(100) character set utf8 collate utf8_general_ci,"
 				+ "datetime datetime, "
+				+ "file int(11) default '0', "
 				+ "PRIMARY KEY (id));";
 		
 		Connection conn = null;

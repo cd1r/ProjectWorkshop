@@ -1,6 +1,7 @@
 /**
  * 
  */
+var mem = 0;
 $(document).ready(function(){
 	$("#from-year-selector").append('<option value="0">년도</option>');
 	$("#from-month-selector").append('<option value="0">월</option>');
@@ -42,6 +43,11 @@ function checkInput(){
 		alert("프로젝트 종료 날짜를 선택해주세요");
 		return false;
 	}
+	else if(mem==0){
+		alert("팀원을 추가주세요");
+		return false;
+	}
+
 	
 	var date = new Date();
 	var from_date = date.setFullYear($("#from-year-selector").val(), $("#from-month-selector").val(), $("#from-day-selector").val());
@@ -162,6 +168,7 @@ $(document).on("click", ".add_btn", function(){
 	
 	if(result == false) alert("이미 추가되었습니다.");
 	else{
+		mem++;
 		var info_table = document.getElementById('search-result-person');
 	
 		var member_table = document.getElementById('added-person');
@@ -205,6 +212,7 @@ function redundancy_add(data){
 $(document).on("click", ".del_btn", function(){
 	var check = confirm("삭제 하시겠습니까?");
 	if(check){
+		mem--;
 		var tr = $(this).parent().parent(); //삭제버튼누른 행 삭제
 		tr.remove();
 	}

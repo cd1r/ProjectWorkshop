@@ -118,6 +118,7 @@ public class ConnectDB {
 	}
 	
 
+	//일반 메시지
 	public boolean insertDialog(int roomId, String email, String context){
 		String tb_name = "tb_dialog"+String.valueOf(roomId);
 		
@@ -148,6 +149,64 @@ public class ConnectDB {
 		}
 	}
 
+	//파일 메시지
+	public boolean insertDialogAndFile(int roomId, String email, String context, String fileId){
+		String tb_name = "tb_dialog"+String.valueOf(roomId);
+		
+		try {
+		       Class.forName("com.mysql.jdbc.Driver");
+		       int rs = 0;
+		       conn = DriverManager.getConnection(url, user, pass);
+
+		       if (conn == null)
+		          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+		         
+		       /*pstmt = (PreparedStatement) conn.prepareStatement(
+		    		   "Insert Into tb_dialog8 (speaker, context, datetime)"+
+		    		   "Values('"+ email +"', '" + context + "', NOW())");*/
+		       
+		       pstmt = (PreparedStatement) conn.prepareStatement(
+		    		   "Insert Into "+tb_name+" (speaker, context, datetime, file)"+
+		    		   "Values('"+ email +"', '" + context + "', NOW(), " + fileId + ")");
+		   
+		       rs = pstmt.executeUpdate();
+		       
+		       if(rs > 0) return true;
+		       else return false;
+		    	              
+		} catch (Exception e) {
+		         e.printStackTrace();
+		         return false;
+		}
+	}
+	
+	//서버에 저장된 파일 이름 가져오기
+	public String getServerSavedFileName(String fileId){
+		String result = null;
+		
+		try {
+		       Class.forName("com.mysql.jdbc.Driver");
+		       conn = DriverManager.getConnection(url, user, pass);
+
+		       if (conn == null)
+		          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+		         
+		       pstmt = (PreparedStatement) conn.prepareStatement("Select * From tb_fileinfo Where id="+fileId);
+		       
+		       rs = pstmt.executeQuery();
+		       rs.first();
+		       
+		       result = rs.getString("file_name");
+		    
+		       
+		} catch (Exception e) {
+		         e.printStackTrace();
+		         return null;
+		}
+		
+		return result;
+	}
+	
 	public String loadWorkshopMemeberInfo(String roomId) {
 
 		XML xml = new XML();
@@ -241,10 +300,11 @@ public class ConnectDB {
 	}
 	
 	//파일 디비에 저장
-	public boolean fileUpload(int roomId, String email, String name, String type, int size) {
-		int result = 0;
+	public String fileUpload(String roomId, String email, String name, String type, long size) {
+		int dbresult = 0;
+		String result="false";
 		String path = "dialog"+roomId+"/"+name;
-		System.out.println("DB 파일 저장 : "+ email + " " );
+		System.out.println("DB 파일 저장 : "+ email);
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		       conn = DriverManager.getConnection(url, user, pass);
@@ -255,7 +315,28 @@ public class ConnectDB {
 		    pstmt = (PreparedStatement) conn.prepareStatement("insert into tb_fileinfo (room_id, uploader_email, file_name, extention, file_url, size, upload_date) "
 		    		+ "values(" + roomId + ", '" +email + "', '" + name + "', '" + type + "', '"+ path + "', "+ size + ", NOW())");
 				
-		    result = pstmt.executeUpdate();
+		    dbresult = pstmt.executeUpdate();
+		    
+		    if(dbresult > 0){
+		    	pstmt = null;
+				rs = null;
+				
+				pstmt = (PreparedStatement) conn.prepareStatement(
+						"Select * From tb_fileinfo Where room_id=? and uploader_email=? and file_name=?");
+				pstmt.setString(1, roomId);
+				pstmt.setString(2, email);
+				pstmt.setString(3, name);
+				
+				rs = pstmt.executeQuery();
+				rs.first();
+				
+				result = rs.getString("id");
+				System.out.println("파일 번호 얻어옴 " + result);
+		    }
+		    else {
+		    	result="false";
+		    }
+		    
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -263,8 +344,7 @@ public class ConnectDB {
 			try{conn.close();}catch(SQLException e){}
 		}
 		
-		if(result > 0) return true;
-		else return false;
+		return result;
 	}
 	
 	//파일이 저장될 경로 받아오기

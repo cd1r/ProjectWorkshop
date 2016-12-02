@@ -38,9 +38,21 @@ public class WebSocket {
 	public void onMessage(String message, Session session, @PathParam("email") String email, @PathParam("roomId") int roomId) throws IOException{
 		System.out.println("클라이언트 메시지 정보 = session : " + session + " / email : " + email + " / roomId : " + roomId + " / message : " + message);
 		
+		String file = "0";
+		
 		try {
 			synchronized (clientsMap){
-				if(connDB.insertDialog(roomId, email, message))
+				if(message.contains("\t")){
+					String fileId = message.substring(0, message.indexOf("\t")); 
+					String save_msg = message.substring(message.indexOf("\t")+1);
+					message = save_msg;
+					if(connDB.insertDialogAndFile(roomId, email, save_msg, fileId)){
+						System.out.println("메시지&파일 DB 저장 성공");
+						file = fileId;
+					}
+					else System.out.println("메시지&파일 DB 저장 실패");
+				}
+				else if(connDB.insertDialog(roomId, email, message))
 					System.out.println("메시지 DB 저장 성공");
 				else
 					System.out.println("메시지 DB 저장 실패");
@@ -59,11 +71,12 @@ public class WebSocket {
 					clientStr.add(sessions.item(idx).getTextContent());
 				}
 				
+				//System.out.println(message);
 				for(int i=0; i<clientStr.size(); i++){
 					if(!clientStr.get(i).equals(session.toString()))
 					{
 						clientsMap.get(clientStr.get(i)).getBasicRemote().sendText(
-								message + "\t" + email);
+								message + "\t" + email + "\t" + file);
 					}
 				}
 			}
