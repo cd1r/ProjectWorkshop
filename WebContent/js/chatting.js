@@ -47,31 +47,48 @@ $(document).ready(function(){
     };
     //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
     webSocket.onmessage = function(message){
-        
     	var temp_photo_url ="" , temp_name = "";
     	
     	//member[index].split('\t')[0] : email, [1] : 이름, [2] : 사진 경로
     	//message.data.split('\t')[0] : 전달된 메시지 내용, message.data.split('\t')[1] : 메시지 보낸 사람의 이메일
+    	//message.data.split('\t')[2] : 파일번호(일반 대화면 0, 파일이면 파일번호)
     	for(var i=0; i<member.length; i++){
     		if(member[i].split('\t')[0] == message.data.split('\t')[1]) //전역 변수 배열에 저장된 사람의 이메일을 탐색하면서 메시지 보낸 사람의 이메일과 같은지 비교함
     		{
     			temp_name = member[i].split('\t')[1];
     			temp_photo_url = member[i].split('\t')[2];
+    			
     		}
     	}
-    	    	
-    	$(".dialog-ul").append(
-    			'<li id="' + (++lastDialogIdx) + '" class="dialog-li">'+
-    				'<table class="dialog-table">'+
-            			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + temp_photo_url +'"></td>'+
-            				'<td class="speaker-name-td">' + temp_name + '</td>'+
-            			'</tr>'+
-            			'<tr>'+
-            				'<td class="talk-td">'+message.data.split('\t')[0]+'</td>'+                           
-            			'</tr>'+
-            		'</table>'+
-            	'</li>');
     	
+    	if(message.data.split('\t')[2] == "0"){ //일반대화
+    		$(".dialog-ul").append(
+    				'<li id="' + (++lastDialogIdx) + '" class="dialog-li">'+
+    					'<table class="dialog-table">'+
+            				'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + temp_photo_url +'"></td>'+
+            					'<td class="speaker-name-td">' + temp_name + '</td>'+
+            					'</tr>'+
+            					'<tr>'+
+            					'<td class="talk-td">'+message.data.split('\t')[0]+'</td>'+                           
+            					'</tr>'+
+            					'</table>'+
+            		'</li>');
+    	}
+    	else{ //파일
+    		$(".dialog-ul").append(
+        			'<li id="' + (++lastDialogIdx) + '" class="dialog-li">'+
+        				'<table class="dialog-table">'+
+                			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + temp_photo_url +'"></td>'+
+                				'<td class="speaker-name-td">' + temp_name + '</td>'+
+                			'</tr>'+
+                			'<tr>'+
+                				'<td class="talk-td">'+message.data.split('\t')[0]+'<br>'+
+                				'<a href="fileDownload.jsp?roomId='+roomId+'&fileId='+message.data.split('\t')[2]+'">다운로드</a>'+
+                				'</td>'+                           
+                			'</tr>'+
+                		'</table>'+
+                	'</li>');
+    	}
     	$("#dialog-div").scrollTop($("#dialog-div")[0].scrollHeight);
     	
     };
@@ -158,7 +175,7 @@ var onDropFile = function(e){
 	    				'</li>');
 
 				$("#dialog-div").scrollTop($("#dialog-div")[0].scrollHeight);
-				alert("aa");
+			
 				fileinfo = data + "\t" + fileinfo;
 				alert(fileinfo);
 	    		webSocket.send(fileinfo);

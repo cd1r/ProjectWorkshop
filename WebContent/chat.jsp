@@ -23,7 +23,7 @@
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
 <link href="./css/chat.css?ver=9" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/chatting.js?ver=20161129"></script>
+<script src="./js/chatting.js?ver=20161202"></script>
 <title>ChatLayout</title>
 </head>
 
