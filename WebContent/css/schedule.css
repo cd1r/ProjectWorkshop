@@ -82,6 +82,15 @@
 	text-align:right;
 }
 
+#follow{
+	font-family:NanumSquare;
+	font-size:16px;
+	padding:10px;
+	color:white;
+	background-color:#253755;
+	border-radius:20px;
+}
+
 #add-schedule-form{
 	font-family:NanumSquare;
 	font-size:17px;

@@ -22,7 +22,7 @@
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
 <link href="./css/schedule.css?ver=8" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/schedule.js?ver=11"></script>
+<script src="./js/schedule.js?ver=7"></script>
 </head>
 <body>
 <input id="user-name" type="hidden" value="<%=user_name%>">
@@ -73,7 +73,11 @@
                     <td class="day-char">토</td>
                 </tr>
         	</table>
-            
+        	<div id="follow" style="position:absolute;">
+        		<div id="float-name"></div>
+        		<div id="float-dday"></div>
+        		<div id="float-term"><span id="float-from"></span><span> ~ </span><span id="float-to"></span></div>
+        	</div>
             <div id="add-schedule-form">
 	            <div>
 	            	<span class="left-label">담당자</span>

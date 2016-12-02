@@ -427,8 +427,8 @@ public class ConnectDB {
 	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
 	            
 	       pstmt = (PreparedStatement) conn.prepareStatement(
-	    		   "Select id, mem_email, content, color, term_from, term_to, term_to-CurDate() As dday"+
-	    		   " From tb_jobinfo Where room_id=? Order By term_from Asc;");
+	    		   "Select id, mem_email, acc.name, content, color, term_from, term_to, to_days(CurDate())-to_days(term_to) As dday"+
+	    		   " From tb_jobinfo job Join tb_accinfo acc On job.mem_email=acc.email Where room_id=? Order By term_from Asc;");
 	       pstmt.setInt(1, Integer.valueOf(roomId));
 	       
 	       rs = pstmt.executeQuery();
@@ -438,6 +438,7 @@ public class ConnectDB {
 	    	   	    	   
 	    	   xml.make_child("id", rs.getString("id"));
 	    	   xml.make_child("mem_email", rs.getString("mem_email"));
+	    	   xml.make_child("name", rs.getString("name"));
 	    	   xml.make_child("job", rs.getString("content"));
 	    	   xml.make_child("color", rs.getString("color"));
 	    	   xml.make_child("from", rs.getString("term_from"));

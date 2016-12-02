@@ -1,9 +1,8 @@
-// JavaScript Document
 var continue_idx;
+
 $(document).ready(function(){
 	callMember($('#room-id').val());
 	setCalendar($("#year-span").text(), $("#month-span").text());
-	loadSchedule($('#room-id').val());
 	setAddScheduleFormVisible();
 	
 	$("#prev-month-btn").click(function(){
@@ -50,6 +49,27 @@ $(document).ready(function(){
 		$('#color').css({"color":$('#color option:selected').val()});
     });
 	
+	$("ul").delegate("li","mouseenter", function(e){
+		if($(this).attr("class") != "empty-li"){
+			$("#follow").css({"display":"block"});
+			$("#float-name").text("담당 : " + $(this).find(".mem-name").val());
+			if(Number($(this).find(".dday").val()) > 0)
+				$("#float-dday").text("만료");
+			
+			else $("#float-dday").text("D-" + $(this).find(".dday").val());
+			
+			$("#float-from").text($(this).find(".from").val());
+			$("#float-to").text($(this).find(".to").val());
+			$("#follow").css({'top' : e.clientY - 20, 'left':e.clientX-20});
+		}
+	});
+	
+	$("ul").delegate("li","mouseleave", function(e){
+		if($(this).attr("class") == "empty-li"){
+			$("#follow").css({"display":"none"});
+		}
+	});
+
 });
 
 function setAddScheduleFormVisible(){
@@ -69,7 +89,7 @@ function loadSchedule(roomId){
 			$("table ul").html("");
 			
 			$(data).find("info").each(function(){
-				addScheduleInCalByDB($(this).find("id").text(), $(this).find("mem_email").text(), $(this).find("job").text(), 
+				addScheduleInCalByDB($(this).find("id").text(), $(this).find("name").text(), $(this).find("job").text(), 
 						$(this).find("color").text(), $(this).find("from").text(), $(this).find("to").text(), $(this).find("dday").text())
 			});
 		}
@@ -94,7 +114,7 @@ function callMember(roomId)
 	});	
 }
 
-function addScheduleInCalByDB(id, mem_email, job, color, from, to, dday)
+function addScheduleInCalByDB(id, name, job, color, from, to, dday)
 {
 	var tmp_cnt = 0, first_chk=0;
 	var fromDate = new Date(
@@ -128,38 +148,37 @@ function addScheduleInCalByDB(id, mem_email, job, color, from, to, dday)
 			for(var i=0; i<(Number(continue_idx) - Number(tmp_li_cnt)); i++)
 				$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append('<li class="empty-li"><div></div></li>');
 			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append(
-					'<li class="' + id + '"><div>&nbsp;' 
+					'<li class="' + id + '"><div>&nbsp;</div>' 
 						//+ job
-						+ '<input type="hidden" class="mem_email" value="' + mem_email + '">'
+						+ '<input type="hidden" class="mem-name" value="' + name + '">'
 						+ '<input type="hidden" class="from" value="' + from + '">'
 						+ '<input type="hidden" class="to" value="' + to + '">'
-						//+ '<input type="hidden" class="dday" value="' + dday + '">'
-					+'</div></li>');
+						+ '<input type="hidden" class="dday" value="' + dday + '">'
+					+'</li>');
 			
 		}
 		
 		else if(continue_idx - tmp_li_cnt < 0){
 			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").eq(continue_idx).html(
-				'<div>&nbsp;' 
+				'<div>&nbsp;</div>' 
 					//+ job
-					+ '<input type="hidden" class="mem_email" value="' + mem_email + '">'
+					+ '<input type="hidden" class="mem-name" value="' + name + '">'
 					+ '<input type="hidden" class="from" value="' + from + '">'
 					+ '<input type="hidden" class="to" value="' + to + '">'
-					//+ '<input type="hidden" class="dday" value="' + dday + '">'
-				+'</div>');
+					+ '<input type="hidden" class="dday" value="' + dday + '">');
 			
 			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").eq(continue_idx).attr("class", id);
 		}
 		
 		else{
 			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append(
-					'<li class="' + id + '"><div>&nbsp;' 
+					'<li class="' + id + '"><div>&nbsp;</div>' 
 						//+ job
-						+ '<input type="hidden" class="mem_email" value="' + mem_email + '">'
+						+ '<input type="hidden" class="mem-name" value="' + name + '">'
 						+ '<input type="hidden" class="from" value="' + from + '">'
 						+ '<input type="hidden" class="to" value="' + to + '">'
-						//+ '<input type="hidden" class="dday" value="' + dday + '">'
-					+'</div></li>');
+						+ '<input type="hidden" class="dday" value="' + dday + '">'
+					+'</li>');
 		}
 
 		if(first_chk == 0){
@@ -313,4 +332,6 @@ function setCalendar(year, month)
 			//else
 				$(this).css({"background-color" : "white", "border-bottom" : "1px #4472c4 solid"});
 	});
+	
+	loadSchedule($('#room-id').val());
 }
