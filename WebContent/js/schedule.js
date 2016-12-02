@@ -10,7 +10,6 @@ $(document).ready(function(){
 			$("#year-span").text(Number($("#year-span").text())-1);
 			$("#month-span").text("12");
 		}
-		
 		else $("#month-span").text(Number($("#month-span").text())-1);
 		
 		setCalendar($("#year-span").text(), $("#month-span").text());
@@ -49,26 +48,7 @@ $(document).ready(function(){
 		$('#color').css({"color":$('#color option:selected').val()});
     });
 	
-	$("ul").delegate("li","mouseenter", function(e){
-		if($(this).attr("class") != "empty-li"){
-			$("#follow").css({"display":"block"});
-			$("#float-name").text("담당 : " + $(this).find(".mem-name").val());
-			if(Number($(this).find(".dday").val()) > 0)
-				$("#float-dday").text("만료");
-			
-			else $("#float-dday").text("D-" + $(this).find(".dday").val());
-			
-			$("#float-from").text($(this).find(".from").val());
-			$("#float-to").text($(this).find(".to").val());
-			$("#follow").css({'top' : e.clientY - 20, 'left':e.clientX-20});
-		}
-	});
 	
-	$("ul").delegate("li","mouseleave", function(e){
-		if($(this).attr("class") == "empty-li"){
-			$("#follow").css({"display":"none"});
-		}
-	});
 
 });
 
@@ -78,11 +58,11 @@ function setAddScheduleFormVisible(){
 	}
 }
 
-function loadSchedule(roomId){
+function loadSchedule(roomId, year, month){
 	$.ajax({
 		type: "post",
 		url: "load_schedule.do",
-		data: { roomId: roomId },
+		data: { roomId: roomId, year : year, month : month },
 		datatype: "text",
 		success: function(data){
 			
@@ -130,27 +110,32 @@ function addScheduleInCalByDB(id, name, job, color, from, to, dday)
 		//alert(toDate);
 
 	for (var d = fromDate; d <= toDate; d.setDate(d.getDate() + 1)) {
-		
-		if(tmp_cnt == 0 && $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " .empty-li").length == 0){
-			continue_idx = $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").length;
+		var tmp_month = d.getMonth(), tmp_year = d.getFullYear();
+		if(tmp_month == 0){
+			tmp_month = 12;
+			tmp_year = tmp_year-1;
+		}
+		if(tmp_cnt == 0 && $("#"+ tmp_year+ "-" + tmp_month + "-" + d.getDate() + " .empty-li").length == 0){
+			continue_idx = $("#"+ tmp_year+ "-" + tmp_month + "-" + d.getDate() + " li").length;
 			tmp_cnt++;
 		}
 		
-		else if(tmp_cnt == 0 && $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " .empty-li").length > 0){
-			continue_idx = $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " .empty-li").index();
+		else if(tmp_cnt == 0 && $("#"+ tmp_year+ "-" + tmp_month + "-" + d.getDate() + " .empty-li").length > 0){
+			continue_idx = $("#"+ tmp_year+ "-" + tmp_month + "-" + d.getDate() + " .empty-li").index();
 			//alert(continue_idx);
 			tmp_cnt++;
 		}
 		
-		var tmp_li_cnt = $("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").length;
+		var tmp_li_cnt = $("#"+ tmp_year + "-" + tmp_month + "-" + d.getDate() + " li").length;
 		if(continue_idx - tmp_li_cnt > 0){
 
 			for(var i=0; i<(Number(continue_idx) - Number(tmp_li_cnt)); i++)
-				$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append('<li class="empty-li"><div></div></li>');
-			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append(
+				$("#"+ tmp_year+ "-" + tmp_month + "-" + d.getDate() + " ul").append('<li class="empty-li"><div></div></li>');
+			$("#"+  tmp_year + "-" + tmp_month + "-" + d.getDate() + " ul").append(
 					'<li class="' + id + '"><div>&nbsp;</div>' 
 						//+ job
 						+ '<input type="hidden" class="mem-name" value="' + name + '">'
+						+ '<input type="hidden" class="job" value="' + job + '">'
 						+ '<input type="hidden" class="from" value="' + from + '">'
 						+ '<input type="hidden" class="to" value="' + to + '">'
 						+ '<input type="hidden" class="dday" value="' + dday + '">'
@@ -159,22 +144,24 @@ function addScheduleInCalByDB(id, name, job, color, from, to, dday)
 		}
 		
 		else if(continue_idx - tmp_li_cnt < 0){
-			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").eq(continue_idx).html(
+			$("#"+ tmp_year + "-" + tmp_month + "-" + d.getDate() + " li").eq(continue_idx).html(
 				'<div>&nbsp;</div>' 
 					//+ job
 					+ '<input type="hidden" class="mem-name" value="' + name + '">'
+					+ '<input type="hidden" class="job" value="' + job + '">'
 					+ '<input type="hidden" class="from" value="' + from + '">'
 					+ '<input type="hidden" class="to" value="' + to + '">'
 					+ '<input type="hidden" class="dday" value="' + dday + '">');
 			
-			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " li").eq(continue_idx).attr("class", id);
+			$("#"+ tmp_year + "-" + tmp_month + "-" + d.getDate() + " li").eq(continue_idx).attr("class", id);
 		}
 		
 		else{
-			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append(
+			$("#"+ tmp_year + "-" + tmp_month + "-" + d.getDate() + " ul").append(
 					'<li class="' + id + '"><div>&nbsp;</div>' 
 						//+ job
 						+ '<input type="hidden" class="mem-name" value="' + name + '">'
+						+ '<input type="hidden" class="job" value="' + job + '">'
 						+ '<input type="hidden" class="from" value="' + from + '">'
 						+ '<input type="hidden" class="to" value="' + to + '">'
 						+ '<input type="hidden" class="dday" value="' + dday + '">'
@@ -182,13 +169,13 @@ function addScheduleInCalByDB(id, name, job, color, from, to, dday)
 		}
 
 		if(first_chk == 0){
-			$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ." + id + " div").text(job);
+			$("#"+ tmp_year + "-" + tmp_month + "-" + d.getDate() + " ." + id + " div").text(job);
 			first_chk++;
 		}
 	}
 	
 	$("ul").css({"list-style":"none", "margin":"0", "padding":"0", "font-size":"14px"});
-	$("li").css({"margin-top":"2px", "margin-bottom":"2px"})
+	$("li").css({"margin-top":"2px", "margin-bottom":"2px", "cursor":"pointer"})
 	$("." + id + " div").css({"white-space": "nowrap", "width":"126px", "overflow":"hidden", "text-overflow":"clip",
 					"color":"white", "background-color":color, "text-align":"center", "height":"20px", "padding-top":"3px"});
 	$(".empty-li div").css({"height":"20px", "padding-top":"3px", "width":"126px"});
@@ -333,5 +320,35 @@ function setCalendar(year, month)
 				$(this).css({"background-color" : "white", "border-bottom" : "1px #4472c4 solid"});
 	});
 	
-	loadSchedule($('#room-id').val());
+	loadSchedule($('#room-id').val(), $("#year-span").text(), $("#month-span").text());
+	
+	$("ul").delegate("li","mouseenter", function(e){
+		if($(this).attr("class") != "empty-li"){
+			$("#follow").css({"display":"block"});
+			$("#float-name").text("담당 : " + $(this).find(".mem-name").val());
+			if(Number($(this).find(".dday").val()) > 0)
+				$("#float-dday").text("만료");
+			
+			else if(Number($(this).find(".dday").val()) == 0)
+				$("#float-dday").text("마감일");
+			
+			else $("#float-dday").text("D" + $(this).find(".dday").val());
+			
+			$("#float-from").text($(this).find(".from").val());
+			$("#float-to").text($(this).find(".to").val());
+			$("#follow").css({'top' : e.clientY - 20, 'left':e.clientX-20});
+		}
+	});
+	
+	$("ul").delegate("li","mouseleave", function(e){
+		if($(this).attr("class") == "empty-li" || $(this).find("li").length == 0){
+			$("#follow").css({"display":"none"});
+		}
+	});
+	
+	$("ul").delegate("li","click", function(){
+		$("#from").val($(this).find(".from").val());		
+		$("#to").val($(this).find(".to").val());
+		$("#job").val($(this).find(".job").val());
+	});
 }

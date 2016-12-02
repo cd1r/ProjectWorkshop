@@ -333,7 +333,7 @@ public class ConnectDB {
 			}
 	}
 
-	public String loadScheduleInfo(String roomId) {
+	public String loadScheduleInfo(String roomId, String year, String month) {
 		
 		XML xml = new XML();
 		xml.make_rootElement("root");
@@ -348,8 +348,11 @@ public class ConnectDB {
 	            
 	       pstmt = (PreparedStatement) conn.prepareStatement(
 	    		   "Select id, mem_email, acc.name, content, color, term_from, term_to, to_days(CurDate())-to_days(term_to) As dday"+
-	    		   " From tb_jobinfo job Join tb_accinfo acc On job.mem_email=acc.email Where room_id=? Order By term_from Asc;");
+	    		   " From tb_jobinfo job Join tb_accinfo acc On job.mem_email=acc.email"+
+	    		   " Where room_id=? And term_from >= '" + year + "-" + month + "-" + "1" + "' And term_to < '" + year + "-" + (month+1) + "-" + "1" + "'" + 
+	    		   " Order By term_from Asc;");
 	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       //pstmt.setString(2, year + "-" + month + "-" + "1");
 	       
 	       rs = pstmt.executeQuery();
 	       

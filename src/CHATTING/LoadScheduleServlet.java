@@ -32,8 +32,12 @@ public class LoadScheduleServlet extends HttpServlet {
 		ConnectDB connDB = ConnectDB.getConnectDB();
 		
 		String roomId = request.getParameter("roomId");
+		String year = request.getParameter("year");
+		String month = request.getParameter("month");
 		
-		String result = connDB.loadScheduleInfo(roomId);
+		System.out.println("¿¬¿ù : " + year + " " + month);
+		
+		String result = connDB.loadScheduleInfo(roomId, year, month);
 		System.out.println(result);
 		
 		response.setContentType("text/html;charset=utf-8");

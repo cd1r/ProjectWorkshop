@@ -20,9 +20,9 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
-<link href="./css/schedule.css?ver=8" type="text/css" rel="stylesheet"/>
+<link href="./css/schedule.css?ver=1" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/schedule.js?ver=7"></script>
+<script src="./js/schedule.js?ver=2"></script>
 </head>
 <body>
 <input id="user-name" type="hidden" value="<%=user_name%>">
@@ -57,7 +57,7 @@
                         <input type="button" id="next-month-btn" value=">">
                     </td>
                     <td></td>
-                    <td colspan="3"><span id="year-span">2016</span>년 <span id="month-span">11</span>월</td>
+                    <td colspan="3"><span id="year-span">2016</span>년 <span id="month-span">12</span>월</td>
                     <!-- <td><input type="button" value="월별" id="show-cal-btn"></td>
                     <td><input type="button" value="리스트" id="show-list-btn"></td> -->
                     <td></td>
@@ -94,6 +94,7 @@
 	                	<option value="#ec7770" style="color:#ec7770">홍학</option>
 	                	<option value="#606060" style="color:#606060">흑연</option>
 	                </select>
+	                <input type="button" value="수정" id="modify-schedule-btn">
 	                <input type="button" value="일정추가" id="add-schedule-btn">
 	            </div>
 	            <div>    
