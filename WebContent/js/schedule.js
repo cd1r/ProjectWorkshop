@@ -1,4 +1,6 @@
 var continue_idx;
+var isSelected = false;
+var selectedScheduleId = 0;
 
 $(document).ready(function(){
 	callMember($('#room-id').val());
@@ -13,6 +15,8 @@ $(document).ready(function(){
 		else $("#month-span").text(Number($("#month-span").text())-1);
 		
 		setCalendar($("#year-span").text(), $("#month-span").text());
+		clearForm();
+		setOriginBtnColor();
 	});
 	
 	$("#next-month-btn").click(function(){
@@ -24,12 +28,32 @@ $(document).ready(function(){
 		else $("#month-span").text(Number($("#month-span").text())+1);
 		
 		setCalendar($("#year-span").text(), $("#month-span").text());
+		clearForm();
+		setOriginBtnColor();
 	});
 	
 	$("#add-schedule-btn").click(function(){
 		addScheduleInDB($('#room-id').val(), $("#worker-select option:selected").attr('id'), $('#job').val(), 
 						$('#color option:selected').val(), $('#from').val(), $('#to').val());
 		//addScheduleInCal();
+		clearForm();
+		isSelected = false;
+		setOriginBtnColor();
+	});
+	
+	$("#modify-schedule-btn").click(function(){
+		modifySchedule("Modify", selectedScheduleId, $("#worker-select option:selected").attr('id'), $('#job').val(), 
+		$('#color option:selected').val(), $('#from').val(), $('#to').val(), $('#room-id').val());
+		clearForm();
+		isSelected = false;
+		setOriginBtnColor();
+	});
+	
+	$("#delete-schedule-btn").click(function(){
+		deleteSchedule("Delete", selectedScheduleId, $('#room-id').val());
+		clearForm();
+		isSelected = false;
+		setOriginBtnColor();
 	});
 	
 	$("#workshop-info-menu").click(function(){
@@ -58,11 +82,11 @@ function setAddScheduleFormVisible(){
 	}
 }
 
-function loadSchedule(roomId, year, month){
+function loadSchedule(isTerm, roomId, year, month){
 	$.ajax({
 		type: "post",
 		url: "load_schedule.do",
-		data: { roomId: roomId, year : year, month : month },
+		data: {isTerm : isTerm, roomId: roomId, year : year, month : month },
 		datatype: "text",
 		success: function(data){
 			
@@ -90,6 +114,47 @@ function callMember(roomId)
 							$(this).find("name_gender").text().split(' ')[0] + 
 						'</option>');
 			});
+		}
+	});	
+}
+
+function modifySchedule(methodType, id, email, job, color, from, to, roomId)
+{
+	$.ajax({
+		type: "post",
+		url: "modify_delete_schedule.do",
+		data: {methodType : methodType, id : id, email : email, 
+				job : job, color : color, from : from, to : to},
+		datatype: "text",
+		success: function(data){
+			if(data == "true"){
+				alert("일정이 수정되었습니다.");
+				loadSchedule("True", $('#room-id').val(), $("#year-span").text(), $("#month-span").text());
+			}
+			else{alert("일정 수정을 실패하였습니다.");}
+		},
+		error : function(){
+			alert("error");
+		}
+	});	
+}
+
+function deleteSchedule(methodType, id, roomId)
+{
+	$.ajax({
+		type: "post",
+		url: "modify_delete_schedule.do",
+		data: {methodType : methodType, id : id},
+		datatype: "text",
+		success: function(data){
+			if(data == "true"){
+				alert("일정이 삭제되었습니다.");
+				loadSchedule("True", $('#room-id').val(), $("#year-span").text(), $("#month-span").text());
+			}
+			else{alert("일정 삭제를 실패하였습니다.");}
+		},
+		error : function(){
+			alert("error");
 		}
 	});	
 }
@@ -223,7 +288,7 @@ function addScheduleInDB(roomId, email, job, color, from, to)
 			//alert(data);
 			if(data.split(' ')[0] == "true"){
 				//addScheduleInCal(data.split(' ')[1]);
-				loadSchedule(roomId);
+				loadSchedule("True", $('#room-id').val(), $("#year-span").text(), $("#month-span").text());
 				alert("일정이 추가되었습니다.");
 			}
 			else{alert("일정 추가에 실패하였습니다.");}
@@ -233,6 +298,13 @@ function addScheduleInDB(roomId, email, job, color, from, to)
 		}
 	});	
 }
+
+function clearForm(){
+	$("#from").val("");
+	$("#to").val("");
+	$("#job").val("");
+}
+
 
 function setCalendar(year, month)
 {
@@ -320,7 +392,7 @@ function setCalendar(year, month)
 				$(this).css({"background-color" : "white", "border-bottom" : "1px #4472c4 solid"});
 	});
 	
-	loadSchedule($('#room-id').val(), $("#year-span").text(), $("#month-span").text());
+	loadSchedule("True", $('#room-id').val(), $("#year-span").text(), $("#month-span").text());
 	
 	$("ul").delegate("li","mouseenter", function(e){
 		if($(this).attr("class") != "empty-li"){
@@ -347,8 +419,39 @@ function setCalendar(year, month)
 	});
 	
 	$("ul").delegate("li","click", function(){
+		selectedScheduleId = $(this).attr("class");
+		$("#worker-select").val($(this).find(".mem-name").val()).prop("selected", true);
+		$("#color").val(rgb2hex($(this).find("div").css("background-color"))).prop("selected", true);
+		$("#color").css({"color" : rgb2hex($(this).find("div").css("background-color"))});
 		$("#from").val($(this).find(".from").val());		
 		$("#to").val($(this).find(".to").val());
 		$("#job").val($(this).find(".job").val());
+		
+		setSelectedScheduleBtnColor()
+		isSelected = true;	
 	});
+}
+
+function rgb2hex(rgb) {
+    if (  rgb.search("rgb") == -1 ) {
+         return rgb;
+    } else {
+         rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
+         function hex(x) {
+              return ("0" + parseInt(x).toString(16)).slice(-2);
+         }
+         return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]); 
+    }
+}
+
+function setOriginBtnColor()
+{
+	$("#modify-schedule-btn").css({"background-color" : "grey"});
+	$("#delete-schedule-btn").css({"background-color" : "grey"});
+}
+
+function setSelectedScheduleBtnColor()
+{
+	$("#modify-schedule-btn").css({"background-color" : "#4472c4"});
+	$("#delete-schedule-btn").css({"background-color" : "#4472c4"});
 }

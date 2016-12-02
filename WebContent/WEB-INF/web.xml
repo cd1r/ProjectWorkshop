@@ -128,5 +128,13 @@
   <servlet-mapping>
     <servlet-name>delete_room</servlet-name>
     <url-pattern>/delete_room.do</url-pattern>
-  </servlet-mapping>    
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>modify_delete_schedule</servlet-name>
+    <servlet-class>CHATTING.ModifyDeleteScheduleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>modify_delete_schedule</servlet-name>
+    <url-pattern>/modify_delete_schedule.do</url-pattern>
+  </servlet-mapping>
 </web-app>

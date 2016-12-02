@@ -413,7 +413,7 @@ public class ConnectDB {
 			}
 	}
 
-	public String loadScheduleInfo(String roomId, String year, String month) {
+public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 		
 		XML xml = new XML();
 		xml.make_rootElement("root");
@@ -424,7 +424,7 @@ public class ConnectDB {
 	       conn = DriverManager.getConnection(url, user, pass);
 
 	       if (conn == null)
-	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+	          throw new Exception("DB Connection Failed");
 	            
 	       pstmt = (PreparedStatement) conn.prepareStatement(
 	    		   "Select id, mem_email, acc.name, content, color, term_from, term_to, to_days(CurDate())-to_days(term_to) As dday"+
@@ -554,4 +554,101 @@ public class ConnectDB {
 		
 		return result;
 	}
+	
+	public boolean deleteSchedule(String id) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		    int rs = 0;
+
+	        conn = DriverManager.getConnection(url, user, pass);
+
+	        if (conn == null)
+	        	throw new Exception("DB Connection Failed");
+	       
+	        pstmt = (PreparedStatement) conn.prepareStatement(
+	        		"Delete From tb_jobinfo Where id=" + id + ""); 
+	        rs = pstmt.executeUpdate();
+	       
+	        if(rs > 0) return true;
+	        else return false;
+		    	              
+		} catch (Exception e) {
+			e.printStackTrace();
+	        return false;
+		}
+	}
+
+	public boolean modifySchedule(String id, String email, String job, String color, String from, String to) {
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       int rs = 0;
+
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("DB Connection Failed");
+	       
+	       pstmt = (PreparedStatement) conn.prepareStatement(
+	        "Update tb_jobinfo Set mem_email=?, content=?, color=?, term_from=?, term_to=? Where id=?"); 
+	       
+	       pstmt.setString(1, email);
+		   pstmt.setString(2, job);
+		   pstmt.setString(3, color);
+		   pstmt.setString(4, from);
+		   pstmt.setString(5, to);
+		   pstmt.setInt(6, Integer.valueOf(id));
+		       
+	       rs = pstmt.executeUpdate();
+	       
+	       if(rs > 0) return true;
+	       else return false;
+		    	              
+		} catch (Exception e) {
+			e.printStackTrace();
+		    return false;
+		}
+	}
+
+	public String loadScheduleInfoAll(String roomId) {
+
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		ResultSet rs = null;
+
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("DB Connection Failed");
+	            
+	       pstmt = (PreparedStatement) conn.prepareStatement(
+	        "Select id, mem_email, acc.name, content, color, term_from, term_to, to_days(CurDate())-to_days(term_to) As dday"+
+	    	   " From tb_jobinfo job Join tb_accinfo acc On job.mem_email=acc.email"+
+	    	   " Where room_id=? Order By term_from Asc;");
+	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       
+	       rs = pstmt.executeQuery();
+	       
+	       while(rs.next()){
+	    	   xml.make_element("info");
+	    	   	    	   
+	    	   xml.make_child("id", rs.getString("id"));
+	    	   xml.make_child("mem_email", rs.getString("mem_email"));
+	    	   xml.make_child("name", rs.getString("name"));
+	    	   xml.make_child("job", rs.getString("content"));
+	    	   xml.make_child("color", rs.getString("color"));
+	    	   xml.make_child("from", rs.getString("term_from"));
+	    	   xml.make_child("to", rs.getString("term_to"));
+	    	   xml.make_child("dday", rs.getString("dday"));
+	       }
+	       
+	       return source = xml.make_xml();
+		       
+		} catch (Exception e) {
+			e.printStackTrace();
+		    return null;
+		}
+	}
+	
 }

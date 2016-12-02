@@ -31,18 +31,26 @@ public class LoadScheduleServlet extends HttpServlet {
 		
 		ConnectDB connDB = ConnectDB.getConnectDB();
 		
+		String isTerm = request.getParameter("isTerm");
 		String roomId = request.getParameter("roomId");
 		String year = request.getParameter("year");
 		String month = request.getParameter("month");
-		
-		System.out.println("연월 : " + year + " " + month);
-		
-		String result = connDB.loadScheduleInfo(roomId, year, month);
+				
+		String result = null;
+
+		System.out.println("Is Term : " + isTerm);
+
+		if(isTerm.equals("True"))
+		result = connDB.loadScheduleInfoInTerm(roomId, year, month);
+
+		else
+		result = connDB.loadScheduleInfoAll(roomId);
+
 		System.out.println(result);
-		
+
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = response.getWriter();
-		
+
 		if(result != null)
 		{
 			pw.write(result);
@@ -50,7 +58,7 @@ public class LoadScheduleServlet extends HttpServlet {
 		}
 		else
 		{
-			System.out.println("스케쥴 읽기 실패");
+			System.out.println("Schedule Load Failed");
 			pw.close();
 		}
 	}

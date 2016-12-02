@@ -102,7 +102,7 @@
 	                <td id="tab2-td" class="tab-td">파<br>일<br>보<br>내<br>기</td>
                 </tr> -->
             	<tr>
-   	                <td id="tab2-td" class="tab-td">파<br>일<br>저<br>장</td>
+   	                <td id="tab2-td" class="tab-td">파<br>일<br>보<br>기</td>
                 </tr>
             	<tr>
                 	<td id="tab3-td" class="tab-td">내<br>할<br>일</td>

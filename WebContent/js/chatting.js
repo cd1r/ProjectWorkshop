@@ -384,7 +384,7 @@ $(document).on("click", "#tab3-td", function(){
 	$.ajax({
 		type: "post",
 		url: "load_schedule.do",
-		data: {roomId : $("#room-id").val()},
+		data: {isTerm : "False", roomId : $("#room-id").val()},
 		datatype: "text",
 		success: function(data){
 			var job_cnt = 0;

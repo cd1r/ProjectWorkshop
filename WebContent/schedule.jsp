@@ -94,8 +94,6 @@
 	                	<option value="#ec7770" style="color:#ec7770">홍학</option>
 	                	<option value="#606060" style="color:#606060">흑연</option>
 	                </select>
-	                <input type="button" value="수정" id="modify-schedule-btn">
-	                <input type="button" value="일정추가" id="add-schedule-btn">
 	            </div>
 	            <div>    
 	            	<span class="left-label">작업기간</span>
@@ -107,6 +105,11 @@
 	               <span class="left-label">작업내용</span>
 	               <input type="text" id="job">        
 	            </div>
+	            <div id="button-div">
+	            	<input type="button" value="수정" id="modify-schedule-btn">
+	            	<input type="button" value="삭제" id="delete-schedule-btn">
+	                <input type="button" value="일정추가" id="add-schedule-btn">
+            	</div>
     		</div>
         </td>
      </tr>

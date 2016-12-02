@@ -83,6 +83,7 @@
 }
 
 #follow{
+	display:none;
 	font-family:NanumSquare;
 	font-size:16px;
 	padding:10px;
@@ -163,8 +164,39 @@
 	padding:5px;
 }
 
+#button-div{
+	text-align : center;
+}
+
+#modify-schedule-btn{
+	
+	width:90px;
+	height:35px;
+	background-color:grey;
+	color : white;
+	font-size:12px;
+	border: 0;
+	box-shadow:none;
+	cursor : pointer;
+	border-radius:7px;
+}
+
+
+#delete-schedule-btn{
+	
+	width:90px;
+	height:35px;
+	background-color:grey;
+	color : white;
+	font-size:12px;
+	border: 0;
+	box-shadow:none;
+	cursor : pointer;
+	border-radius:7px;
+}
+
 #add-schedule-btn{
-	float:right;
+	
 	width:90px;
 	height:35px;
 	background-color:#4472c4;
