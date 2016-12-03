@@ -1,3 +1,5 @@
+Kakao.init('7030fc67b3b2c71443851314f53085e2');
+
 $(document).ready(function(){
 	$("#pw").keyup(function(e) {
 		if(e.keyCode == 8)
@@ -12,7 +14,8 @@ $(document).ready(function(){
 
 //회원가입
 $(document).on("click", "#registAcc", function() {
-	location.href="register.jsp";
+	//location.href="register.jsp";
+	location.href="registerSelect.jsp";
 });
 
 //로그인 버튼
@@ -31,15 +34,79 @@ function login_call(){
 		url: "login.do",
 		data: {userId:$('#id').val(), userPw:$('#pw').val()},
 		datatype: "text",
-		success: login_result
+		success: function login_result(data){
+			if(data == "true") {
+				alert("환영합니다.");
+				location.href="intro.jsp";
+			}
+			else alert("아이디 또는 비밀번호를 확인해주세요");
+		}
 	});
 }
 
-function login_result(data){
-	if(data == "true") {
-		//alert("로그인 성공");
-		location.href="intro.jsp";
-	}
-	else alert("아이디 또는 비밀번호를 확인해주세요");
-}
+//카카오 로그인
+function loginWithKakao() {
+	Kakao.Auth.login({
+		success: function(authObj){
+			Kakao.API.request({
+				url: '/v1/user/me',
+				success: function(res){
+					$.ajax({
+						type: "post",
+						url: "login_kakao.do",
+						data: {type_id:res.id},
+						success: function(data){
+							if(data=="true"){
+								alert(res.properties.nickname+'환영합니다.');
+								location.href="intro.jsp";
+							}
+							else {
+								Kakao.Auth.logout(function(){
+									alert("정보가 없습니다.");
+									location.reload(true);
+								});
+							}
+						}
+					})
+				},
+				fail: function(error){
+					alert(JSON.stringify(error));
+				}
+			});
+		},
+		fail: function(err){
+			alert(JSON.stringify(err));
+		}
+    });
+};
 
+/*$(document).ready(function(){
+Kakao.init('7030fc67b3b2c71443851314f53085e2');
+Kakao.Auth.createLoginButton({
+	container: '#kakao-login-btn',
+	success: function(authObj){
+		Kakao.API.request({
+			url: '/v1/user/me',
+			success: function(res){
+				alert(res.properties.nickname+'환영합니다.');
+				document.write(JSON.stringify(res));
+			},
+			fail: function(error){
+				alert(JSON.stringify(error));
+			}
+		});
+	},
+	fail: function(err){
+		alert(JSON.stringify(err));
+	}
+});
+});*/
+
+$(document).on("click", "#kakao-logout-btn", function() {
+	Kakao.Auth.logout(function(){
+		setTimeout(function(){
+			alert("카카오 로그아웃");
+			//location.href="intro.jsp";
+		}, 1000);
+	});
+});

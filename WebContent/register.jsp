@@ -1,5 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%
+	request.setCharacterEncoding("utf-8");
+	String type = request.getParameter("type");
+	String type_id = "0";
+	String name = "";
+	System.out.println("회원가입 유형 : " + type);
+	
+	if(type.equals("kakao")){
+		type_id = (String)session.getAttribute("kakao_id");
+		name = (String)session.getAttribute("kakao_name");
+		System.out.println("카카오 회원가입 : "+type_id+" "+name);
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +21,13 @@
 <link href="./css/register.css" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
 <script src="./js/master.js"></script>
-<script src="./js/register.js?ver=20161117"></script>
+<script src="./js/register.js?ver=20161203"></script>
 <title>회원가입</title>
 </head>
 <body>
+	<input id="type" type="hidden" value="<%=type%>">
+	<input id="type_id" type="hidden" value="<%=type_id%>">
+
 	<div class="boxA">
 		<div class="top-back">
     	</div>
@@ -39,7 +55,18 @@
                 </form>
                 </div>
             </td>
-            <td class="td-input"><input id="reg_name" placeholder="이름"></td>
+            <td class="td-input">
+            	<% 
+            	if(type.equals("basic")){ //일반회원
+            	%>
+            		<input id="reg_name" placeholder="이름">
+            	<%}
+            	else { //카카오회원
+            	%>	
+            		<input id="reg_name" value="<%=name%>">
+            	<%}
+            	%>	
+            </td>
         </tr>
         <tr>
             <td class="td-input">
