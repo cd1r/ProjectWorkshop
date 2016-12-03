@@ -118,12 +118,12 @@
 	height:100%;
 }
 
-.memeber-name-td{
-	font-size:15px;
+.member-name-td{
+	font-size:17px;
 }
 
-.memeber-email-td{
-	font-size:10px;
+.member-email-td{
+	font-size:15px;
 }
 
 #last-empty-tr{
@@ -152,7 +152,26 @@
 
 #tab1-div {
 	display:block;
-	margin-top:30px;
+	margin : 10px;
+}
+
+#member-label{
+	color:#ff7263;
+	font-size : 30px;
+	margin-top : 30px;
+}
+
+#member-cnt-label{
+	color : #10c5a2;
+	font-size : 25px;
+	margin-top : 15px;
+	margin-bottom : 25px;
+}
+
+.is-online{
+	margin-left : 10px;
+	font-size : 13px;
+	color:red;
 }
 
 #right-member-ul{
@@ -179,6 +198,7 @@
 
 #tab2-div {
 	display:none;
+	margin : 10px;
 }
 
 #tab3-div {

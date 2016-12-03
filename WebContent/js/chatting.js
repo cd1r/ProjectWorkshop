@@ -27,8 +27,8 @@ $(document).ready(function(){
 	}
 	
 	//webSocket = new WebSocket("ws://localhost:80/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	//webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
 	
     var messageTextArea = document.getElementById("messageTextArea");
@@ -51,7 +51,7 @@ $(document).ready(function(){
     	
     	//member[index].split('\t')[0] : email, [1] : 이름, [2] : 사진 경로
     	//message.data.split('\t')[0] : 전달된 메시지 내용, message.data.split('\t')[1] : 메시지 보낸 사람의 이메일
-    	//message.data.split('\t')[2] : 파일번호(일반 대화면 0, 파일이면 파일번호)
+    	//message.data.split('\t')[2] : 파일번호(일반 대화면 0, 파일이면 파일번호, 접속 메시지면 ON)
     	for(var i=0; i<member.length; i++){
     		if(member[i].split('\t')[0] == message.data.split('\t')[1]) //전역 변수 배열에 저장된 사람의 이메일을 탐색하면서 메시지 보낸 사람의 이메일과 같은지 비교함
     		{
@@ -61,7 +61,46 @@ $(document).ready(function(){
     		}
     	}
     	
-    	if(message.data.split('\t')[2] == "0"){ //일반대화
+    	if(message.data.split('\t')[2] == "ON"){ //접속 안내 메시지
+    		$(".dialog-ul").append(
+    				'<li class="member-online-li">'+
+    				'<div id="last-read-div">' + message.data.split('\t')[0] + message.data.split('\t')[1] + '</div>'+
+            	'</li>');
+		
+			$(".member-online-li").css({"width":"97%", "height":"20px", "overflow-y":"auto",
+									 "text-align":"center",	"background-color":"#00e48b", "color":"white", "font-family":"NanumSquare",
+									 "padding-top":"5px", "padding-bottom":"5px"});
+			
+			for(var i=0; i<member.length; i++){
+				if(member[i].split("\t")[0] == message.data.split('\t')[1].split(' ')[0]){ // 이메일만 추출
+					$("#" + member[i].split("\t")[0].replace("@","").replace(".","") + "-right .is-online").text("온라인");
+					$("#" + member[i].split("\t")[0].replace("@","").replace(".","") + "-right .is-online").css({"color" : "#00e48b"});
+				}
+			}
+			
+			$(".dialog-ul li").css({"margin-bottom":"20px"});
+    	}
+    	
+    	else if(message.data.split('\t')[2] == "OFF"){ //OFF 안내 메시지
+    		$(".dialog-ul").append(
+    				'<li class="member-offline-li">'+
+    				'<div id="last-read-div">' + message.data.split('\t')[0] + message.data.split('\t')[1] + '</div>'+
+            	'</li>');
+		
+			$(".member-offline-li").css({"width":"97%", "height":"20px", "overflow-y":"auto",
+									 "text-align":"center",	"background-color":"#333333", "color":"white", "font-family":"NanumSquare",
+									 "padding-top":"5px", "padding-bottom":"5px"});
+			
+			for(var i=0; i<member.length; i++){
+				if(member[i].split("\t")[0] == message.data.split('\t')[1].split(' ')[0]){ // 이메일만 추출
+					$("#" + member[i].split("\t")[0].replace("@","").replace(".","") + "-right .is-online").text("오프라인");
+					$("#" + member[i].split("\t")[0].replace("@","").replace(".","") + "-right .is-online").css({"color" : "red"});
+				}
+			}
+			$(".dialog-ul li").css({"margin-bottom":"20px"});
+    	}
+    	
+    	else if(message.data.split('\t')[2] == "0"){ //일반대화
     		$(".dialog-ul").append(
     				'<li id="' + (++lastDialogIdx) + '" class="dialog-li">'+
     					'<table class="dialog-table">'+
@@ -126,12 +165,12 @@ $(document).on("click", "#send-btn", function(){
 				'</li>');
 	
 	$("#dialog-div").scrollTop($("#dialog-div")[0].scrollHeight);
-	
     //messageTextArea.value += "나 => "+message.value+"\n";
     //웹소켓으로 textMessage객체의 값을 보낸다.
     webSocket.send(message.value);
     //textMessage객체의 값 초기화
     message.value = "";
+    $("#dialog-enter").val("");
 });
 
 //채팅 창 닫으면 웹소켓 종료
@@ -282,16 +321,19 @@ function loadRightMember(){
 		datatype: "text",
 		success: function(data){
 			$(data).find("info").each(function(){
+				
 				$("#right-member-ul").append(
 						'<li class="right-member-li">'+
-							'<table class="right-profile-table">' +
+							'<table class="right-profile-table" id="' + $(this).find("email").text().replace("@","").replace(".","") + '-right">' +
 								'<tr>' +
 									'<td class="profile-img-td" rowspan="2"><div><img src="' + $(this).find("photo_url").text() + '"></div></td>'+
-									'<td class="member-name-td">' + $(this).find("name_gender").text().split(' ')[0] + '</td>'+
+									'<td class="member-name-td">' + $(this).find("name_gender").text().split(' ')[0] + 
+										'<span class="is-online">오프라인</span></td>'+
 								'</tr>' +
 								'<tr>' +
 									'<td class="member-email-td">' + $(this).find("email").text() + '</td>'+
 								'</tr>' +
+							'</table>'+
 						'</li>');
 				if($(this).find("email").text() == $("#user-email").val()){
 					lastReadIdx = $(this).find("last_read_dialog").text();
@@ -310,10 +352,32 @@ function loadRightMember(){
 				$(this).css({"background-color":"#272a33"});
 			});
 			
+			loadIsOnline();
 			loadDialog();
+			$("#member-cnt-label").text("총 인원 : " + member.length +"명");
 		}
 	});
 };
+
+function loadIsOnline()
+{
+	$.ajax({
+		type: "post",
+		url: "is_online.do",
+		data: {roomId : $("#room-id").val()},
+		datatype: "text",
+		success: function(data){
+			$(data).find("online").each(function(){
+				for(var i=0; i<member.length; i++){
+					if(member[i].split("\t")[0] == $(this).find("email").text()){
+						$("#" + member[i].split("\t")[0].replace("@","").replace(".","") + "-right .is-online").text("온라인");
+						$("#" + member[i].split("\t")[0].replace("@","").replace(".","") + "-right .is-online").css({"color" : "#00e48b"});
+					}
+				}
+			});
+		}
+	});
+}
 
 function loadDialog(){
 	$.ajax({
@@ -342,6 +406,7 @@ function loadDialog(){
 						if(member[i].split('\t')[0] == $(this).find("speaker").text())
 							speaker_name = member[i].split('\t')[1];
 					}
+					
 					$(".dialog-ul").append(
 			    			'<li id="' + $(this).find("id").text() + '" class="dialog-li">'+
 			    				'<table class="dialog-table">'+
@@ -360,7 +425,7 @@ function loadDialog(){
 			
 			$(".dialog-ul li").css({"margin-bottom":"20px"});
 			
-			if(lastDialogIdx != lastReadIdx && lastDialogIdx != 0 ){
+			if(lastDialogIdx != lastReadIdx && lastReadIdx != 0 ){
 				$(".dialog-ul li").eq(lastReadIdx).after(
 		    			'<li class="last-read-li">'+
 		    				'<div id="last-read-div">여기까지 읽으셨습니다.</div>'+

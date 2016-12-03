@@ -394,7 +394,7 @@ function setCalendar(year, month)
 	
 	loadSchedule("True", $('#room-id').val(), $("#year-span").text(), $("#month-span").text());
 	
-	$("ul").delegate("li","mouseenter", function(e){
+	$("ul").delegate("li","mouseover", function(e){
 		if($(this).attr("class") != "empty-li"){
 			$("#follow").css({"display":"block"});
 			$("#float-name").text("담당 : " + $(this).find(".mem-name").val());
@@ -412,23 +412,25 @@ function setCalendar(year, month)
 		}
 	});
 	
-	$("ul").delegate("li","mouseleave", function(e){
-		if($(this).attr("class") == "empty-li" || $(this).find("li").length == 0){
+	$("ul").delegate("li","mouseout", function(e){
+		//if($(this).attr("class") == "empty-li" || $(this).find("li").length == 0){
 			$("#follow").css({"display":"none"});
-		}
+		//}
 	});
 	
 	$("ul").delegate("li","click", function(){
-		selectedScheduleId = $(this).attr("class");
-		$("#worker-select").val($(this).find(".mem-name").val()).prop("selected", true);
-		$("#color").val(rgb2hex($(this).find("div").css("background-color"))).prop("selected", true);
-		$("#color").css({"color" : rgb2hex($(this).find("div").css("background-color"))});
-		$("#from").val($(this).find(".from").val());		
-		$("#to").val($(this).find(".to").val());
-		$("#job").val($(this).find(".job").val());
-		
-		setSelectedScheduleBtnColor()
-		isSelected = true;	
+		if($(this).attr("class") != "empty-li"){
+			selectedScheduleId = $(this).attr("class");
+			$("#worker-select").val($(this).find(".mem-name").val()).prop("selected", true);
+			$("#color").val(rgb2hex($(this).find("div").css("background-color"))).prop("selected", true);
+			$("#color").css({"color" : rgb2hex($(this).find("div").css("background-color"))});
+			$("#from").val($(this).find(".from").val());		
+			$("#to").val($(this).find(".to").val());
+			$("#job").val($(this).find(".job").val());
+			
+			setSelectedScheduleBtnColor()
+			isSelected = true;	
+		}
 	});
 }
 

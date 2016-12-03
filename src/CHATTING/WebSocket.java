@@ -56,26 +56,13 @@ public class WebSocket {
 					System.out.println("메시지 DB 저장 성공");
 				else
 					System.out.println("메시지 DB 저장 실패");
-				ArrayList<String> clientStr = new ArrayList<>();
 				
-				InputSource is = new InputSource(new StringReader(connDB.getReceiverClient(roomId)));
+				ArrayList ReceiverList = getReceiverList(roomId);
 				
-				Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
-				XPath xpath= XPathFactory.newInstance().newXPath();
-				
-				NodeList sessions = (NodeList)xpath.evaluate("//sessions/session", document, XPathConstants.NODESET);
-				
-				// 메시지 받을 사람의 세션 얻기
-				for(int idx=0; idx<sessions.getLength(); idx++){ 
-					//System.out.println(sessions.item(idx).getTextContent());
-					clientStr.add(sessions.item(idx).getTextContent());
-				}
-				
-				//System.out.println(message);
-				for(int i=0; i<clientStr.size(); i++){
-					if(!clientStr.get(i).equals(session.toString()))
+				for(int i=0; i<ReceiverList.size(); i++){
+					if(!ReceiverList.get(i).equals(session.toString()))
 					{
-						clientsMap.get(clientStr.get(i)).getBasicRemote().sendText(
+						clientsMap.get(ReceiverList.get(i)).getBasicRemote().sendText(
 								message + "\t" + email + "\t" + file);
 					}
 				}
@@ -91,29 +78,86 @@ public class WebSocket {
 	public void onOpen(Session session, @PathParam("email") String email, @PathParam("roomId") int roomId){
 		
 		System.out.println("클라이언트 접속 정보 = session : " + session + " / email : " + email + " / roomId : " + roomId);
-		if(connDB.addClient(session.toString(), email, roomId)){
-			System.out.println("클라이언트 추가 완료!");
+		
+		try{
+			if(connDB.addClient(session.toString(), email, roomId)){
+				System.out.println("클라이언트 추가 완료!");
+			}
+			else{
+				System.out.println("클라이언트 추가 실패!");
+			}
+			clientsMap.put(session.toString(), session);
+			
+			ArrayList ReceiverList = getReceiverList(roomId);
+			
+			for(int i=0; i<ReceiverList.size(); i++){
+				if(!ReceiverList.get(i).equals(session.toString()))
+				{
+					clientsMap.get(ReceiverList.get(i)).getBasicRemote().sendText(
+							"알림! " + "\t" + email + " 님이 접속하셨습니다." + "\t" + "ON");
+				}
+			}
 		}
-		else{
-			System.out.println("클라이언트 추가 실패!");
+		catch(Exception e){
+			e.printStackTrace();
 		}
-		clientsMap.put(session.toString(), session);
 	}
 	
 	//클라이언트가 접속이 끊겨졌을 때
 	@OnClose
 	public void onClose(Session session, @PathParam("email") String email, @PathParam("roomId") int roomId){
 		System.out.println("클라이언트 해제 정보 = session : " + session + " / email : " + email + " / roomId : " + roomId);
-		if(connDB.deleteClient(email, roomId))
-			System.out.println("클라이언트 제거 완료!");
-		else
-			System.out.println("클라이언트 제거 실패!");
 		
-		if(connDB.insertLastReadDialogId(email, roomId))
-			System.out.println("Last Dialog ID 삽입 완료!");
-		else
-			System.out.println("Last Dialog ID 삽입 실패!");
-
-		clientsMap.remove(session.toString());
+		try{
+			if(connDB.deleteClient(email, roomId))
+				System.out.println("클라이언트 제거 완료!");
+			else
+				System.out.println("클라이언트 제거 실패!");
+			
+			if(connDB.insertLastReadDialogId(email, roomId))
+				System.out.println("Last Dialog ID 삽입 완료!");
+			else
+				System.out.println("Last Dialog ID 삽입 실패!");
+	
+			clientsMap.remove(session.toString());
+			
+			ArrayList ReceiverList = getReceiverList(roomId);
+			
+			for(int i=0; i<ReceiverList.size(); i++){
+				if(!ReceiverList.get(i).equals(session.toString()))
+				{
+					clientsMap.get(ReceiverList.get(i)).getBasicRemote().sendText(
+							"알림! " + "\t" + email + " 님이 나가셨습니다." + "\t" + "OFF");
+				}
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	private ArrayList getReceiverList(int roomId){
+		
+		try{
+			ArrayList<String> clientStr = new ArrayList<>();
+			
+			InputSource is = new InputSource(new StringReader(connDB.getReceiverClient(roomId)));
+			
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
+			XPath xpath= XPathFactory.newInstance().newXPath();
+			
+			NodeList sessions = (NodeList)xpath.evaluate("//sessions/session", document, XPathConstants.NODESET);
+			
+			// 메시지 받을 사람의 세션 얻기
+			for(int idx=0; idx<sessions.getLength(); idx++){ 
+				//System.out.println(sessions.item(idx).getTextContent());
+				clientStr.add(sessions.item(idx).getTextContent());
+			}
+			return clientStr;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

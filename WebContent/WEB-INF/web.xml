@@ -120,7 +120,7 @@
   <servlet-mapping>
     <servlet-name>profile_upload</servlet-name>
     <url-pattern>/profile_upload.do</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
   <servlet>
     <servlet-name>delete_room</servlet-name>
     <servlet-class>ENTERROOM.DeleteRoomServlet</servlet-class>
@@ -136,5 +136,13 @@
   <servlet-mapping>
     <servlet-name>modify_delete_schedule</servlet-name>
     <url-pattern>/modify_delete_schedule.do</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>is_online</servlet-name>
+    <servlet-class>CHATTING.IsOnlineServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>is_online</servlet-name>
+    <url-pattern>/is_online.do</url-pattern>
   </servlet-mapping>
 </web-app>

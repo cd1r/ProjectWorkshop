@@ -64,6 +64,8 @@
                 	<td id="tab1-td" class="tab-td">구<br>성<br>원</td>
                     <td id="tab-content-td" rowspan="5">
                     	<div id="tab1-div">
+                    		<div id="member-label">공작소 구성원</div>
+                    		<div id="member-cnt-label">총 인원 : 0명</div>
                         	<ul id="right-member-ul">
                             </ul>
                         </div>

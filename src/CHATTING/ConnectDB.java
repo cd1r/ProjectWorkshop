@@ -503,7 +503,7 @@ public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
 	            
 	       pstmt = (PreparedStatement) conn.prepareStatement(
-	    		   "Select di.id, di.speaker, di.context, di.datetime, acc.photo_url"+ 
+	    		   "Select di.id, di.speaker, di.context, di.datetime, di.file, acc.photo_url"+ 
 	    		   " From tb_dialog" + roomId + " di Join tb_accinfo acc On di.speaker=acc.email");
 	       rs = pstmt.executeQuery();
 	       
@@ -514,6 +514,7 @@ public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 	    	   xml.make_child("speaker", rs.getString("di.speaker"));
 	    	   xml.make_child("context", rs.getString("di.context"));
 	    	   xml.make_child("datetime", rs.getString("di.datetime"));
+	    	   xml.make_child("file", rs.getString("di.file"));
 	    	   xml.make_child("photo_url", rs.getString("acc.photo_url"));
 	       }
 	       
@@ -641,6 +642,39 @@ public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 	    	   xml.make_child("from", rs.getString("term_from"));
 	    	   xml.make_child("to", rs.getString("term_to"));
 	    	   xml.make_child("dday", rs.getString("dday"));
+	       }
+	       
+	       return source = xml.make_xml();
+		       
+		} catch (Exception e) {
+			e.printStackTrace();
+		    return null;
+		}
+	}
+	
+	public String loadIsLogin(String roomId) {
+
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		ResultSet rs = null;
+
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("DB Connection Failed");
+	            
+	       pstmt = (PreparedStatement) conn.prepareStatement(
+	        "Select email From tb_session Where room_id=?");
+	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       
+	       rs = pstmt.executeQuery();
+	       
+	       while(rs.next()){
+	    	   xml.make_element("online");
+	    	   	    	   
+	    	   xml.make_child("email", rs.getString("email"));
 	       }
 	       
 	       return source = xml.make_xml();
