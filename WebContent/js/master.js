@@ -10,7 +10,6 @@ $(document).on("click", "#logout-label", function(){
 	
 	Kakao.init('7030fc67b3b2c71443851314f53085e2');
 	Kakao.Auth.logout(function(){
-		alert("카카오톡 로그아웃");
 		location.href = "logout.do";
 	});
 	
