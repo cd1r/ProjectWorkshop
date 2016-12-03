@@ -44,6 +44,9 @@
                 <div class="all-menu" id="file-menu">공작소창고보기</div>
                 <div class="all-menu" id="schedule-menu">공작소일정보기</div>
             </div>
+            <div id="menu-icon">
+            	<img src="./images/workshopinfo.png">
+            </div>
 
         </td>
         <td id="workshop-info-content">

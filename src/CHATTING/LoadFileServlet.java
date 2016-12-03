@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class WorkshopInfoServlet
+ * Servlet implementation class LoadFileServlet
  */
-@WebServlet("/workshop_member")
-public class WorkshopMemberServlet extends HttpServlet {
+@WebServlet("/load_file")
+public class LoadFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public WorkshopMemberServlet() {
+    public LoadFileServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,30 +29,36 @@ public class WorkshopMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		ConnectDB connDB = ConnectDB.getConnectDB();
 		
 		String roomId = request.getParameter("roomId");
+		String searchCriteria = request.getParameter("searchCriteria");
+		String searchKeyword = request.getParameter("searchKeyword");
 		
-		String result = connDB.loadWorkshopMemberInfo(roomId);
+		System.out.println("LoadFileServlet Parmas : " + roomId + " " + searchCriteria + " " + searchKeyword);
+		
+		String result = null; 
+		
+		if(searchCriteria != null)
+			result = connDB.searchFileInfo(roomId, searchCriteria, searchKeyword);
+		
+		else
+			result = connDB.loadFileInfo(roomId);
+		
 		System.out.println(result);
-		
-		HttpSession Session = request.getSession();
-		Session.setAttribute("room" + roomId+"_manager_email", result.split("\t")[1]);
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = response.getWriter();
 		
 		if(result != null)
 		{
-			pw.write(result.split("\t")[0]);
+			pw.write(result);
 			pw.close();
 		}
 		else
 		{
-			System.out.println("공작소 멤버 읽기 실패");
+			System.out.println("파일 목록 읽기 실패");
 			pw.close();
 		}
 	}
-
 }

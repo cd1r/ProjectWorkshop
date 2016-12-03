@@ -137,12 +137,20 @@
     <servlet-name>modify_delete_schedule</servlet-name>
     <url-pattern>/modify_delete_schedule.do</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>is_online</servlet-name>
     <servlet-class>CHATTING.IsOnlineServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>is_online</servlet-name>
     <url-pattern>/is_online.do</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>load_file</servlet-name>
+    <servlet-class>CHATTING.LoadFileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>load_file</servlet-name>
+    <url-pattern>/load_file.do</url-pattern>
   </servlet-mapping>
 </web-app>

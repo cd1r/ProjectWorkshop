@@ -8,7 +8,7 @@ var member = [];
 $(document).ready(function(){
 
 	roomId = $("#room-id").val();
-	alert(roomId);
+	//alert(roomId);
 	
 	loadRightMember();
 	
@@ -426,8 +426,8 @@ function loadDialog(){
 						$(".dialog-ul").append(
 			        			'<li id="' + (++lastDialogIdx) + '" class="dialog-li">'+
 			        				'<table class="dialog-table">'+
-			                			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + temp_photo_url +'"></td>'+
-			                				'<td class="speaker-name-td">' + temp_name + '</td>'+
+			                			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + $(this).find("photo_url").text() +'"></td>'+
+			                				'<td class="speaker-name-td">' + speaker_name + '</td>'+
 			                			'</tr>'+
 			                			'<tr>'+
 			                				'<td class="talk-td">'+$(this).find("context").text()+'<br>'+

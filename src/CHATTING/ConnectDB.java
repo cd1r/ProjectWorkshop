@@ -207,7 +207,7 @@ public class ConnectDB {
 		return result;
 	}
 	
-	public String loadWorkshopMemeberInfo(String roomId) {
+	public String loadWorkshopMemberInfo(String roomId) {
 
 		XML xml = new XML();
 		xml.make_rootElement("root");
@@ -675,6 +675,109 @@ public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 	    	   xml.make_element("online");
 	    	   	    	   
 	    	   xml.make_child("email", rs.getString("email"));
+	       }
+	       
+	       return source = xml.make_xml();
+		       
+		} catch (Exception e) {
+			e.printStackTrace();
+		    return null;
+		}
+	}
+
+	public String loadFileInfo(String roomId) {
+		
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		ResultSet rs = null;
+
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("DB Connection Failed");
+	            
+	       pstmt = (PreparedStatement) conn.prepareStatement(
+	        "Select file.id, acc.name, uploader_email, file_name, extention, file_url, size, DATE_FORMAT(upload_date, '%Y-%m-%d') As upload_date"+
+	        " From tb_fileinfo file Join tb_accinfo acc On file.uploader_email = acc.email" +
+       		" Where room_id=? Order By extention");
+	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       
+	       rs = pstmt.executeQuery();
+	       
+	       while(rs.next()){
+	    	   xml.make_element("files");
+	    	   	    	   
+	    	   xml.make_child("id", rs.getString("file.id"));
+	    	   xml.make_child("name", rs.getString("acc.name"));
+	    	   xml.make_child("uploader_email", rs.getString("uploader_email"));
+	    	   xml.make_child("file_name", rs.getString("file_name"));
+	    	   xml.make_child("extention", rs.getString("extention"));
+	    	   xml.make_child("file_url", rs.getString("file_url"));
+	    	   xml.make_child("size", rs.getString("size"));
+	    	   xml.make_child("upload_date", rs.getString("upload_date"));
+	       }
+	       
+	       return source = xml.make_xml();
+		       
+		} catch (Exception e) {
+			e.printStackTrace();
+		    return null;
+		}
+	}
+
+	public String searchFileInfo(String roomId, String criteria, String keyword) {
+		
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		ResultSet rs = null;
+
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("DB Connection Failed");
+	       
+	       if(criteria.equals("file-name"))
+	       {
+	    	   pstmt = (PreparedStatement) conn.prepareStatement(
+	    		        "Select file.id, acc.name, uploader_email, file_name, extention, file_url, size, DATE_FORMAT(upload_date, '%Y-%m-%d') As upload_date"+
+	    		        " From tb_fileinfo file Join tb_accinfo acc On file.uploader_email = acc.email" +
+	    	       		" Where room_id=? And file_name Like '%" + keyword + "%' Order By extention");
+	    	   pstmt.setInt(1, Integer.valueOf(roomId));
+	       }
+	       
+	       else if(criteria.equals("extension")){
+	    	   pstmt = (PreparedStatement) conn.prepareStatement(
+	    		        "Select file.id, acc.name, uploader_email, file_name, extention, file_url, size, DATE_FORMAT(upload_date, '%Y-%m-%d') As upload_date"+
+	    		        " From tb_fileinfo file Join tb_accinfo acc On file.uploader_email = acc.email" +
+	    	       		" Where room_id=? And extention Like '%" + keyword.toLowerCase() + "%' Order By extention");
+	    	   pstmt.setInt(1, Integer.valueOf(roomId));
+	       }
+	       
+	       else if(criteria.equals("uploader")){
+	    	   pstmt = (PreparedStatement) conn.prepareStatement(
+	    		        "Select file.id, acc.name, uploader_email, file_name, extention, file_url, size, DATE_FORMAT(upload_date, '%Y-%m-%d') As upload_date"+
+	    		        " From tb_fileinfo file Join tb_accinfo acc On file.uploader_email = acc.email" +
+	    	       		" Where room_id=? And acc.name Like '%" + keyword + "%' Order By extention");
+	    	   pstmt.setInt(1, Integer.valueOf(roomId));
+	       }
+	       
+	       rs = pstmt.executeQuery();
+	       
+	       while(rs.next()){
+	    	   xml.make_element("files");
+	    	   	    	   
+	    	   xml.make_child("id", rs.getString("file.id"));
+	    	   xml.make_child("name", rs.getString("acc.name"));
+	    	   xml.make_child("uploader_email", rs.getString("uploader_email"));
+	    	   xml.make_child("file_name", rs.getString("file_name"));
+	    	   xml.make_child("extention", rs.getString("extention"));
+	    	   xml.make_child("file_url", rs.getString("file_url"));
+	    	   xml.make_child("size", rs.getString("size"));
+	    	   xml.make_child("upload_date", rs.getString("upload_date"));
 	       }
 	       
 	       return source = xml.make_xml();

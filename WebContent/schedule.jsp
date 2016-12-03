@@ -33,7 +33,6 @@
 <table id="chatLayout">
 	<tr>
     	<td class="left-side">
-
             <div class="profile-div">
                 <div class="profile-img-div">
                     <img class="profile-img" src="<%=photo_url%>">
@@ -47,7 +46,9 @@
                 <div class="all-menu" id="file-menu">공작소창고보기</div>
                 <div class="all-menu" id="schedule-menu">공작소일정보기</div>
             </div>
-
+			<div id="menu-icon">
+            	<img src="./images/schedule.png">
+            </div>
         </td>
         <td id="schedule-content">
             <table id="calendar" align="center">
