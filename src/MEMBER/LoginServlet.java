@@ -49,6 +49,7 @@ public class LoginServlet extends HttpServlet {
 			Session.setAttribute("user_email", userId);
 			Session.setAttribute("user_name", result.split("\t")[0]);
 			Session.setAttribute("photo_url", result.split("\t")[1]);
+			Session.setAttribute("login_type", "basic");
 			
 			pw.write("true");
 			pw.close();

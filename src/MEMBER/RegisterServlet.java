@@ -38,6 +38,7 @@ public class RegisterServlet extends HttpServlet {
 		ConnectDB connDB = ConnectDB.getConnectDB();
 		
 		String result;
+		String type = request.getParameter("type");//일반회원가입인지 카카오톡회원가입인지 구별해줌
 		String name = request.getParameter("name");
 		String pw = request.getParameter("pw");
 		String email = request.getParameter("email");
@@ -50,8 +51,8 @@ public class RegisterServlet extends HttpServlet {
 		
 		String profile_save = "";
 		
-		System.out.println("넘어온 값"+name+" "+pw+" "+email+" "+phone+" "+organization+" "+grade+" "+gender+" "+extention);
-		System.out.println("넘어온 값"+profile_url);
+		System.out.println("넘어온 값 "+type+" "+name+" "+pw+" "+email+" "+phone+" "+organization+" "+grade+" "+gender+" "+extention);
+		System.out.println("넘어온 값 "+profile_url);
 		
 		if(!profile_url.equals("./images/null_profile.png")){
 			try {
@@ -68,7 +69,7 @@ public class RegisterServlet extends HttpServlet {
 		}
 		else profile_save = "./images/null_profile.png";
 		
-		result = String.valueOf(connDB.registerAccount(name, pw, email, organization, phone, grade, gender, profile_save));
+		result = String.valueOf(connDB.registerAccount(type, name, pw, email, organization, phone, grade, gender, profile_save));
 		
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter pwrite = response.getWriter();

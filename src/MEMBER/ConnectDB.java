@@ -59,8 +59,40 @@ public class ConnectDB {
 		return result;
 	}
 	
+	//카카오 로그인
+	public String loginKakaoConfirm(String id){
+		
+		String result = null;
+		
+		try {
+	       Class.forName("com.mysql.jdbc.Driver");
+	       conn = DriverManager.getConnection(url, user, pass);
+
+	       if (conn == null)
+	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
+	         
+	       pstmt = (PreparedStatement) conn.prepareStatement("Select * From tb_accinfo Where reg_type=?");
+	       pstmt.setInt(1, Integer.parseInt(id));
+	       
+	       rs = pstmt.executeQuery();
+	         
+	       if(rs.next())
+	    	   result = rs.getString("email") + "\t" + rs.getString("name") + "\t" + rs.getString("photo_url");
+	       else result = null;
+	                  
+		} catch (Exception e) {
+	         e.printStackTrace();
+	    }finally{
+			try{rs.close();}catch(SQLException e){}
+			try{pstmt.close();}catch(SQLException e){}
+			try{conn.close();}catch(SQLException e){}
+		}
+		
+		return result;
+	}
+	
 	//회원가입
-	public boolean registerAccount(String name, String pw, String email, String organization,
+	public boolean registerAccount(String type, String name, String pw, String email, String organization,
 									String phone, String grade, String gender, String photo_url){
 		int result = 0;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,7 +105,7 @@ public class ConnectDB {
 		    if (conn == null)
 		    	throw new Exception("데이터베이스에 연결할 수 없습니다.");
 		         
-		    pstmt = (PreparedStatement) conn.prepareStatement("insert into tb_accinfo values(?,?,?,?,?,?,?,?,?)");
+		    pstmt = (PreparedStatement) conn.prepareStatement("insert into tb_accinfo values(?,?,?,?,?,?,?,?,?,?)");
 		    pstmt.setString(1, email);
 		    pstmt.setString(2, pw);
 		    pstmt.setString(3, name);
@@ -83,6 +115,7 @@ public class ConnectDB {
 		    pstmt.setString(7, grade);
 		    pstmt.setString(8, photo_url);
 		    pstmt.setString(9, date);
+		    pstmt.setInt(10, Integer.parseInt(type));
 				
 		    result = pstmt.executeUpdate();
 		} catch (Exception e) {

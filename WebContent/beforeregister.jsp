@@ -8,11 +8,10 @@
 <link href="./css/beforeregister.css" type="text/css" rel="stylesheet"/>
 <title>회원가입</title>
 <script src="./js/jquery-1.9.1.min.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="./js/beforeregister.js"></script>
 <script src="./js/master.js"></script>
 
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-<script src="./js/kakao.js"></script>
 </head>
 
 <body>
@@ -27,7 +26,7 @@
 		  	<a href="login.jsp">로그인</a>
 		</div>
 	    <div class="regist">
-	    	<a href="register.jsp">회원가입</a>
+	    	<a href="beforeregister.jsp">회원가입</a>
 		</div>
     </div>
     
@@ -35,7 +34,11 @@
 	<div id="own-type-label">프로젝트 공작소 간편 회원가입</div>
  	<div><input type="button" id="own-type" value="회원가입"></div>
  	<div id="other-type-label">외부 계정으로 회원가입</div>
- 	<div id="regist-kakao"><img src="./images/regist_kakao.png"></div>
+ 	
+ 	<a id="KakaoRegister2" href="javascript:loginWithKakao()">
+	<div id="regist-kakao"><img src="./images/regist_kakao.png"></div>
+	</a>
+ 	
 </div>
     
     

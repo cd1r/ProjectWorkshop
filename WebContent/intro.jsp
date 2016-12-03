@@ -3,11 +3,13 @@
 <%
 	boolean isSession = false;
 	String user_email = null;
+	String login_type = null;
 	user_email = (String)session.getAttribute("user_email");
+	login_type = (String)session.getAttribute("login_type"); 
 	if(user_email != null)
 		isSession = true;
 	
-	System.out.println("세션 ID : " + user_email);
+	System.out.println("세션 ID : " + user_email + " " + login_type);
 %>
 <!DOCTYPE html>
 <html>
@@ -22,14 +24,16 @@
 <link href="./carousel/google-code-prettify/prettify.css" rel="stylesheet">
 
 <script src="./js/jquery-1.9.1.min.js"></script> 
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="./carousel/owl.carousel.js"></script>
-<script src="./js/master.js?ver=1"></script>
+<script src="./js/master.js?ver=20161203"></script>
 <script src="./js/intro.js"></script>
-<title>프로젝트 공작소</title>
+<title>홈</title>
 </head>
 
 <body>
 	<input id="user-email" type="hidden" value="<%=user_email%>">
+	<input id="login-type" type="hidden" value="<%=login_type%>">
 	<div class="boxA">
 		<div class="top-back">
     	</div>

@@ -106,14 +106,6 @@
     <url-pattern>/load_dialog.do</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>file_download</servlet-name>
-    <servlet-class>CHATTING.FileDownloadServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>file_download</servlet-name>
-    <url-pattern>/file_download.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
     <servlet-name>profile_upload</servlet-name>
     <servlet-class>MEMBER.ProfileUploadServlet</servlet-class>
   </servlet>
@@ -152,5 +144,22 @@
   <servlet-mapping>
     <servlet-name>load_file</servlet-name>
     <url-pattern>/load_file.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>register_kakao</servlet-name>
+    <servlet-class>MEMBER.RegisterKakaoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>register_kakao</servlet-name>
+    <url-pattern>/register_kakao.do</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>login_kakao</servlet-name>
+    <servlet-class>MEMBER.LoginKakaoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>login_kakao</servlet-name>
+    <url-pattern>/login_kakao.do</url-pattern>
   </servlet-mapping>
 </web-app>

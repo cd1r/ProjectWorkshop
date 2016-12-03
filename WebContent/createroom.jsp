@@ -16,6 +16,7 @@
 <link href="./css/master.css" type="text/css" rel="stylesheet"/>
 <link href="./css/createroom.css" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="./js/createroom.js"></script>
 <script src="./js/master.js"></script> 
 

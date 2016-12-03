@@ -8,6 +8,13 @@ var email_chk = false;
 var photo_url = "./images/null_profile.png";
 
 $(document).ready(function(){
+	if($("#type").val()=="kakao"){
+		document.getElementById("reg_passwd").disabled = true;
+		document.getElementById("reg_passwd_confirm").disabled = true;
+		passwd_chk = true;
+		passwd_confirm_chk = true;
+	}
+	
 	$("#reg_passwd").keyup(function(e) {
 		var err = 0; 
 		var str = $("#reg_passwd").val();
@@ -128,12 +135,12 @@ function checkInput(){
 		alert("이메일중복 확인을 해주세요");
 		return false;
 	}
-	else if($("#reg_passwd").val()==""){ //확인
+	else if($("#type_id").val()=="0" && $("#reg_passwd").val()==""){ //확인
 		alert("비밀번호를 입력해주세요");
 		$("#reg_passwd").focus();
 		return false;
 	}
-	else if($("#reg_passwd_confirm").val()==""){
+	else if($("#type_id").val()=="0" && $("#reg_passwd_confirm").val()==""){
 		alert("비밀번호 확인을 해주세요");
 		$("#reg_passwd_confirm").focus();
 		return false;
@@ -167,7 +174,6 @@ $(document).on("click", "#reg_cancel", function(){
 
 //확인버튼
 $(document).on("click", "#reg_confirm", function(){
-
 	if(checkInput()==true){
 		alert("회원가입 가능");
 		register_call();
@@ -210,7 +216,7 @@ function register_call_db(){
 	$.ajax({
 		type: "post",
 		url: "register.do",
-		data: {name:$('#reg_name').val(), pw:$('#reg_passwd').val(), phone:$('#reg_phone').val(),
+		data: {type:$('#type_id').val(), name:$('#reg_name').val(), pw:$('#reg_passwd').val(), phone:$('#reg_phone').val(),
 			email:emailstr, organization:$('#reg_organization').val(), grade:$('#reg_grade_selector').val(),
 			gender:$(':input:radio[name=gender]:checked').val(), profile_url:photo_url, extention:type},
 		datatype: "text",
@@ -278,24 +284,3 @@ $(document).on("change", "#photo-path", function(){
 	photo_url = $("#photo-path").val();
 });
 
-/*$(document).on("click", "#load-photo-btn", function(){
-	var formData = new FormData();
-	formData.append("uploadfile",$("input[id=photo-path]")[0].files[0]);
-
-	$.ajax({
-		type: "post",
-		url: "profile_upload.do",
-		data: formData,
-		processData: false,
-		contentType: false,
-		datatype: "text",
-		success: function(data) {
-			if(data == "true") {
-				alert("프로필 업로드 성공");
-			}
-			else{ 
-				alert("프로필 업로드 실패");
-			}
-		}
-	});	
-});*/
