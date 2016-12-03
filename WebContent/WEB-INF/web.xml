@@ -106,14 +106,6 @@
     <url-pattern>/load_dialog.do</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>file_download</servlet-name>
-    <servlet-class>CHATTING.FileDownloadServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>file_download</servlet-name>
-    <url-pattern>/file_download.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
     <servlet-name>profile_upload</servlet-name>
     <servlet-class>MEMBER.ProfileUploadServlet</servlet-class>
   </servlet>
