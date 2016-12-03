@@ -17,11 +17,9 @@ $(document).on("click", "#logout-label", function(){
 });
 
 $(document).on("click", "#regist-label", function(){
-	//location.href = "register.jsp";
-	location.href = "registerSelect.jsp";
+	location.href = "beforeregister.jsp";
 });
 
 $(document).on("click", "#modify-label", function(){
 	location.href = "modify.jsp";
 });
-

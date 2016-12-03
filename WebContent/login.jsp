@@ -29,7 +29,7 @@
 		  	<a href="login.jsp">로그인</a>
 		</div>
 	    <div class="regist">
-	    	<a href="registerSelect.jsp">회원가입</a>
+	    	<a href="beforeregister.jsp">회원가입</a>
 		</div>
     </div>
     

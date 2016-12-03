@@ -14,8 +14,7 @@ $(document).ready(function(){
 
 //회원가입
 $(document).on("click", "#registAcc", function() {
-	//location.href="register.jsp";
-	location.href="registerSelect.jsp";
+	location.href="beforeregister.jsp";
 });
 
 //로그인 버튼

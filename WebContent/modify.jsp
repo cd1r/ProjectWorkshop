@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<title>회원정보수정</title>
 </head>
 <body>
 	<input id="user-email" type="hidden" value="<%=user_email%>">

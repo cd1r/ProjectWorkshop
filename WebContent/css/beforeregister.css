@@ -1,0 +1,33 @@
+#register-type-form{
+	margin-top : 50px;
+	font-size : 17px;
+	font-family : NanumSquare;
+	text-align : center;
+}
+
+#own-type-label{
+	padding-right:95px;
+	margin-bottom : 10px;
+}
+
+#own-type{
+	width:305px;
+	height : 47px;	
+	background-color:#4d94ff;
+	color : white;
+	font-family:NanumSquare;
+	font-size:20px;
+	border: 0;
+	box-shadow:none;
+	cursor : pointer;
+}
+
+#other-type-label{
+	padding-right:145px;
+	margin-top:40px;
+	margin-bottom : 10px;
+}
+
+#regist-kakao{
+	cursor:pointer;
+}
