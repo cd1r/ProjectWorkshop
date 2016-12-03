@@ -28,7 +28,7 @@
 <script src="./carousel/owl.carousel.js"></script>
 <script src="./js/master.js?ver=20161203"></script>
 <script src="./js/intro.js"></script>
-<title>홈</title>
+<title>프로젝트공작소</title>
 </head>
 
 <body>
