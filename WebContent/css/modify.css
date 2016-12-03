@@ -1,0 +1,164 @@
+@charset "utf-8";
+/* CSS Document */
+
+table{
+	
+}
+
+#modify-form{
+	margin-top : 50px;
+}
+
+tr{
+	height : 60px;
+	vertical-align:top;
+}
+
+#modify_name{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#modify_email{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#modify_gender{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+select{
+	font-family:NanumSquare;
+	height : 43px;
+	width:80px;
+	font-size:15px;
+}
+
+#modify_passwd{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#passwd_info{
+	margin-bottom:10px;
+	font-family:NanumSquare;
+}
+
+#modify_passwd_confirm{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#modify_phone{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#modify_organization{
+	width:350px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+#reg_grade{
+	width:150px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding-left:20px;
+	font-family:NanumSquare;
+	font-size:20px;
+	color:#959595;
+}
+
+.td-etc
+{
+	font-family:NanumSquare;
+	font-size:20px;
+}
+
+#modify_grade_selector{
+	margin-left:30px;
+}
+
+
+#modify_cancel{
+	display:inline-block;
+	float : left;
+	width:170px;
+	height : 50px;	
+	background-color:#5d5d5d;
+	color : white;
+	font-family:NanumSquare;
+	font-size:20px;
+	border: 0;
+	box-shadow:none;
+	cursor:pointer;
+}
+
+#modify_confirm{
+	display:inline-block;
+	float : right;
+	margin-right : 80px;
+	width:170px;
+	height : 50px;	
+	background-color:#4d94ff;
+	color : white;
+	font-family:NanumSquare;
+	font-size:20px;
+	border: 0;
+	box-shadow:none;
+	cursor:pointer;
+}
+
+.profile-div{
+	padding : 50px;
+}
+
+.profile-photo{
+	margin-bottom: 20px;
+	text-align:center;
+	font-family:NanumSquare;
+	font-size:20px;
+}
+
+.profile-photo img{
+	width:128px;
+	height:128px;
+}
+

@@ -56,7 +56,7 @@ function loginWithKakao() {
 						data: {type_id:res.id},
 						success: function(data){
 							if(data=="true"){
-								alert(res.properties.nickname+'환영합니다.');
+								alert("환영합니다.");
 								location.href="intro.jsp";
 							}
 							else {
@@ -101,11 +101,3 @@ Kakao.Auth.createLoginButton({
 });
 });*/
 
-$(document).on("click", "#kakao-logout-btn", function() {
-	Kakao.Auth.logout(function(){
-		setTimeout(function(){
-			alert("카카오 로그아웃");
-			//location.href="intro.jsp";
-		}, 1000);
-	});
-});

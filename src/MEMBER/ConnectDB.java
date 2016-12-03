@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import XML.XML;
+
 public class ConnectDB {
 	private static ConnectDB connectDB = new ConnectDB();
 	
@@ -151,6 +153,42 @@ public class ConnectDB {
 			try{pstmt.close();}catch(SQLException e){}
 			try{conn.close();}catch(SQLException e){}
 		}
+		return result;
+	}
+	
+	public String getInfo(String email){
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		String result = null;
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			conn = DriverManager.getConnection(url, user, pass);
+			pstmt = conn.prepareStatement("select * from tb_accinfo where email=?");
+			pstmt.setString(1, email);
+			
+			rs=pstmt.executeQuery();
+				
+			if(rs.next()) {
+				xml.make_element("info");
+				xml.make_child("pw", rs.getString("pw"));
+				xml.make_child("name", rs.getString("name"));
+				xml.make_child("gender", rs.getString("gender"));
+				xml.make_child("phone", rs.getString("phone"));
+				xml.make_child("univ", rs.getString("univ"));
+				xml.make_child("grade", rs.getString("grade"));
+				xml.make_child("image", rs.getString("photo_url"));
+			}
+				
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			try{rs.close();}catch(SQLException e){}
+			try{pstmt.close();}catch(SQLException e){}
+			try{conn.close();}catch(SQLException e){}
+		}
+		
+		result = xml.make_xml();
 		return result;
 	}
 }

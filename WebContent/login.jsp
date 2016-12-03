@@ -42,7 +42,6 @@
  	<a class="sns-acc-div" id="kakao-login-btn" href="javascript:loginWithKakao()">
 	<img src="images/login_kakao.png">
 	</a> 
-	<input type="button" id="kakao-logout-btn" value="카카오톡 로그아웃">
 	<div class="login-etc-form">
     	<div id="findAcc">아이디/비밀번호 찾기</div><div id="registAcc">회원가입</div>
 	</div> 
