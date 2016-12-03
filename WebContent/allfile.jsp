@@ -2,10 +2,12 @@
     pageEncoding="utf-8"%>
 <%
 	boolean isSession = false;
-	String user_email = null;
-	user_email = (String)session.getAttribute("user_email");
+	String user_email = (String)session.getAttribute("user_email");
 	String roomId = request.getParameter("roomId");
-	System.out.println("Chat.jsp Room ID : " + roomId);
+	String user_name = (String)session.getAttribute("user_name");
+	String photo_url = (String)session.getAttribute("photo_url");
+	System.out.println("Workshopinfo Room ID : " + roomId);
+	
 	if(user_email != null)
 		isSession = true;
 	
@@ -21,7 +23,8 @@
 <script src="./js/allfile.js"></script>
 </head>
 <body>
-<input id="user-email" type="hidden" value="<%=user_email%>">
+<input id="user-name" type="hidden" value="<%=user_name%>">
+<input id="photo_url" type="hidden" value="<%=photo_url%>">
 <input id="room-id" type="hidden" value="<%=roomId%>">
 <table id="chatLayout">
 	<tr>
@@ -42,9 +45,6 @@
         </td>
         <td id="allfile-info-content">
         	<table id="content-table">
-            	<tr>
-                	<td></td>
-                </tr>
             </table>
         </td>
      </tr>

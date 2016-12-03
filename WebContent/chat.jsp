@@ -24,7 +24,7 @@
 <link href="./css/chat.css?ver=9" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
 <script src="./js/chatting.js?ver=20161202"></script>
-<title>ChatLayout</title>
+<title><%=roomId%>번방</title>
 </head>
 
 <body>

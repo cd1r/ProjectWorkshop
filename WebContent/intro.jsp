@@ -23,9 +23,9 @@
 
 <script src="./js/jquery-1.9.1.min.js"></script> 
 <script src="./carousel/owl.carousel.js"></script>
-<script src="./js/master.js"></script>
+<script src="./js/master.js?ver=1"></script>
 <script src="./js/intro.js"></script>
-<title>홈</title>
+<title>프로젝트 공작소</title>
 </head>
 
 <body>

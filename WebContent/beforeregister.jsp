@@ -5,17 +5,14 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/master.css" type="text/css" rel="stylesheet"/>
-<link href="./css/login.css" type="text/css" rel="stylesheet"/>
-<title>로그인</title>
+<link href="./css/beforeregister.css" type="text/css" rel="stylesheet"/>
+<title>회원가입</title>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/login.js"></script>
+<script src="./js/beforeregister.js"></script>
 <script src="./js/master.js"></script>
 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="./js/kakao.js"></script>
-
-<script src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
-<script src="./js/naver.js"></script>
 </head>
 
 <body>
@@ -34,15 +31,11 @@
 		</div>
     </div>
     
-<div class="login-form">
- 	<div> <input type="text" id="id" placeholder="아이디"> </div>
-	<div> <input type="password" id="pw" placeholder="비밀번호"> </div>
-	<div class="login-btn-div"> <input type="button" id="loginBtn" value="로 그 인"> </div>
-	<div class="sns-acc-div" id="kakao-login-btn"><img src="images/login_kakao.png"></div>
-	<input type="button" id="kakao-logout-btn" value="카카오톡 로그아웃">
-	<div class="login-etc-form">
-    	<div id="findAcc">아이디/비밀번호 찾기</div><div id="registAcc">회원가입</div>
-	</div> 
+<div id="register-type-form">
+	<div id="own-type-label">프로젝트 공작소 간편 회원가입</div>
+ 	<div><input type="button" id="own-type" value="회원가입"></div>
+ 	<div id="other-type-label">외부 계정으로 회원가입</div>
+ 	<div id="regist-kakao"><img src="./images/regist_kakao.png"></div>
 </div>
     
     

@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>EnterRoom</title>
+<title>공작소 들어가기</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="./css/master.css" type="text/css" rel="stylesheet"/>
 <link href="./css/enterroom.css?ver=5" type="text/css" rel="stylesheet"/>
