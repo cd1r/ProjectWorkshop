@@ -62,10 +62,9 @@
           <div class="row">
             <div class="span12">
               <div id="owl-demo" class="owl-carousel">
-
-                <div class="item"><img src="./images/pic1.jpg"></div>
-                <div class="item"><img src="./images/pic2.jpg"></div>
-                <div class="item"><img src="./images/pic1.jpg"></div>
+                <div class="item"><img src="./images/pic1_1.png"></div>
+                <div class="item"><img src="./images/pic2_1.png"></div>
+                <div class="item"><img src="./images/pic3_1.png"></div>
               </div>
             </div>
           </div>
