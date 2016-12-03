@@ -389,15 +389,30 @@ function loadDialog(){
 			lastDialogIdx = 0;
 			$(data).find("dialog").each(function(){
 				if($(this).find("speaker").text() == $("#user-email").val()){
-					$(".dialog-ul").append(
-							'<li id="' + $(this).find("id").text() + '" class="dialog-li-own">'+
-								'<table class="dialog-table-own">'+
-									'<tr>'+
-										'<td class="talk-td-own">' + $(this).find("context").text() + 
-										'</td>'+                           
-									'</tr>'+
-								'</table>'+
-							'</li>');
+					
+					if(Number($(this).find("file").text()) > 0){
+						$(".dialog-ul").append(
+								'<li id="' + $(this).find("id").text() + '" class="dialog-li-own">'+
+									'<table class="dialog-table-own">'+
+			                			'<tr>'+
+			                				'<td class="talk-td-own">'+$(this).find("context").text()+'<br>'+
+			                				'<a href="fileDownload.jsp?roomId='+roomId+'&fileId=' + $(this).find("id").text() + '">다운로드</a>'+
+			                				'</td>'+                           
+			                			'</tr>'+
+			                		'</table>'+
+			                	'</li>');
+					}
+					else{
+						$(".dialog-ul").append(
+								'<li id="' + $(this).find("id").text() + '" class="dialog-li-own">'+
+									'<table class="dialog-table-own">'+
+										'<tr>'+
+											'<td class="talk-td-own">' + $(this).find("context").text() + 
+											'</td>'+                           
+										'</tr>'+
+									'</table>'+
+								'</li>');
+					}
 				}
 				
 				else{
@@ -407,17 +422,34 @@ function loadDialog(){
 							speaker_name = member[i].split('\t')[1];
 					}
 					
-					$(".dialog-ul").append(
-			    			'<li id="' + $(this).find("id").text() + '" class="dialog-li">'+
-			    				'<table class="dialog-table">'+
-			            			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + $(this).find("photo_url").text() + '"></td>'+
-			            				'<td class="speaker-name-td">' + speaker_name + '</td>'+
-			            			'</tr>'+
-			            			'<tr>'+
-			            				'<td class="talk-td">' + $(this).find("context").text() + '</td>'+                           
-			            			'</tr>'+
-			            		'</table>'+
-			            	'</li>');
+					if(Number($(this).find("file").text()) > 0){
+						$(".dialog-ul").append(
+			        			'<li id="' + (++lastDialogIdx) + '" class="dialog-li">'+
+			        				'<table class="dialog-table">'+
+			                			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + temp_photo_url +'"></td>'+
+			                				'<td class="speaker-name-td">' + temp_name + '</td>'+
+			                			'</tr>'+
+			                			'<tr>'+
+			                				'<td class="talk-td">'+$(this).find("context").text()+'<br>'+
+			                				'<a href="fileDownload.jsp?roomId='+roomId+'&fileId=' + $(this).find("file").text() + '">다운로드</a>'+
+			                				'</td>'+                           
+			                			'</tr>'+
+			                		'</table>'+
+			                	'</li>');
+					}
+					else{	
+						$(".dialog-ul").append(
+				    			'<li id="' + $(this).find("id").text() + '" class="dialog-li">'+
+				    				'<table class="dialog-table">'+
+				            			'<tr><td class="dialog-img-td" rowspan="2"><img class="img-dialog" src="' + $(this).find("photo_url").text() + '"></td>'+
+				            				'<td class="speaker-name-td">' + speaker_name + '</td>'+
+				            			'</tr>'+
+				            			'<tr>'+
+				            				'<td class="talk-td">' + $(this).find("context").text() + '</td>'+                           
+				            			'</tr>'+
+				            		'</table>'+
+				            	'</li>');
+					}
 				}
 						
 				lastDialogIdx = $(this).find("id").text();
