@@ -35,12 +35,11 @@
  	<div> <input type="text" id="id" placeholder="아이디"> </div>
 	<div> <input type="password" id="pw" placeholder="비밀번호"> </div>
 	<div class="login-btn-div"> <input type="button" id="loginBtn" value="로 그 인"> </div>
-	<div class="sns-acc-div"><img src="images/login_naver.png"></div>
  	<a class="sns-acc-div" id="kakao-login-btn" href="javascript:loginWithKakao()">
 	<img src="images/login_kakao.png">
 	</a> 
 	<div class="login-etc-form">
-    	<div id="findAcc">아이디/비밀번호 찾기</div><div id="registAcc">회원가입</div>
+    	<div id="registAcc">회원가입</div>
 	</div> 
 </div>
     
