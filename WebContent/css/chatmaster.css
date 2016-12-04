@@ -69,3 +69,13 @@ body{
 	padding-top:10px;
 	padding-bottom:10px
 }
+
+#menu-icon{
+	margin-left:55px;
+	margin-top:60px;
+}
+
+#menu-icon img{
+	width:110px;
+	height:110px;
+}

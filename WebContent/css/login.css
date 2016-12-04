@@ -54,13 +54,6 @@
 	font-family:NanumSquare;
 	color : #959595;
 }
-
-#findAcc{
-	display:inline-block;
-	margin-right : 2%;
-	cursor : pointer;
-}
-
 #registAcc{
 	display:inline-block;
 	cursor : pointer;

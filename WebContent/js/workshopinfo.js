@@ -47,7 +47,7 @@ function callWorkshopMember()
 				$("#mem_row" + row_cnt).append(
 						'<td class="member-info">'+
 							'<div class="mem-position">' + $(this).find("position").text() + '</div>'+
-							'<div class="mem-profile"><img src="./images/null_profile.png"></div>'+
+							'<div class="mem-profile"><img src="' + $(this).find("photo_url").text() + '"></div>'+
 							'<div class="mem-name-gender">' + $(this).find("name_gender").text() + '</div>'+
 							'<div class="mem-org-grade">' + $(this).find("univ_grade").text() + '</div>'+
 							'<div class="mem-email">' + $(this).find("email").text() + '</div>'+
@@ -64,8 +64,9 @@ function callWorkshopMember()
 			});
 			$(".mem-profile").css({"width":"100%", "height":"160px", "overflow":"hidden"});
 			$(".mem-profile img").css({"width":"160px", "height":"auto", "border-radius":"7px"});
-			$(".member-info").css({"width":"33%", "text-align":"center",});
+			$(".member-info").css({"width":"33%", "text-align":"center", "vertical-align":"top", "padding-bottom":"20px"});
 			$(".member-info div").css({"margin-top":"5px", "margin-bottom":"5px"});
+			$(".mem-position").css({"font-size":"20px"});
 		}
 	});
 }

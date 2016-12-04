@@ -34,7 +34,7 @@ public class WorkshopMemberServlet extends HttpServlet {
 		
 		String roomId = request.getParameter("roomId");
 		
-		String result = connDB.loadWorkshopMemeberInfo(roomId);
+		String result = connDB.loadWorkshopMemberInfo(roomId);
 		System.out.println(result);
 		
 		HttpSession Session = request.getSession();
