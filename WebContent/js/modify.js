@@ -4,12 +4,11 @@
 var pw="";
 var phone="";
 var grade="";
-var image="";
+var photo_url = "";
 var univ="";
 
 var passwd_chk = false;
 var passwd_confirm_chk = false;
-var photo_url = "./images/null_profile.png";
 
 $(document).ready(function(){
 	$.ajax({
@@ -33,7 +32,7 @@ $(document).ready(function(){
 				phone = $(this).find("phone").text();
 				grade = $(this).find("grade").text();
 				univ = $(this).find("uinv").text();
-				image = $(this).find("image").text();
+				photo_url = $(this).find("image").text();
 				
 				$('#modify_phone').val(phone);
 				$('#modify_organization').val(univ);
@@ -190,5 +189,20 @@ $(document).on("click", "#modify_confirm", function(){
 		alert("정보수정 가능");
 		//register_call();
 	}
+});
+
+//사진 올리기  photo-path
+$(document).on("change", "#photo-path", function(){
+	var file = document.getElementById('photo-path').files[0];
+	var p = file.name;
+	var type = p.substring(p.indexOf(".")+1).toLowerCase();
+	
+	if(type!='jpg' && type!='png' && type!='jpeg'){
+		$("#photo-path").val("");
+		alert("이미지 파일은 (jpg, jpeg, png) 형식만 등록 가능합니다.");
+		return ;
+	}
+	//photo_url  ./images/profile/email로 저장
+	photo_url = $("#photo-path").val();
 });
 

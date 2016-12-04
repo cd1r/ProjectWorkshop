@@ -48,7 +48,7 @@
         	<td rowspan="9">
             	<div class="profile-div">
                     <div class="profile-photo">프로필사진</div>
-                    <div class="profile-photo"><img src="./images/null_profile.png"></div>
+                    <div class="profile-photo"><img id="profile-image" src="./images/null_profile.png"></div>
                 <form id="file_form" enctype="multipart/form-data" method="post">
                     <div class="profile-photo"><input type="file" id="photo-path"></div>
                 </form>
