@@ -26,6 +26,14 @@
     <url-pattern>/register.do</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>modify</servlet-name>
+    <servlet-class>MEMBER.ModifyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>modify</servlet-name>
+    <url-pattern>/modify.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>check_email</servlet-name>
     <servlet-class>MEMBER.CheckEmailServlet</servlet-class>
   </servlet>

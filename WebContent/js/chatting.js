@@ -27,8 +27,8 @@ $(document).ready(function(){
 	}
 	
 	//webSocket = new WebSocket("ws://localhost:80/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	//webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
 	
     var messageTextArea = document.getElementById("messageTextArea");

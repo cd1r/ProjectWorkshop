@@ -1,7 +1,6 @@
 /**
  * 
  */
-var pw="";
 var phone="";
 var grade="";
 var photo_url = "";
@@ -11,6 +10,7 @@ var passwd_chk = false;
 var passwd_confirm_chk = false;
 
 $(document).ready(function(){
+
 	$.ajax({
 		type: "post",
 		url: "get_info",
@@ -28,11 +28,10 @@ $(document).ready(function(){
 				document.getElementById("modify_email").disabled = true;
 				document.getElementById("modify_gender").disabled = true;
 				
-				pw = $(this).find("pw").text();
 				phone = $(this).find("phone").text();
 				grade = $(this).find("grade").text();
-				univ = $(this).find("uinv").text();
-				photo_url = $(this).find("image").text();
+				univ = $(this).find("univ").text();
+				//photo_url = $(this).find("image").text().replace("/", "\\");
 				
 				$('#modify_phone').val(phone);
 				$('#modify_organization').val(univ);
@@ -132,6 +131,8 @@ $(document).ready(function(){
 		else
 			$("#modify_passwd_confirm").css({"font-family" : "Gulim"});
 	});
+	
+	
 });
 
 //핸드폰 번호 입력시 숫자만 가능하게 (backspace 포함)
@@ -187,9 +188,57 @@ $(document).on("click", "#modify_cancel", function(){
 $(document).on("click", "#modify_confirm", function(){
 	if(checkInput()==true){
 		alert("정보수정 가능");
-		//register_call();
+		register_call();
 	}
 });
+
+function register_call(){
+	//프로필 사진을 넣은 경우
+	if($("#photo-path").val() != ""){
+		var formData = new FormData();
+		formData.append("uploadfile",$("input[id=photo-path]")[0].files[0]);
+
+		$.ajax({
+			type: "post",
+			url: "profile_upload.do",
+			data: formData,
+			processData: false,
+			contentType: false,
+			datatype: "text",
+			success: function(data) {
+				if(data == "flase") {
+					alert("프로필 업로드 실패");
+				}
+				else{ 
+					photo_url = data;
+					alert("프로필 업로드 성공\n"+photo_url);
+				}
+				register_call_db();
+			}
+		});	
+	}
+	else register_call_db();
+	
+}
+
+function register_call_db(){
+	
+	$.ajax({
+		type: "post",
+		url: "modify.do",
+		data: {type:$("#login-type").val(), email:$('#user-email').val(), pw:$('#modify_passwd').val(), phone:$('#modify_phone').val(),
+			organization:$('#modify_organization').val(), grade:$('#modify_grade_selector').val(),
+		    profile_url:photo_url},
+		datatype: "text",
+		success: function(data){
+			if(data == "true") {
+				alert("정보수정 성공");
+			}
+			else alert("정보수정 실패");
+			location.href="intro.jsp";
+		}
+	});
+}
 
 //사진 올리기  photo-path
 $(document).on("change", "#photo-path", function(){
@@ -202,7 +251,7 @@ $(document).on("change", "#photo-path", function(){
 		alert("이미지 파일은 (jpg, jpeg, png) 형식만 등록 가능합니다.");
 		return ;
 	}
-	//photo_url  ./images/profile/email로 저장
+
 	photo_url = $("#photo-path").val();
 });
 
