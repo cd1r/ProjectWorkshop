@@ -15,8 +15,6 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link href="./css/master.css" type="text/css" rel="stylesheet"/>
 <link href="./css/intro.css" type="text/css" rel="stylesheet"/>
 <link href="./carousel/owl.carousel.css" rel="stylesheet">

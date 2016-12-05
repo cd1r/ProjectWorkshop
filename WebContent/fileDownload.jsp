@@ -36,7 +36,6 @@
     String client = "";
     
     try{
-        
     	 
         // 파일을 읽어 스트림에 담기
         try{
@@ -55,7 +54,6 @@
  
  
         if(!skip){
- 
              
             // IE
             if(client.indexOf("MSIE") != -1){
@@ -80,13 +78,11 @@
             while( (leng = in.read(b)) > 0 ){
                 os.write(b,0,leng);
             }
- 
         }else{
             response.setContentType("text/html;charset=UTF-8");
             out.println("<script language='javascript'>alert('파일을 찾을 수 없습니다');history.back();</script>");
  
         }
-         
         os.flush();
         os.close();
         in.close();

@@ -473,13 +473,15 @@ public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 		    		   "Select id From tb_dialog" + roomId + " Order By id Desc Limit 1");
 		       resultSet = pstmt.executeQuery();
 		       
-		       resultSet.first();
-		       lastId = resultSet.getInt("id");
-		       
-		       pstmt = (PreparedStatement) conn.prepareStatement(
-		    		   "Update tb_memberinfo Set last_read_dialog=" + lastId +
-		    		   " Where mem_email='" + email + "' And room_id='" + roomId + "'");
-		       rs = pstmt.executeUpdate();
+		       if(resultSet != null){
+			       resultSet.first();
+			       lastId = resultSet.getInt("id");
+			       
+			       pstmt = (PreparedStatement) conn.prepareStatement(
+			    		   "Update tb_memberinfo Set last_read_dialog=" + lastId +
+			    		   " Where mem_email='" + email + "' And room_id='" + roomId + "'");
+			       rs = pstmt.executeUpdate();
+		       }
 		       
 		       if(rs > 0) return true;
 		       else return false;
@@ -685,7 +687,7 @@ public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 		}
 	}
 
-	public String loadFileInfo(String roomId) {
+	public String loadFileInfo(String roomId, String isList) {
 		
 		XML xml = new XML();
 		xml.make_rootElement("root");
@@ -697,26 +699,46 @@ public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 
 	       if (conn == null)
 	          throw new Exception("DB Connection Failed");
-	            
-	       pstmt = (PreparedStatement) conn.prepareStatement(
-	        "Select file.id, acc.name, uploader_email, file_name, extention, file_url, size, DATE_FORMAT(upload_date, '%Y-%m-%d') As upload_date"+
-	        " From tb_fileinfo file Join tb_accinfo acc On file.uploader_email = acc.email" +
-       		" Where room_id=? Order By extention");
-	       pstmt.setInt(1, Integer.valueOf(roomId));
 	       
-	       rs = pstmt.executeQuery();
+	       if(isList != null){
+	    	   pstmt = (PreparedStatement) conn.prepareStatement(
+		   		        "Select file.id, acc.name, uploader_email, file_name, extention, size, DATE_FORMAT(upload_date, '%Y-%m-%d') As upload_date"+
+		   		        " From tb_fileinfo file Join tb_accinfo acc On file.uploader_email = acc.email" +
+		   	       		" Where room_id=? Order By upload_date Desc");
+		   	   pstmt.setInt(1, Integer.valueOf(roomId));
+
+		   	   rs = pstmt.executeQuery();
+		   	   
+		   	   while(rs.next()){
+		    	   xml.make_element("files");
+		    	   	    	   
+		    	   xml.make_child("id", rs.getString("file.id"));
+		    	   xml.make_child("file_name", rs.getString("file_name"));
+		    	   xml.make_child("size", rs.getString("size"));
+		    	   xml.make_child("upload_date", rs.getString("upload_date"));
+			   }
+	       }
 	       
-	       while(rs.next()){
-	    	   xml.make_element("files");
-	    	   	    	   
-	    	   xml.make_child("id", rs.getString("file.id"));
-	    	   xml.make_child("name", rs.getString("acc.name"));
-	    	   xml.make_child("uploader_email", rs.getString("uploader_email"));
-	    	   xml.make_child("file_name", rs.getString("file_name"));
-	    	   xml.make_child("extention", rs.getString("extention"));
-	    	   xml.make_child("file_url", rs.getString("file_url"));
-	    	   xml.make_child("size", rs.getString("size"));
-	    	   xml.make_child("upload_date", rs.getString("upload_date"));
+	       else{
+	    	   pstmt = (PreparedStatement) conn.prepareStatement(
+	   		        "Select file.id, acc.name, uploader_email, file_name, extention, size, DATE_FORMAT(upload_date, '%Y-%m-%d') As upload_date"+
+	   		        " From tb_fileinfo file Join tb_accinfo acc On file.uploader_email = acc.email" +
+	   	       		" Where room_id=? Order By extention");
+	   		   pstmt.setInt(1, Integer.valueOf(roomId));
+	   		       
+	   		   rs = pstmt.executeQuery();
+	   		   
+	   		   while(rs.next()){
+		    	   xml.make_element("files");
+		    	   	    	   
+		    	   xml.make_child("id", rs.getString("file.id"));
+		    	   xml.make_child("name", rs.getString("acc.name"));
+		    	   xml.make_child("uploader_email", rs.getString("uploader_email"));
+		    	   xml.make_child("file_name", rs.getString("file_name"));
+		    	   xml.make_child("extention", rs.getString("extention"));
+		    	   xml.make_child("size", rs.getString("size"));
+		    	   xml.make_child("upload_date", rs.getString("upload_date"));
+		       }
 	       }
 	       
 	       return source = xml.make_xml();

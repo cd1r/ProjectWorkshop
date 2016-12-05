@@ -34,8 +34,9 @@ public class LoadFileServlet extends HttpServlet {
 		String roomId = request.getParameter("roomId");
 		String searchCriteria = request.getParameter("searchCriteria");
 		String searchKeyword = request.getParameter("searchKeyword");
+		String isList = request.getParameter("isList");
 		
-		System.out.println("LoadFileServlet Parmas : " + roomId + " " + searchCriteria + " " + searchKeyword);
+		System.out.println("LoadFileServlet Parmas : " + roomId + " " + searchCriteria + " " + searchKeyword + " " + isList);
 		
 		String result = null; 
 		
@@ -43,7 +44,7 @@ public class LoadFileServlet extends HttpServlet {
 			result = connDB.searchFileInfo(roomId, searchCriteria, searchKeyword);
 		
 		else
-			result = connDB.loadFileInfo(roomId);
+			result = connDB.loadFileInfo(roomId, isList);
 		
 		System.out.println(result);
 		

@@ -104,8 +104,6 @@ function calSize(originSize){
 		tmpSize = tmpSize/1024;
 		return tmpSize.toFixed(1) + "MB";
 	}
-	
-	
 }
 
 $(document).on("click", "#search-btn", function(){

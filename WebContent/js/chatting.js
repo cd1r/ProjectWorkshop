@@ -270,8 +270,8 @@ function loadRightMember(){
 				$(this).css({"background-color":"#272a33"});
 			});
 			
-			loadIsOnline();
 			loadDialog();
+
 			$("#member-cnt-label").text("총 인원 : " + member.length +"명");
 		}
 	});
@@ -377,6 +377,8 @@ function loadDialog(){
 			
 			$(".dialog-ul li").css({"margin-bottom":"20px"});
 			
+			loadIsOnline();
+			
 			if(lastDialogIdx != lastReadIdx && lastReadIdx != 0 ){
 				$(".dialog-ul li").eq(lastReadIdx).after(
 		    			'<li class="last-read-li">'+
@@ -392,10 +394,44 @@ function loadDialog(){
 			}
 			else
 				$(".dialog-content div").animate({scrollTop:$("#"+lastDialogIdx).offset().top}, 300);
-			
 		}
 	});
 };
+
+$(document).on("click", "#tab2-td", function(){
+	$.ajax({
+		type: "post",
+		url: "load_file.do",
+		data: {roomId : $("#room-id").val(), isList : "True"},
+		datatype: "text",
+		success: function(data){
+			$("#filelist-ul").empty();	
+			var file_cnt = 0;
+			$(data).find("files").each(function(){
+				$("#filelist-ul").append(
+					'<li><div class="file-li-wrap">' +
+						'<div id="' + $(this).find("id").text() + '" class="li-filename">' + $(this).find("file_name").text() + '</div>'+
+						'<span class="li-size">' + calSize($(this).find("size").text()) + '</span>'+
+						'<div class="li-uploaddate">' + $(this).find("upload_date").text() + '</div>'+
+					'</div></li>');
+				file_cnt++;
+			});
+			$("#file-cnt-label").text("총 파일 : " + file_cnt + "개");
+			
+			$(".li-filename").mouseover(function(){
+				$(this).css({"color":"#ff5d8b"});
+			}).mouseout(function(){
+				$(this).css({"color":"white"});
+			});
+			
+			$(".li-filename").click(function(){
+				//alert($(this).attr('id'));
+				filedown($(this).attr('id'));
+			});
+		}
+	});
+});
+
 
 $(document).on("click", "#tab3-td", function(){
 	$.ajax({
@@ -404,6 +440,7 @@ $(document).on("click", "#tab3-td", function(){
 		data: {isTerm : "False", roomId : $("#room-id").val()},
 		datatype: "text",
 		success: function(data){
+			$("#worklist-ul").empty();	
 			var job_cnt = 0;
 			$(data).find("info").each(function(){
 				if($(this).find("mem_email").text() == $("#user-email").val() &&
@@ -425,11 +462,24 @@ $(document).on("click", "#tab3-td", function(){
 			$("#worklist-ul .job").css({"color":"white", "width":"160px"});
 			$("#worklist-ul .dday").css({"padding-left" : "10px", "color":"#d7b113", "width":"40px"});
 			
-			$("#work-cnt-label").text("총 일정 : " + job_cnt + "개");
+			$("#work-cnt-label").text("내 일정 " + job_cnt + "개");
 		}
 	});
 });
 
 function filedown(fileId){
-	window.open("fileDownload.jsp?roomId="+roomId+"&fileId="+fileId, '_blank', "toolbar=no,status=no,scrollbars=yes,resizable=no,width=100,height=100"); 
+	window.open("fileDownload.jsp?roomId="+roomId+"&fileId="+fileId, '_blank', "toolbar=no,status=no,scrollbars=yes,resizable=no,width=400,height=100"); 
+}
+
+function calSize(originSize){
+	var tmpSize;
+	
+	tmpSize = originSize / parseFloat(1024); // Byte를 KB 단위로
+	
+	if(tmpSize < 1024) return tmpSize.toFixed(1) + "KB"; // 1024 KB 미만이면 그냥 KB 단위로 리턴
+	
+	if(tmpSize >= 1024){ // 1024 KB 이상이면 MB로 다시 계산하여 리턴
+		tmpSize = tmpSize/1024;
+		return tmpSize.toFixed(1) + "MB";
+	}
 }

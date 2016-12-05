@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
-
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 @font-face{
 	font-family:'NanumSquare';
 	src:url('../webfonts/nanumsquareb.eot');

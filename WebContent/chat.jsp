@@ -21,9 +21,9 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/chatmaster.css" type="text/css" rel="stylesheet"/>
-<link href="./css/chat.css?ver=9" type="text/css" rel="stylesheet"/>
+<link href="./css/chat.css?ver=3" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/chatting.js?ver=20161202"></script>
+<script src="./js/chatting.js?ver=2"></script>
 <title><%=roomId%>번방</title>
 </head>
 
@@ -72,15 +72,11 @@
                         	<ul id="right-member-ul">
                             </ul>
                         </div>
-                        <!--  <div id="tab2-div">tab2
-                        	<form enctype="multipart/form-data">
-                        	<input type="file" id="file_upload"> 
-                        	<input type="button" id="upload-btn" value="파일 업로드"><br/>
-                        	<input type="button" id="download-btn" value="파일 다운로드">
-                        	</form>
-                        </div>-->
                         <div id="tab2-div">
-                        	
+                        	<div id="filelist-label">파일 목록</div>
+                    		<div id="file-cnt-label">총 파일 : 0개</div>
+                        	<ul id="filelist-ul">
+                            </ul>
                         </div>
                         <div id="tab3-div">
 							<div id="worklist-label">내 할일 목록</div>

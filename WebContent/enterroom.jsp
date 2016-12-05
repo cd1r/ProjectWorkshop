@@ -14,12 +14,11 @@
 <head>
 <meta charset="utf-8">
 <title>공작소 들어가기</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="./css/master.css" type="text/css" rel="stylesheet"/>
 <link href="./css/enterroom.css?ver=5" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-<script src="./js/enterroom.js"></script>
+<script src="./js/enterroom.js?ver=3"></script>
 <script src="./js/master.js"></script> 
 </head>
 
