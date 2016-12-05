@@ -276,7 +276,7 @@ public class ConnectDB {
 	          throw new Exception("데이터베이스에 연결할 수 없습니다.");
 	            
 	       pstmt = (PreparedStatement) conn.prepareStatement(
-	    		   "Select name, create_date, mem_cnt, term_to-CurDate() As dday"+
+	    		   "Select name, create_date, mem_cnt, to_days(CurDate())-to_days(term_to) As dday"+
 	    		   " From tb_roominfo Where id=?");
 	       pstmt.setInt(1, Integer.valueOf(roomId));
 	       
