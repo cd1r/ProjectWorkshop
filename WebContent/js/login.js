@@ -34,10 +34,7 @@ function login_call(){
 		data: {userId:$('#id').val(), userPw:$('#pw').val()},
 		datatype: "text",
 		success: function login_result(data){
-			if(data == "true") {
-				alert("환영합니다.");
-				location.href="intro.jsp";
-			}
+			if(data == "true") location.href="intro.jsp";
 			else alert("아이디 또는 비밀번호를 확인해주세요");
 		}
 	});
@@ -55,10 +52,7 @@ function loginWithKakao() {
 						url: "login_kakao.do",
 						data: {type_id:res.id},
 						success: function(data){
-							if(data=="true"){
-								alert(res.properties.nickname+'환영합니다.');
-								location.href="intro.jsp";
-							}
+							if(data=="true") location.href="intro.jsp";
 							else {
 								Kakao.Auth.logout(function(){
 									alert("정보가 없습니다.");
@@ -101,11 +95,3 @@ Kakao.Auth.createLoginButton({
 });
 });*/
 
-$(document).on("click", "#kakao-logout-btn", function() {
-	Kakao.Auth.logout(function(){
-		setTimeout(function(){
-			alert("카카오 로그아웃");
-			//location.href="intro.jsp";
-		}, 1000);
-	});
-});

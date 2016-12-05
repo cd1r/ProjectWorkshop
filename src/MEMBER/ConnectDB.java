@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import XML.XML;
+
 public class ConnectDB {
 	private static ConnectDB connectDB = new ConnectDB();
 	
@@ -153,4 +155,127 @@ public class ConnectDB {
 		}
 		return result;
 	}
+	
+	public String getInfo(String email){
+		XML xml = new XML();
+		xml.make_rootElement("root");
+		String result = null;
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			conn = DriverManager.getConnection(url, user, pass);
+			pstmt = conn.prepareStatement("select * from tb_accinfo where email=?");
+			pstmt.setString(1, email);
+			
+			rs=pstmt.executeQuery();
+				
+			if(rs.next()) {
+				xml.make_element("info");
+				xml.make_child("name", rs.getString("name"));
+				xml.make_child("gender", rs.getString("gender"));
+				xml.make_child("phone", rs.getString("phone"));
+				xml.make_child("univ", rs.getString("univ"));
+				xml.make_child("grade", rs.getString("grade"));
+			}
+				
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			try{rs.close();}catch(SQLException e){}
+			try{pstmt.close();}catch(SQLException e){}
+			try{conn.close();}catch(SQLException e){}
+		}
+		
+		result = xml.make_xml();
+		return result;
+	}
+
+	// 일반회원 정보수정
+	public boolean modifyAccount(String email, String pw, String organization, String phone,
+														String grade, String photo_url) {
+		int result = 0;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, pass);
+
+			if (conn == null)
+				throw new Exception("데이터베이스에 연결할 수 없습니다.");
+
+			if(!photo_url.equals("")){
+				System.out.println("일반회원정보+사진 : "+pw+" "+phone+" "+organization+" "+grade+" "+photo_url);
+				pstmt = (PreparedStatement) conn.prepareStatement("update tb_accinfo set pw=?, phone=?, univ=?, "
+																+ "grade=?, photo_url=? where email=?");
+				pstmt.setString(1, pw);
+				pstmt.setString(2, phone);
+				pstmt.setString(3, organization);
+				pstmt.setString(4, grade);
+				pstmt.setString(5, photo_url);
+				pstmt.setString(6, email);
+			}
+			else {
+				System.out.println("일반회원정보 : "+pw+" "+phone+" "+organization+" "+grade);
+				pstmt = (PreparedStatement) conn.prepareStatement("update tb_accinfo set pw=?, phone=?, univ=?, "
+																+ "grade=? where email=?");
+				pstmt.setString(1, pw);
+				pstmt.setString(2, phone);
+				pstmt.setString(3, organization);
+				pstmt.setString(4, grade);
+				pstmt.setString(5, email);
+			}
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {pstmt.close();} catch (SQLException e) {}
+			try {conn.close();} catch (SQLException e) {}
+		}
+
+		return true;
+	}
+	
+	// 카카오회원 정보수정
+	public boolean modifyKakaoAccount(String email, String organization, String phone,
+												String grade, String photo_url) {
+		int result = 0;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, pass);
+
+			if (conn == null)
+				throw new Exception("데이터베이스에 연결할 수 없습니다.");
+
+			if(!photo_url.equals("")){
+				System.out.println("카카오회원정보+사진 : "+phone+" "+organization+" "+grade+" "+photo_url);
+				pstmt = (PreparedStatement) conn.prepareStatement("update tb_accinfo set phone=?, univ=?, "
+																+ "grade=?, photo_url=? where email=?");
+				pstmt.setString(1, phone);
+				pstmt.setString(2, organization);
+				pstmt.setString(3, grade);
+				pstmt.setString(4, photo_url);
+				pstmt.setString(5, email);
+			}
+			else {
+				System.out.println("카카오회원정보 : "+phone+" "+organization+" "+grade);
+				pstmt = (PreparedStatement) conn.prepareStatement("update tb_accinfo set phone=?, univ=?, "
+																+ "grade=? where email=?");
+				pstmt.setString(1, phone);
+				pstmt.setString(2, organization);
+				pstmt.setString(3, grade);
+				pstmt.setString(4, email);
+			}
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {pstmt.close();} catch (SQLException e) {}
+			try {conn.close();} catch (SQLException e) {}
+		}
+
+		return true;
+	}
+	
 }

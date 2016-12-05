@@ -212,13 +212,13 @@ function register_call(){
 
 function register_call_db(){
 	var emailstr = $('#reg_email_id').val() + '@' + $('#reg_email_company').val();
-	var type = photo_url.substring(photo_url.lastIndexOf(".")+1).toLowerCase();
+
 	$.ajax({
 		type: "post",
 		url: "register.do",
 		data: {type:$('#type_id').val(), name:$('#reg_name').val(), pw:$('#reg_passwd').val(), phone:$('#reg_phone').val(),
 			email:emailstr, organization:$('#reg_organization').val(), grade:$('#reg_grade_selector').val(),
-			gender:$(':input:radio[name=gender]:checked').val(), profile_url:photo_url, extention:type},
+			gender:$(':input:radio[name=gender]:checked').val(), profile_url:photo_url}, 
 		datatype: "text",
 		success: function(data){
 			if(data == "true") {
