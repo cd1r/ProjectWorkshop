@@ -69,15 +69,20 @@
 }
 
 .filename-div{
+	display:inline-block;
 	font-size : 17px;
 	overflow: hidden; 
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	width : 110px;
+	width : 100px;
 }
 
 .filename-div img{
-	margin-left : 7px;
+	margin-left : 5px;
+}
+
+.file-td{
+	width:130px;
 }
 
 .etc-info-div{

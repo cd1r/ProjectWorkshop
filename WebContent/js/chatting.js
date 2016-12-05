@@ -27,8 +27,8 @@ $(document).ready(function(){
 	}
 	
 	//webSocket = new WebSocket("ws://localhost:80/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
-	//webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	//webSocket = new WebSocket("ws://localhost:10001/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
+	webSocket = new WebSocket("ws://localhost:8088/AdvWeb/websocket/"+ $("#user-email").val() + "/" + roomId);
 	//webSocket = new WebSocket("ws://121.126.233.20:8080/ProjectWorkshop/websocket/"+ $("#user-email").val() + "/" + roomId);
 	
     var messageTextArea = document.getElementById("messageTextArea");
@@ -444,13 +444,13 @@ $(document).on("click", "#tab3-td", function(){
 			var job_cnt = 0;
 			$(data).find("info").each(function(){
 				if($(this).find("mem_email").text() == $("#user-email").val() &&
-						Number($(this).find("dday").text()) >= 0){
+						Number($(this).find("dday").text()) < 0){
 					$("#worklist-ul").append(
 						'<li>' +
 							'<table>' +
 								'<tr id="sch' + $(this).find("id").text() + '">' +
 									'<td class="job">'+ $(this).find("job").text() +'</td>'+
-									'<td class="dday">D-' + $(this).find("dday").text() +'</td>'+
+									'<td class="dday">D' + $(this).find("dday").text() +'</td>'+
 								'</tr>'+
 							'</table>'+
 						'</li>');

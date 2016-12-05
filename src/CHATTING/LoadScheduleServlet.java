@@ -41,10 +41,10 @@ public class LoadScheduleServlet extends HttpServlet {
 		System.out.println("Is Term : " + isTerm);
 
 		if(isTerm.equals("True"))
-		result = connDB.loadScheduleInfoInTerm(roomId, year, month);
+			result = connDB.loadScheduleInfoInTerm(roomId, year, month);
 
 		else
-		result = connDB.loadScheduleInfoAll(roomId);
+			result = connDB.loadScheduleInfoAll(roomId);
 
 		System.out.println(result);
 

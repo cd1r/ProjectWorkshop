@@ -43,8 +43,8 @@ function setFileView(data){
 				'</tr>');
 			
 			$("#" + $(this).find("extention").text() + "-row" + rowCnt).append(
-					'<td><div><img id="' + $(this).find("id").text() + '" src="./images/extension/' + $(this).find("extention").text() + '.png"></div>'+
-						'<div class="filename-div">' + $(this).find("file_name").text().split('.')[0] + '<img src="./images/down-arrow.png"></div>'+
+					'<td class="file-td"><div><img id="' + $(this).find("id").text() + '" src="./images/extension/' + $(this).find("extention").text() + '.png"></div>'+
+						'<div class="filename-set"><div class="filename-div">' + $(this).find("file_name").text().split('.')[0] + '</div><img src="./images/down-arrow.png"></div>'+
 						'<div class="etc-info-div" style="display:none;" rel="false">'+
 							'<div>' + size + '</div>'+
 							'<div>' + $(this).find("name").text() + '</div>'+
@@ -67,8 +67,8 @@ function setFileView(data){
 			}
 			
 			$("#" + $(this).find("extention").text() + "-row" + rowCnt).append(
-				'<td><div><img id="' + $(this).find("id").text() + '" src="./images/extension/' + $(this).find("extention").text() + '.png"></div>'+
-					'<div class="filename-div">' + $(this).find("file_name").text().split('.')[0] + '<img src="./images/down-arrow.png"></div>'+
+				'<td class="file-td"><div><img id="' + $(this).find("id").text() + '" src="./images/extension/' + $(this).find("extention").text() + '.png"></div>'+
+					'<div class="filename-set"><div class="filename-div">' + $(this).find("file_name").text().split('.')[0] + '</div><img src="./images/down-arrow.png"></div>'+
 					'<div class="etc-info-div" style="display:none;" rel="false">'+
 						'<div>' + size + '</div>'+
 						'<div>' + $(this).find("name").text() + '</div>'+
@@ -79,13 +79,15 @@ function setFileView(data){
 		}
 	});
 	
-	$( ".filename-div" ).click(function() { // 파일 상세정보 슬라이드 애니메이션
+	$( ".filename-set" ).click(function() { // 파일 상세정보 슬라이드 애니메이션
 		if($(this).next().attr("rel") == "false"){
+			$(this).find("img").attr("src", "./images/up-arrow.png");
 			$(this).next().slideDown( "slow", function() {
 				$(this).attr("rel", "true");
 			});
 		}
 		else{
+			$(this).find("img").attr("src", "./images/down-arrow.png");
 			$(this).next().slideUp( "slow", function() { 
 				$(this).attr("rel", "false");
 			});

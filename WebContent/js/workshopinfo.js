@@ -23,7 +23,12 @@ function callWorkshopInfo()
 			$(data).find("info").each(function(){
 				var content_table = document.getElementById('content-table');
 				$("#workshop-name-td").text($(this).find("workshop_name").text());
-				$("#workshop-dday-td").html('마감<br>D-' + $(this).find("dday").text());
+				
+				if(Number($(this).find("dday").text()) > 0)
+					$("#workshop-dday-td").html('공작소<br>만료');
+				else
+					$("#workshop-dday-td").html('마감<br>D' + $(this).find("dday").text());
+				
 				$("#workshop-etc-td").html(
 						'<div>공작소 개설일&emsp;<span>' + $(this).find("create_date").text() +'</span></div>'+
 						'<div>총 인원&emsp;<span>' + $(this).find("mem_cnt").text() + '명</span></div>');

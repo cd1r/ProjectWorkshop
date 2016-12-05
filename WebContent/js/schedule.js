@@ -241,40 +241,10 @@ function addScheduleInCalByDB(id, name, job, color, from, to, dday)
 	
 	$("ul").css({"list-style":"none", "margin":"0", "padding":"0", "font-size":"14px"});
 	$("li").css({"margin-top":"2px", "margin-bottom":"2px", "cursor":"pointer"})
-	$("." + id + " div").css({"white-space": "nowrap", "width":"126px", "overflow":"hidden", "text-overflow":"clip",
+	$("." + id + " div").css({"white-space": "nowrap", "width":"105px", "overflow":"hidden", "text-overflow":"clip",
 					"color":"white", "background-color":color, "text-align":"center", "height":"20px", "padding-top":"3px"});
 	$(".empty-li div").css({"height":"20px", "padding-top":"3px", "width":"126px"});
 }
-
-/*function addScheduleInCal(lastId)
-{
-	var fromDate = new Date(
-		$("#from").val().split('-')[0],
-		$("#from").val().split('-')[1],
-		$("#from").val().split('-')[2]);
-		//alert(fromDate);
-
-	var toDate = new Date(
-		$("#to").val().split('-')[0],
-		$("#to").val().split('-')[1],
-		$("#to").val().split('-')[2]);
-		//alert(toDate);
-
-	for (var d = fromDate; d <= toDate; d.setDate(d.getDate() + 1)) {
-		//alert("#"+d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate());
-		$("#"+ d.getFullYear()+ "-" + d.getMonth() + "-" + d.getDate() + " ul").append(
-				'<li class="'+ lastId + '"><div>' 
-					+ $("#job").val() 
-					+ '<input type="hidden" class="mem_email" value="' + $("#worker-select option:selected").val() + '">'
-					+ '<input type="hidden" class="from" value="' + $('#from').val() + '">'
-					+ '<input type="hidden" class="to" value="' + $('#to').val() + '">'
-					//+ '<input type="hidden" class="dday" value="' + dday + '">'
-				+ '</div></li>');
-		$("ul").css({"list-style":"none", "margin":"0", "padding":"0", "font-size":"12px"});
-		$("li div").css({"white-space": "nowrap", "width":"90px", "overflow":"hidden", "text-overflow":"clip",
-						"background-color":$('#color option:selected').val(), "color":"white"});
-	}
-}*/
 
 function addScheduleInDB(roomId, email, job, color, from, to)
 {

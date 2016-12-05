@@ -37,31 +37,9 @@
 	box-shadow:none;
 	cursor : pointer;
 }
-/*#show-cal-btn{
-	width:70px;
-	height:30px;
-	background-color:#76828d;
-	color : white;
-	font-size:13px;
-	border: 0;
-	box-shadow:none;
-	cursor : pointer;
-	border-radius:7px;
-}
-#show-list-btn{
-	width:70px;
-	height:30px;
-	background-color:#76828d;
-	color : white;
-	font-size:13px;
-	border: 0;
-	box-shadow:none;
-	cursor : pointer;
-	border-radius:7px;
-}*/
 
 .day-char{
-	width:120px;
+	width:105px;
 	text-align:center;
 	background-color:#4472c4;
 	color:white;
