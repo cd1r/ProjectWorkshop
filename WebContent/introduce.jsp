@@ -1,12 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>га╥на╖ф╝ ╪╨╟Ь╧Щ</title>
+<meta charset="utf-8">
+<link href="./css/master.css" type="text/css" rel="stylesheet"/>
+<link href="./css/introduce.css?ver=2" type="text/css" rel="stylesheet"/>
+<script src="./js/jquery-1.9.1.min.js"></script>
+<script src="./js/master.js"></script>
+<title>М■└К║°Л═²М┼╦ Л└╠ЙЁ╣К╡∙</title>
 </head>
 <body>
-	<img src="./images/pic1.png">
+	<div class="boxA">
+		<div class="top-back">
+    	</div>
+		<div class="title-div">
+	    	<p class="top-big-p">М■└К║°Л═²М┼╦<span id="big-p-span">ЙЁ╣Л·▒Л├▄</span></p>
+	        <p class="top-small-p">Project Workshop</p>
+	    </div>
+	    <div class="login">
+		  	<a href="login.jsp">К║°Й╥╦Л²╦</a>
+		</div>
+	    <div class="regist">
+	    	<a href="beforeregister.jsp">М ▄Л⌡░Й╟─Л·┘</a>
+		</div>
+    </div>
+	<img src="./images/pic1_1.png">
 </body>
 </html>
