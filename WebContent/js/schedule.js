@@ -3,6 +3,9 @@ var isSelected = false;
 var selectedScheduleId = 0;
 
 $(document).ready(function(){
+	
+	$("#chatLayout").fadeIn(800);
+	
 	callMember($('#room-id').val());
 	setCalendar($("#year-span").text(), $("#month-span").text());
 	setAddScheduleFormVisible();

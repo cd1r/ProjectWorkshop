@@ -33,6 +33,10 @@ td{
 	text-align : center;
 }
 
+.menu{
+	cursor : pointer;
+}
+
 #first-menu{
 	padding-left : 35px;
 	padding-right : 35px;

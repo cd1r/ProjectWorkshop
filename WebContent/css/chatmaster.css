@@ -22,6 +22,7 @@ body{
 	width : 100%;
 	height: 800px;
 	border-collapse:collapse;
+	display:none;
 }
 
 .left-side{

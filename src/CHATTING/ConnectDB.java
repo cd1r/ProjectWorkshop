@@ -348,7 +348,7 @@ public class ConnectDB {
 	}
 	
 	//파일이 저장될 경로 받아오기
-	public String getFileURL(int room_id){
+	/*public String getFileURL(int room_id){
 		String result = null;
 		
 		try {
@@ -374,7 +374,7 @@ public class ConnectDB {
 			try{conn.close();}catch(SQLException e){}
 		}
 		return result;
-	}
+	}*/
 
 	public String insertSchedule(String roomId, String email, String job, String color, String from, String to) {
 		try {

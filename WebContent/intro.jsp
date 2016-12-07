@@ -16,7 +16,7 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/master.css" type="text/css" rel="stylesheet"/>
-<link href="./css/intro.css" type="text/css" rel="stylesheet"/>
+<link href="./css/intro.css?ver=1" type="text/css" rel="stylesheet"/>
 <link href="./carousel/owl.carousel.css" rel="stylesheet">
 <link href="./carousel/owl.theme.css" rel="stylesheet">
 <link href="./carousel/google-code-prettify/prettify.css" rel="stylesheet">
@@ -24,8 +24,8 @@
 <script src="./js/jquery-1.9.1.min.js"></script> 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="./carousel/owl.carousel.js"></script>
-<script src="./js/master.js?ver=20161203"></script>
-<script src="./js/intro.js"></script>
+<script src="./js/master.js"></script>
+<script src="./js/intro.js?ver=1"></script>
 <title>프로젝트공작소</title>
 </head>
 
@@ -80,20 +80,20 @@
     <table id="menu-table" align="center" cellpadding="20">
     	<tr>
         	<td>
-            	<div id="first-menu">
+            	<div class="menu" id="first-menu">
                     <img class="menu-img" src="./images/img1.png">
                     <div class="menu-name">프로젝트 성공법</div>
                 </div>
             </td>
             <td id="second-td">
-            	<div id="second-menu">
+            	<div class="menu" id="second-menu">
                     <img class="menu-img" src="./images/img2.png">
                     <br>
                     <div class="menu-name">공작소 만들기</div>
                 </div>
             </td>
             <td>
-            	<div id="third-menu">
+            	<div class="menu" id="third-menu">
                     <img class="menu-img" src="./images/img3.png"><br>
                     <div class="menu-name">공작소 들어가기</div>
                 </div>

@@ -1,10 +1,7 @@
-
-//입장하기
-
 var roomId = "";
 
 $(document).ready(function() {
-	
+
 	$.ajax({
 		type: "post",
 		url: "load_room_list.do",

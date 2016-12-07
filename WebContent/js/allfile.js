@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	
+	$("#chatLayout").fadeIn(800);
+	
 	callAllFile($("#room-id").val());
 	
 	$("#workshop-info-menu").click(function(){

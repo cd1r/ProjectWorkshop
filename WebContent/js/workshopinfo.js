@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	
+	$("#chatLayout").fadeIn(800);
+	
 	callWorkshopInfo();
 	
 	$("#chat-room-menu").click(function(){

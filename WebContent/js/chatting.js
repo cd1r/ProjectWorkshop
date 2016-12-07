@@ -7,6 +7,8 @@ var member = [];
 
 $(document).ready(function(){
 
+	$("#chatLayout").fadeIn(800);
+	
 	roomId = $("#room-id").val();
 	//alert(roomId);
 	
