@@ -85,6 +85,10 @@
 	width:130px;
 }
 
+.ext-icon{
+	cursor : pointer;
+}
+
 .etc-info-div{
 	margin-top : 5px;
 	font-size : 12px;

@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <link href="./css/master.css" type="text/css" rel="stylesheet"/>
-<link href="./css/introduce.css?ver=2" type="text/css" rel="stylesheet"/>
+<link href="./css/introduce.css?ver=3" type="text/css" rel="stylesheet"/>
 <script src="./js/jquery-1.9.1.min.js"></script>
 <script src="./js/master.js"></script>
 <title>프로젝트 성공법</title>
@@ -25,6 +25,8 @@
 	    	<a href="beforeregister.jsp">회원가입</a>
 		</div>
     </div>
-	<img src="./images/pic1_1.png">
+    <div id="img-div">
+		<img src="./images/introduce.jpg">
+	</div>
 </body>
 </html>

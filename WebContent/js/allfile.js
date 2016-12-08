@@ -46,7 +46,7 @@ function setFileView(data){
 				'</tr>');
 			
 			$("#" + $(this).find("extention").text() + "-row" + rowCnt).append(
-					'<td class="file-td"><div><img id="' + $(this).find("id").text() + '" src="./images/extension/' + $(this).find("extention").text() + '.png"></div>'+
+					'<td class="file-td"><div><img class="ext-icon" id="' + $(this).find("id").text() + '" src="./images/extension/' + $(this).find("extention").text() + '.png"></div>'+
 						'<div class="filename-set"><div class="filename-div">' + $(this).find("file_name").text().split('.')[0] + '</div><img src="./images/down-arrow.png"></div>'+
 						'<div class="etc-info-div" style="display:none;" rel="false">'+
 							'<div>' + size + '</div>'+
@@ -70,7 +70,7 @@ function setFileView(data){
 			}
 			
 			$("#" + $(this).find("extention").text() + "-row" + rowCnt).append(
-				'<td class="file-td"><div><img id="' + $(this).find("id").text() + '" src="./images/extension/' + $(this).find("extention").text() + '.png"></div>'+
+				'<td class="file-td"><div><img class="ext-icon" id="' + $(this).find("id").text() + '" src="./images/extension/' + $(this).find("extention").text() + '.png"></div>'+
 					'<div class="filename-set"><div class="filename-div">' + $(this).find("file_name").text().split('.')[0] + '</div><img src="./images/down-arrow.png"></div>'+
 					'<div class="etc-info-div" style="display:none;" rel="false">'+
 						'<div>' + size + '</div>'+
@@ -95,6 +95,10 @@ function setFileView(data){
 				$(this).attr("rel", "false");
 			});
 		}
+	});
+	
+	$(".ext-icon").click(function(){
+		filedown($(this).attr('id'));
 	});
 }
 
@@ -127,3 +131,7 @@ $(document).on("click", "#search-btn", function(){
 $(document).on("click", "#refresh-btn", function(){
 	callAllFile($("#room-id").val());
 });
+
+function filedown(fileId){
+	window.open("fileDownload.jsp?roomId="+$("#room-id").val()+"&fileId="+fileId, '_blank', "toolbar=no,status=no,scrollbars=yes,resizable=no,width=400,height=100"); 
+}

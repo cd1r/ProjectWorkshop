@@ -382,7 +382,7 @@ function loadDialog(){
 			loadIsOnline();
 			
 			if(lastDialogIdx != lastReadIdx && lastReadIdx != 0 ){
-				$(".dialog-ul li").eq(lastReadIdx).after(
+				$(".dialog-ul li").eq(lastReadIdx-1).after(
 		    			'<li class="last-read-li">'+
 		    				'<div id="last-read-div">여기까지 읽으셨습니다.</div>'+
 		            	'</li>');
@@ -436,38 +436,52 @@ $(document).on("click", "#tab2-td", function(){
 
 
 $(document).on("click", "#tab3-td", function(){
+	loadQuickSchedule();
+});
+
+$(document).on("click", "#order-confirm-btn", function(){
+	loadQuickSchedule();
+});
+
+function loadQuickSchedule(){
 	$.ajax({
 		type: "post",
 		url: "load_schedule.do",
-		data: {isTerm : "False", roomId : $("#room-id").val()},
+		data: {isTerm : "False", roomId : $("#room-id").val(),
+			quickCategory : $('#criteria-category option:selected').val(), 
+			quickOrder : $('#criteria-order option:selected').val()
+		},
 		datatype: "text",
-		success: function(data){
-			$("#worklist-ul").empty();	
-			var job_cnt = 0;
-			$(data).find("info").each(function(){
-				if($(this).find("mem_email").text() == $("#user-email").val() &&
-						Number($(this).find("dday").text()) < 0){
-					$("#worklist-ul").append(
-						'<li>' +
-							'<table>' +
-								'<tr id="sch' + $(this).find("id").text() + '">' +
-									'<td class="job">'+ $(this).find("job").text() +'</td>'+
-									'<td class="dday">D' + $(this).find("dday").text() +'</td>'+
-								'</tr>'+
-							'</table>'+
-						'</li>');
-					job_cnt++;
-				}
-			});
-			
-			$("#worklist-ul li").css({"margin-bottom":"20px"});
-			$("#worklist-ul .job").css({"color":"white", "width":"160px"});
-			$("#worklist-ul .dday").css({"padding-left" : "10px", "color":"#d7b113", "width":"40px"});
-			
-			$("#work-cnt-label").text("내 일정 " + job_cnt + "개");
+		success: setOwnJobView
+	});
+}
+
+function setOwnJobView(data){
+	
+	$("#worklist-ul").empty();	
+	var job_cnt = 0;
+	$(data).find("info").each(function(){
+		if($(this).find("mem_email").text() == $("#user-email").val() &&
+				Number($(this).find("dday").text()) < 0){
+			$("#worklist-ul").append(
+				'<li>' +
+					'<table>' +
+						'<tr id="sch' + $(this).find("id").text() + '">' +
+							'<td class="job">'+ $(this).find("job").text() +'</td>'+
+							'<td class="dday">D' + $(this).find("dday").text() +'</td>'+
+						'</tr>'+
+					'</table>'+
+				'</li>');
+			job_cnt++;
 		}
 	});
-});
+	
+	$("#worklist-ul li").css({"margin-bottom":"20px"});
+	$("#worklist-ul .job").css({"color":"white", "width":"160px"});
+	$("#worklist-ul .dday").css({"padding-left" : "10px", "color":"#d7b113", "width":"40px"});
+	
+	$("#work-cnt-label").text("내 일정 " + job_cnt + "개");
+}
 
 function filedown(fileId){
 	window.open("fileDownload.jsp?roomId="+roomId+"&fileId="+fileId, '_blank', "toolbar=no,status=no,scrollbars=yes,resizable=no,width=400,height=100"); 

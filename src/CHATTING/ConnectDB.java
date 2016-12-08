@@ -612,7 +612,7 @@ public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 		}
 	}
 
-	public String loadScheduleInfoAll(String roomId) {
+	public String loadScheduleInfoAll(String roomId, String category, String order) {
 
 		XML xml = new XML();
 		xml.make_rootElement("root");
@@ -625,13 +625,27 @@ public String loadScheduleInfoInTerm(String roomId, String year, String month) {
 	       if (conn == null)
 	          throw new Exception("DB Connection Failed");
 	            
-	       pstmt = (PreparedStatement) conn.prepareStatement(
-	        "Select id, mem_email, acc.name, content, color, term_from, term_to, to_days(CurDate())-to_days(term_to) As dday"+
-	    	   " From tb_jobinfo job Join tb_accinfo acc On job.mem_email=acc.email"+
-	    	   " Where room_id=? Order By term_from Asc;");
-	       pstmt.setInt(1, Integer.valueOf(roomId));
+	       if(category.equals("due_date")){
+	    	   
+		       pstmt = (PreparedStatement) conn.prepareStatement(
+		        "Select id, mem_email, acc.name, content, color, term_from, term_to, to_days(CurDate())-to_days(term_to) As dday"+
+		    	   " From tb_jobinfo job Join tb_accinfo acc On job.mem_email=acc.email"+
+		    	   " Where room_id=? Order By term_to " + order);
+		       pstmt.setInt(1, Integer.valueOf(roomId));
+		       
+		       rs = pstmt.executeQuery();
+	       }
 	       
-	       rs = pstmt.executeQuery();
+	       else if(category.equals("job_name")){
+	    	   
+	    	   pstmt = (PreparedStatement) conn.prepareStatement(
+	   		        "Select id, mem_email, acc.name, content, color, term_from, term_to, to_days(CurDate())-to_days(term_to) As dday"+
+	   		    	   " From tb_jobinfo job Join tb_accinfo acc On job.mem_email=acc.email"+
+	   		    	   " Where room_id=? Order By content " + order);
+	   		       pstmt.setInt(1, Integer.valueOf(roomId));
+	   		       
+	   		       rs = pstmt.executeQuery();
+	       }
 	       
 	       while(rs.next()){
 	    	   xml.make_element("info");

@@ -38,7 +38,7 @@ public class DeleteRoomServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String email = (String)session.getAttribute("user_email");
 		
-		String position = connDB.getEmailPostion(room_id, email);
+		String position = connDB.getEmailPosition(room_id, email);
 		System.out.println(room_id+"  "+email+"  "+position);
 		
 		response.setContentType("text/html;charset=utf-8");

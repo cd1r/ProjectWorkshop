@@ -83,12 +83,12 @@
                         	<div id="work-cnt-label">총 일정 : 0개</div>
                         	<div id="work-order-criteria">
                         		<select id="criteria-category">
-                        			<option value="due-date">마감일</option>
-                        			<option value="job-name">작업이름</option>
+                        			<option value="due_date">마감일</option>
+                        			<option value="job_name">작업이름</option>
                         		</select>
                         		<select id="criteria-order">
-                        			<option>오름차순</option>
-                        			<option>내림차순</option>
+                        			<option value="Asc">오름차순</option>
+                        			<option value="Desc">내림차순</option>
                         		</select>
                         		<input type="button" id="order-confirm-btn" value="적용">
                         	</div>

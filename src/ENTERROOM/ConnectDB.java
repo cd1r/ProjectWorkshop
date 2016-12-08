@@ -62,7 +62,7 @@ private static ConnectDB connectDB = new ConnectDB();
 	}
 	
 	//현재 사용자가 삭제하려는 방의 팀장인지 팀원인지 알아내는 함수
-	public String getEmailPostion(String roomId, String email) {
+	public String getEmailPosition(String roomId, String email) {
 
 		try {
 

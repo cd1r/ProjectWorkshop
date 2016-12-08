@@ -35,16 +35,19 @@ public class LoadScheduleServlet extends HttpServlet {
 		String roomId = request.getParameter("roomId");
 		String year = request.getParameter("year");
 		String month = request.getParameter("month");
-				
+		String quickCategory = request.getParameter("quickCategory");
+		String quickOrder = request.getParameter("quickOrder");
+		
 		String result = null;
 
-		System.out.println("Is Term : " + isTerm);
+		System.out.println("LoadSchedule : " + isTerm + " " + roomId + " " + year + " " + month
+				+ " " + quickCategory + " " + quickOrder);
 
 		if(isTerm.equals("True"))
 			result = connDB.loadScheduleInfoInTerm(roomId, year, month);
 
 		else
-			result = connDB.loadScheduleInfoAll(roomId);
+			result = connDB.loadScheduleInfoAll(roomId, quickCategory, quickOrder);
 
 		System.out.println(result);
 
